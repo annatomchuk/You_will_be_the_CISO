@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>You Will Be the CISO | KSE</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col">
+
+    <!-- Header -->
+    <header class="bg-slate-900 text-white border-b border-slate-800 sticky top-0 z-50 shadow-md">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap justify-between items-center gap-4">
+            <div class="flex items-center space-x-3">
+                <div class="bg-blue-600 text-white px-2.5 py-1 rounded font-bold text-lg tracking-wider">KSE</div>
+                <div class="h-6 w-px bg-slate-700"></div>
+                <h1 class="text-xl font-semibold tracking-tight text-slate-100">You Will Be the CISO</h1>
+            </div>
+            
+            <!-- Navigation Tabs -->
+            <nav class="flex space-x-1 bg-slate-800 p-1 rounded-lg border border-slate-700">
+                <button onclick="switchTab('lectures')" id="tab-btn-lectures" class="px-4 py-1.5 rounded-md text-sm font-medium transition-all text-white bg-blue-600 shadow">
+                    <i class="fa-solid fa-book-open mr-2"></i>Лекції
+                </button>
+                <button onclick="switchTab('tests')" id="tab-btn-tests" class="px-4 py-1.5 rounded-md text-sm font-medium transition-all text-slate-300 hover:text-white">
+                    <i class="fa-solid fa-list-check mr-2"></i>Тести & NIST
+                </button>
+                <button onclick="switchTab('simulator')" id="tab-btn-simulator" class="px-4 py-1.5 rounded-md text-sm font-medium transition-all text-slate-300 hover:text-white">
+                    <i class="fa-solid fa-gamepad mr-2"></i>Симулятор CISO
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- CISO Live Dashboard Bar -->
+    <section class="bg-white border-b border-slate-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 py-3 grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div class="bg-slate-50 p-3 rounded-lg border border-slate-200 flex items-center space-x-3">
+                <div class="p-2 bg-emerald-100 text-emerald-700 rounded-lg"><i class="fa-solid fa-shield-halved text-lg"></i></div>
+                <div>
+                    <div class="text-xs text-slate-500 font-medium">Зрілість (Maturity)</div>
+                    <div id="metric-security" class="text-lg font-bold text-slate-900">65%</div>
+                </div>
+            </div>
+            <div class="bg-slate-50 p-3 rounded-lg border border-slate-200 flex items-center space-x-3">
+                <div class="p-2 bg-blue-100 text-blue-700 rounded-lg"><i class="fa-solid fa-handshake text-lg"></i></div>
+                <div>
+                    <div class="text-xs text-slate-500 font-medium">Довіра бізнесу</div>
+                    <div id="metric-trust" class="text-lg font-bold text-slate-900">75%</div>
+                </div>
+            </div>
+            <div class="bg-slate-50 p-3 rounded-lg border border-slate-200 flex items-center space-x-3">
+                <div class="p-2 bg-amber-100 text-amber-700 rounded-lg"><i class="fa-solid fa-wallet text-lg"></i></div>
+                <div>
+                    <div class="text-xs text-slate-500 font-medium">Бюджет CISO</div>
+                    <div id="metric-budget" class="text-lg font-bold text-slate-900">$100,000</div>
+                </div>
+            </div>
+            <div class="bg-slate-50 p-3 rounded-lg border border-slate-200 flex items-center space-x-3">
+                <div class="p-2 bg-rose-100 text-rose-700 rounded-lg"><i class="fa-solid fa-triangle-exclamation text-lg"></i></div>
+                <div>
+                    <div class="text-xs text-slate-500 font-medium">Рівень ризику</div>
+                    <div id="metric-risk" class="text-lg font-bold text-rose-600">Високий</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content Container -->
+    <main class="max-w-7xl mx-auto px-4 py-6 flex-1 w-full">
+
+        <!-- TAB 1: LECTURES -->
+        <div id="tab-lectures" class="tab-content active space-y-6">
+            <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+                <div class="flex items-center justify-between border-b border-slate-200 pb-4 mb-4">
+                    <div>
+                        <span class="text-xs font-semibold uppercase tracking-wider text-blue-600 bg-blue-50 px-2.5 py-1 rounded">Модуль 1</span>
+                        <h2 class="text-2xl font-bold text-slate-900 mt-1">Security Governance, Organization & Operating Model</h2>
+                        <p class="text-sm text-slate-500 mt-0.5">Лектор: Руслана Округ, CISM</p>
+                    </div>
+                </div>
+
+                <div class="prose max-w-none text-slate-700 space-y-4">
+                    <h3 class="text-lg font-bold text-slate-900">1. Три рівні управління (Governance vs Management vs Operations)</h3>
+                    <div class="grid md:grid-cols-3 gap-4 my-2">
+                        <div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
+                            <h4 class="font-bold text-blue-900">Governance (Куди?)</h4>
+                            <p class="text-xs text-slate-600 mt-1">Визначає напрям, рамки ризику та здійснює нагляд. (Board, CEO, CISO)</p>
+                        </div>
+                        <div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
+                            <h4 class="font-bold text-blue-900">Management (Як?)</h4>
+                            <p class="text-xs text-slate-600 mt-1">Організовує ресурси, програми, контролі та координує виконання.</p>
+                        </div>
+                        <div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
+                            <h4 class="font-bold text-blue-900">Operations (Що робимо?)</h4>
+                            <p class="text-xs text-slate-600 mt-1">Щоденне виконання технічних дій, моніторинг та реагування.</p>
+                        </div>
+                    </div>
+
+                    <h3 class="text-lg font-bold text-slate-900 mt-6">2. BMIS: Безпека як система</h3>
+                    <p class="text-sm">Інформаційна безпека працює лише тоді, коли всі 4 елементи збалансовані:</p>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-center text-xs font-semibold">
+                        <div class="p-3 bg-blue-50 text-blue-800 rounded-lg border border-blue-200">ORGANIZATION</div>
+                        <div class="p-3 bg-emerald-50 text-emerald-800 rounded-lg border border-emerald-200">PEOPLE</div>
+                        <div class="p-3 bg-purple-50 text-purple-800 rounded-lg border border-purple-200">PROCESS</div>
+                        <div class="p-3 bg-amber-50 text-amber-800 rounded-lg border border-amber-200">TECHNOLOGY</div>
+                    </div>
+
+                    <h3 class="text-lg font-bold text-slate-900 mt-6">3. NIST CSF 2.0 — Функція GOVERN</h3>
+                    <p class="text-sm">Функція GOVERN встановлює та моніторить стратегію управління кіберризиками за 6 категоріями:</p>
+                    <ul class="list-disc pl-5 text-sm space-y-1">
+                        <li><strong>GV.OC:</strong> Organizational Context (контекст та цілі організації)</li>
+                        <li><strong>GV.RM:</strong> Risk Management Strategy (стратегія та критерії ризику)</li>
+                        <li><strong>GV.RR:</strong> Roles, Responsibilities & Authorities (ролі та повноваження)</li>
+                        <li><strong>GV.PO:</strong> Policy (політики безпеки)</li>
+                        <li><strong>GV.OV:</strong> Oversight (нагляд та перевірка ефективності)</li>
+                        <li><strong>GV.SC:</strong> Cybersecurity Supply Chain Risk Management (ризики ланцюга постачання)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 2: TESTS & NIST MATCHING -->
+        <div id="tab-tests" class="tab-content space-y-6">
+            <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+                <h2 class="text-xl font-bold text-slate-900 mb-2">Тренажер Практики 1: NIST GOVERN Alignment</h2>
+                <p class="text-sm text-slate-600 mb-6">Визначте основну категорію NIST CSF 2.0 GOVERN для запропонованої Governance-задачі.</p>
+
+                <div id="nist-quiz-container" class="space-y-4">
+                    <div class="p-4 bg-slate-50 rounded-lg border border-slate-200">
+                        <span class="text-xs font-bold text-blue-600 uppercase">Задача 1 з 3</span>
+                        <p id="nist-question" class="font-medium text-slate-900 mt-1">«Встановити minimum cybersecurity requirements для critical suppliers: due diligence, contractual requirements, access controls та monitoring.»</p>
+                    </div>
+
+                    <div id="nist-options" class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <button onclick="checkNist('GV.SC')" class="p-3 text-left border border-slate-300 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition text-sm font-medium">GV.SC — Supply Chain Risk</button>
+                        <button onclick="checkNist('GV.PO')" class="p-3 text-left border border-slate-300 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition text-sm font-medium">GV.PO — Policy Governance</button>
+                        <button onclick="checkNist('GV.RM')" class="p-3 text-left border border-slate-300 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition text-sm font-medium">GV.RM — Risk Strategy</button>
+                        <button onclick="checkNist('GV.RR')" class="p-3 text-left border border-slate-300 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition text-sm font-medium">GV.RR — Roles & Authorities</button>
+                    </div>
+
+                    <div id="nist-feedback" class="hidden p-4 rounded-lg text-sm"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 3: CISO SIMULATOR -->
+        <div id="tab-simulator" class="tab-content space-y-6">
+            <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+                
+                <!-- Company Selector from Practice 1 -->
+                <div class="mb-6 p-4 bg-slate-50 rounded-lg border border-slate-200">
+                    <label class="block text-sm font-bold text-slate-700 mb-2"><i class="fa-solid fa-building mr-2"></i>Оберіть вашу компанію для симуляції (З Практики 1):</label>
+                    <select id="company-select" onchange="changeCompany()" class="w-full md:w-1/2 p-2 border border-slate-300 rounded-md text-sm font-medium">
+                        <option value="Falcon Edge">Falcon Edge (Defense Tech & SaaS)</option>
+                        <option value="NovaBank">NovaBank (Banking & FinTech)</option>
+                        <option value="GridWest Energy">GridWest Energy (Critical Infrastructure & OT)</option>
+                        <option value="SwiftCart">SwiftCart (E-Commerce)</option>
+                        <option value="RapidPost">RapidPost (Logistics & Supply Chain)</option>
+                    </select>
+                </div>
+
+                <div class="border-b border-slate-200 pb-3 mb-4">
+                    <span class="text-xs font-bold text-blue-600 bg-blue-50 px-2.5 py-1 rounded uppercase">Сценарій 1</span>
+                    <h3 id="scenario-title" class="text-xl font-bold text-slate-900 mt-1">Вибір Operating Model для <span id="company-name-display" class="text-blue-600">Falcon Edge</span></h3>
+                </div>
+
+                <p id="scenario-desc" class="text-slate-700 text-sm mb-6 leading-relaxed">
+                    Ви призначені CISO. В компанії виник конфлікт: розробка вимагає швидкості, а IT-відділ ігнорує вимоги безпеки. CEO вимагає визначити, як буде організована Security-функція.
+                </p>
+
+                <div class="space-y-3">
+                    <button onclick="makeDecision('A')" class="w-full p-4 border border-slate-300 rounded-xl hover:border-blue-600 hover:bg-blue-50/50 transition text-left group">
+                        <div class="font-bold text-slate-900 group-hover:text-blue-600">Варіант A: Повністю Централізована модель (Centralized)</div>
+                        <p class="text-xs text-slate-500 mt-1">Всі рішення та погодження проходять тільки через CISO та центральну команду безпеки.</p>
+                    </button>
+
+                    <button onclick="makeDecision('B')" class="w-full p-4 border border-slate-300 rounded-xl hover:border-blue-600 hover:bg-blue-50/50 transition text-left group">
+                        <div class="font-bold text-slate-900 group-hover:text-blue-600">Варіант B: Федеративна модель (Federated) + Security Champions</div>
+                        <p class="text-xs text-slate-500 mt-1">Центральне Governance розробляє стандарти, а виконання делегується Security Champions у бізнес-командах.</p>
+                    </button>
+
+                    <button onclick="makeDecision('C')" class="w-full p-4 border border-slate-300 rounded-xl hover:border-blue-600 hover:bg-blue-50/50 transition text-left group">
+                        <div class="font-bold text-slate-900 group-hover:text-blue-600">Варіант C: Децентралізована модель (Decentralized)</div>
+                        <p class="text-xs text-slate-500 mt-1">Кожна бізнес-команда сам визначає свій рівень безпеки та правила.</p>
+                    </button>
+                </div>
+
+                <!-- CISO Takeaway Output -->
+                <div id="sim-feedback" class="hidden mt-6 p-4 rounded-xl text-sm border"></div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 py-4 text-center text-xs text-slate-500">
+        © 2026 Kyiv School of Economics | Information Security Management Course
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        let metrics = { security: 65, trust: 75, budget: 100000, risk: 'Високий' };
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.getElementById('tab-' + tabId).classList.add('active');
+            
+            ['lectures', 'tests', 'simulator'].forEach(id => {
+                const btn = document.getElementById('tab-btn-' + id);
+                if (id === tabId) {
+                    btn.className = "px-4 py-1.5 rounded-md text-sm font-medium transition-all text-white bg-blue-600 shadow";
+                } else {
+                    btn.className = "px-4 py-1.5 rounded-md text-sm font-medium transition-all text-slate-300 hover:text-white";
+                }
+            });
+        }
+
+        function changeCompany() {
+            const comp = document.getElementById('company-select').value;
+            document.getElementById('company-name-display').innerText = comp;
+        }
+
+        function checkNist(answer) {
+            const fb = document.getElementById('nist-feedback');
+            fb.classList.remove('hidden', 'bg-emerald-50', 'border-emerald-200', 'text-emerald-800', 'bg-rose-50', 'border-rose-200', 'text-rose-800');
+            
+            if (answer === 'GV.SC') {
+                fb.classList.add('bg-emerald-50', 'border', 'border-emerald-200', 'text-emerald-800');
+                fb.innerHTML = "<strong>✅ Правильно!</strong> Вимоги до постачальників належать до категорії <strong>GV.SC (Cybersecurity Supply Chain Risk Management)</strong>.";
+            } else {
+                fb.classList.add('bg-rose-50', 'border', 'border-rose-200', 'text-rose-800');
+                fb.innerHTML = "<strong>❌ Невірно.</strong> Правильна відповідь: <strong>GV.SC</strong>, оскільки задача стосується управління ризиками ланцюга постачання.";
+            }
+        }
+
+        function makeDecision(option) {
+            const fb = document.getElementById('sim-feedback');
+            fb.classList.remove('hidden', 'bg-blue-50', 'border-blue-200');
+            fb.classList.add('bg-slate-50', 'border-slate-300');
+
+            if (option === 'B') {
+                metrics.security = 75;
+                metrics.trust = 85;
+                metrics.budget = 85000;
+                metrics.risk = 'Середній';
+                fb.innerHTML = "<h4 class='font-bold text-slate-900 mb-1'>💡 CISO Takeaway (Найкращий вибір!):</h4><p>Федеративна модель з балансом між центральним Governance та залученням Security Champions дозволяє зберегти швидкість бізнесу та підвищити зрілість безпеки.</p>";
+            } else if (option === 'A') {
+                metrics.security = 80;
+                metrics.trust = 50;
+                metrics.risk = 'Низький';
+                fb.innerHTML = "<h4 class='font-bold text-slate-900 mb-1'>💡 CISO Takeaway:</h4><p>Ви підвищили рівень захисту, але створили Bottleneck. Довіра бізнесу впала через затримки в релізах.</p>";
+            } else {
+                metrics.security = 50;
+                metrics.trust = 80;
+                metrics.risk = 'Критичний';
+                fb.innerHTML = "<h4 class='font-bold text-slate-900 mb-1'>💡 CISO Takeaway:</h4><p>Децентралізація без центрального контролю створює фрагментацію та високий ризик прихованих вразливостей.</p>";
+            }
+
+            document.getElementById('metric-security').innerText = metrics.security + '%';
+            document.getElementById('metric-trust').innerText = metrics.trust + '%';
+            document.getElementById('metric-budget').innerText = '$' + metrics.budget.toLocaleString();
+            document.getElementById('metric-risk').innerText = metrics.risk;
+        }
+    </script>
+</body>
+</html>
