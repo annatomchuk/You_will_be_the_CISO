@@ -1,0 +1,1867 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>You Will Be the CISO | KSE</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.75;
+        }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .font-serif-title {
+            font-family: 'Merriweather', serif;
+        }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-800 font-sans min-h-screen flex flex-col antialiased">
+
+<!-- Header -->
+<header class="bg-[#122d55] text-white border-b border-slate-800 sticky top-0 z-50 shadow-md">
+    <div class="max-w-7xl mx-auto px-6 py-3 flex flex-wrap justify-between items-center gap-4">
+        <div class="flex items-center space-x-6">
+            <div class="flex items-center h-10 overflow-hidden">
+                <img src="logo.jpg" alt="KSE Logo" class="h-12 w-auto object-contain object-left" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div style="display:none;" class="items-center space-x-2 font-bold text-lg tracking-wider text-white">
+                    <span class="bg-white text-[#122d55] px-2 py-0.5 rounded font-extrabold text-sm">KSE</span>
+                    <span class="text-xs font-normal text-slate-300 uppercase tracking-widest">Cybersecurity</span>
+                </div>
+            </div>
+
+            <div class="h-6 w-px bg-slate-700"></div>
+
+            <!-- Navigation Tabs -->
+            <nav class="flex space-x-1 bg-[#0b1b36] p-1 rounded-lg border border-slate-700">
+                <button onclick="switchTab('lectures')" id="tab-btn-lectures" class="px-5 py-2 rounded-md text-xs font-semibold tracking-wide transition-all text-white bg-blue-600 shadow">
+                    <i class="fa-solid fa-book-open mr-2"></i>Лекції
+                </button>
+                <button onclick="switchTab('tests')" id="tab-btn-tests" class="px-5 py-2 rounded-md text-xs font-semibold tracking-wide transition-all text-slate-300 hover:text-white">
+                    <i class="fa-solid fa-list-check mr-2"></i>Практика
+                </button>
+                <button onclick="switchTab('simulator')" id="tab-btn-simulator" class="px-5 py-2 rounded-md text-xs font-semibold tracking-wide transition-all text-slate-300 hover:text-white">
+                    <i class="fa-solid fa-gamepad mr-2"></i>Симулятор CISO
+                </button>
+            </nav>
+        </div>
+
+        <div class="text-base font-bold tracking-wide text-slate-100 font-serif-title italic">
+            You Will Be The CISO
+        </div>
+    </div>
+</header>
+
+<!-- CISO Live Dashboard Bar -->
+<section class="bg-slate-100 border-b border-slate-200 py-5">
+    <div class="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-5">
+        <div class="bg-white p-4 rounded-xl border border-slate-200/80 shadow-sm flex items-center space-x-4">
+            <div class="text-slate-700 text-xl pl-1"><i class="fa-solid fa-shield-halved"></i></div>
+            <div>
+                <div class="text-xs text-slate-500 font-medium">Зрілість (Maturity)</div>
+                <div id="metric-security" class="text-xl font-bold text-slate-900 mt-0.5">65%</div>
+            </div>
+        </div>
+        <div class="bg-white p-4 rounded-xl border border-slate-200/80 shadow-sm flex items-center space-x-4">
+            <div class="text-slate-700 text-xl pl-1"><i class="fa-regular fa-handshake"></i></div>
+            <div>
+                <div class="text-xs text-slate-500 font-medium">Довіра бізнесу</div>
+                <div id="metric-trust" class="text-xl font-bold text-slate-900 mt-0.5">75%</div>
+            </div>
+        </div>
+        <div class="bg-white p-4 rounded-xl border border-slate-200/80 shadow-sm flex items-center space-x-4">
+            <div class="text-slate-700 text-xl pl-1"><i class="fa-solid fa-wallet"></i></div>
+            <div>
+                <div class="text-xs text-slate-500 font-medium">Бюджет CISO</div>
+                <div id="metric-budget" class="text-xl font-bold text-slate-900 mt-0.5">$100,000</div>
+            </div>
+        </div>
+        <div class="bg-white p-4 rounded-xl border border-slate-200/80 shadow-sm flex items-center space-x-4">
+            <div class="text-slate-700 text-xl pl-1"><i class="fa-solid fa-triangle-exclamation"></i></div>
+            <div>
+                <div class="text-xs text-slate-500 font-medium">Рівень ризику</div>
+                <div id="metric-risk" class="text-xl font-bold text-slate-900 mt-0.5">Високий</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Module Selector Bar -->
+<section class="bg-white border-b border-slate-200 py-3">
+    <div class="max-w-7xl mx-auto px-6 flex flex-wrap items-center justify-between gap-3">
+        <div class="text-xs font-bold uppercase tracking-wider text-slate-500">Оберіть лекцію / модуль:</div>
+        <div class="flex flex-wrap gap-2">
+            <button onclick="switchModule(1)" id="mod-btn-1" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold transition bg-slate-100 text-slate-700 hover:bg-slate-200">Лекція 1</button>
+            <button onclick="switchModule(2)" id="mod-btn-2" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold transition bg-slate-100 text-slate-700 hover:bg-slate-200">Лекція 2</button>
+            <button onclick="switchModule(3)" id="mod-btn-3" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold transition bg-slate-100 text-slate-700 hover:bg-slate-200">Лекція 3</button>
+            <button onclick="switchModule(4)" id="mod-btn-4" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold transition bg-slate-100 text-slate-700 hover:bg-slate-200">Лекція 4</button>
+            <button onclick="switchModule(5)" id="mod-btn-5" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold transition bg-slate-100 text-slate-700 hover:bg-slate-200">Лекція 5</button>
+            <button onclick="switchModule(6)" id="mod-btn-6" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold transition bg-slate-100 text-slate-700 hover:bg-slate-200">Лекція 6</button>
+            <button onclick="switchModule(7)" id="mod-btn-7" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold transition bg-[#122d55] text-white shadow-sm">Лекція 7</button>
+        </div>
+    </div>
+</section>
+
+<!-- Main Content Container -->
+<main class="max-w-7xl mx-auto px-6 py-8 flex-1 w-full space-y-8">
+
+    <!-- TAB 1: LECTURES -->
+    <div id="tab-lectures" class="tab-content active space-y-6">
+        <div id="lecture-container" class="bg-white p-8 rounded-xl border border-slate-200/80 shadow-sm space-y-6"></div>
+    </div>
+
+    <!-- TAB 2: PRACTICE / TESTS -->
+    <div id="tab-tests" class="tab-content space-y-6">
+        <div class="bg-white p-8 rounded-xl border border-slate-200/80 shadow-sm space-y-6">
+            <div class="border-b border-slate-200 pb-4 flex flex-wrap justify-between items-center gap-4">
+                <div>
+                    <span id="practice-badge" class="text-xs font-bold text-blue-700 bg-blue-50 px-3 py-1 rounded uppercase">Практика 7</span>
+                    <h2 id="practice-title" class="text-xl font-bold text-slate-900 mt-2">Перевірка знань: Security Strategy Execution</h2>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <span class="text-xs font-semibold text-slate-600 bg-slate-100 px-3 py-1.5 rounded-lg border border-slate-200">
+                        Прогрес: <span id="quiz-progress" class="text-[#122d55] font-bold">0 / 5</span>
+                    </span>
+                    <button onclick="resetQuiz()" class="text-xs font-medium text-slate-500 hover:text-slate-800 underline">
+                        Скинути тест
+                    </button>
+                </div>
+            </div>
+            <div id="quiz-container" class="space-y-5"></div>
+        </div>
+    </div>
+
+    <!-- TAB 3: SIMULATOR -->
+    <div id="tab-simulator" class="tab-content space-y-6">
+        <div id="simulator-container" class="bg-white p-8 rounded-xl border border-slate-200/80 shadow-sm space-y-6"></div>
+    </div>
+
+</main>
+
+<footer class="bg-white border-t border-slate-200 py-5 mt-12">
+    <div class="max-w-7xl mx-auto px-6 flex flex-wrap justify-between items-center text-xs text-slate-500 gap-2">
+        <div>Інтерактивний навчальний тренажер з курсу <strong>Information Security Management</strong> &bull; KSE</div>
+        <div>You Will Be The CISO</div>
+    </div>
+</footer>
+
+<script>
+    const modulesData = {
+        1: {
+            defaultMetrics: { security: 65, trust: 75, budget: 100000, risk: 'Високий' },
+            practiceBadge: "Практика 1",
+            practiceTitle: "Перевірка знань: Security Governance, Organization & Operating Model",
+            lectureHTML: `
+                <div class="border-b border-slate-200 pb-5">
+                    <span class="text-xs font-semibold uppercase tracking-wider text-blue-700 bg-blue-50 px-3 py-1 rounded">Лекція 1</span>
+                    <h1 class="text-2xl font-bold text-slate-900 mt-2">Security Governance, Organization &amp; Operating Model</h1>
+                    <p class="text-sm text-slate-500 mt-1">Три рівні управління, система BMIS, NIST CSF 2.0 GOVERN та моделі організації безпеки</p>
+                </div>
+                <section class="space-y-4">
+                    <h2 class="text-lg font-bold text-slate-900">1. Три рівні управління (Governance vs Management vs Operations)</h2>
+                    <div class="grid md:grid-cols-3 gap-5 text-xs">
+                        <div class="bg-slate-50 p-5 rounded-lg border border-slate-200 space-y-2">
+                            <div class="font-bold text-sm text-[#122d55]">Governance (Куди рухаємось?)</div>
+                            <p class="text-slate-700">Визначає напрям, рамки ризику (Risk Appetite) та здійснює нагляд (Board, CEO, CISO).</p>
+                        </div>
+                        <div class="bg-slate-50 p-5 rounded-lg border border-slate-200 space-y-2">
+                            <div class="font-bold text-sm text-[#122d55]">Management (Як організувати?)</div>
+                            <p class="text-slate-700">Організовує ресурси, програми, контролі та координує виконання політик.</p>
+                        </div>
+                        <div class="bg-slate-50 p-5 rounded-lg border border-slate-200 space-y-2">
+                            <div class="font-bold text-sm text-[#122d55]">Operations (Що робимо щодня?)</div>
+                            <p class="text-slate-700">Щоденне виконання технічних дій, моніторинг та реагування на інциденти.</p>
+                        </div>
+                    </div>
+                </section>
+                <section class="space-y-4 pt-2">
+                    <h2 class="text-lg font-bold text-slate-900">2. BMIS: Безпека як система</h2>
+                    <p class="text-sm text-slate-700">Інформаційна безпека працює лише тоді, коли всі 4 елементи збалансовані:</p>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center text-xs font-semibold">
+                        <div class="p-4 bg-slate-50 text-slate-800 rounded-lg border border-slate-200">ORGANIZATION<br><span class="font-normal text-slate-500">Цілі, стратегія, governance</span></div>
+                        <div class="p-4 bg-slate-50 text-slate-800 rounded-lg border border-slate-200">PEOPLE<br><span class="font-normal text-slate-500">Компетенції, культура</span></div>
+                        <div class="p-4 bg-slate-50 text-slate-800 rounded-lg border border-slate-200">PROCESS<br><span class="font-normal text-slate-500">Правила та процедури</span></div>
+                        <div class="p-4 bg-slate-50 text-slate-800 rounded-lg border border-slate-200">TECHNOLOGY<br><span class="font-normal text-slate-500">Системи та контролі</span></div>
+                    </div>
+                </section>
+                <section class="space-y-4 pt-2">
+                    <h2 class="text-lg font-bold text-slate-900">3. NIST CSF 2.0 — Функція GOVERN</h2>
+                    <p class="text-sm text-slate-700">Функція GOVERN встановлює та моніторить стратегію управління кіберризиками за 6 категоріями:</p>
+                    <div class="grid md:grid-cols-2 gap-3 text-xs text-slate-700">
+                        <div class="p-3.5 rounded-lg border border-slate-200 bg-white"><strong>GV.OC:</strong> Organizational Context (контекст та цілі організації)</div>
+                        <div class="p-3.5 rounded-lg border border-slate-200 bg-white"><strong>GV.RM:</strong> Risk Management Strategy (стратегія та критерії ризику)</div>
+                        <div class="p-3.5 rounded-lg border border-slate-200 bg-white"><strong>GV.RR:</strong> Roles, Responsibilities &amp; Authorities (ролі та повноваження)</div>
+                        <div class="p-3.5 rounded-lg border border-slate-200 bg-white"><strong>GV.PO:</strong> Policy (політики безпеки)</div>
+                        <div class="p-3.5 rounded-lg border border-slate-200 bg-white"><strong>GV.OV:</strong> Oversight (нагляд та перевірка ефективності)</div>
+                        <div class="p-3.5 rounded-lg border border-slate-200 bg-white"><strong>GV.SC:</strong> Cybersecurity Supply Chain Risk Management (ризики ланцюга постачання)</div>
+                    </div>
+                </section>
+            `,
+            quizzes: [
+                {
+                    type: "single",
+                    question: "1. До якої категорії функції NIST CSF 2.0 GOVERN належить встановлення мінімальних вимог кібербезпеки для критичних постачальників (due diligence, договірні вимоги, моніторинг)?",
+                    options: [
+                        "А) GV.SC — Cybersecurity Supply Chain Risk Management",
+                        "Б) GV.PO — Policy",
+                        "В) GV.RM — Risk Management Strategy",
+                        "Г) GV.RR — Roles, Responsibilities & Authorities"
+                    ],
+                    correct: 0,
+                    takeaway: "GV.SC охоплює управління ризиками кібербезпеки в ланцюгу постачання та взаємодію з критичними вендорами."
+                },
+                {
+                    type: "single",
+                    question: "2. Який рівень управління відповідає за визначення напряму («Куди рухаємось?»), затвердження Risk Appetite та стратегічний нагляд?",
+                    options: [
+                        "А) Operations",
+                        "Б) Management",
+                        "В) Governance",
+                        "Г) Incident Response"
+                    ],
+                    correct: 2,
+                    takeaway: "Governance визначає напрям і межі ризику, Management організовує ресурси та програми, а Operations виконує щоденні технічні дії."
+                }
+            ],
+            simulator: {
+                type: "single",
+                badge: "Симулятор 1",
+                title: "Вибір Operating Model для Falcon Edge",
+                contextHTML: `
+                    <p class="text-sm text-slate-700">
+                        Ви призначені CISO у швидкозростаючій продуктової компанії <strong>Falcon Edge</strong> (бюджет <strong>$100,000</strong>). Виник конфлікт: команди розробки вимагають максимальної швидкості релізів, а IT-відділ ігнорує вимоги безпеки. CEO вимагає визначити, як буде організована Security-функція.
+                    </p>
+                    <p class="text-sm font-medium text-slate-900 pt-1">Оберіть операційну модель безпеки:</p>
+                `,
+                options: [
+                    {
+                        id: "A",
+                        label: "Варіант A: Повністю Централізована модель (Centralized)",
+                        desc: "Всі рішення, перевірки коду та погодження доступів проходять виключно через CISO та центральну команду безпеки.",
+                        style: "bg-blue-50 border-blue-300",
+                        titleColor: "text-slate-900",
+                        metrics: { security: 80, trust: 50, budget: 70000, risk: "Низький" },
+                        trustText: "-25% (50%)",
+                        trustClass: "text-rose-600",
+                        costText: "$30,000 (Залишок: $70,000)",
+                        riskClass: "text-emerald-700",
+                        takeaway: "Ви підвищили контроль, але створили жорсткий Bottleneck. Довіра бізнесу впала через затримки в релізах."
+                    },
+                    {
+                        id: "B",
+                        label: "Варіант B: Федеративна модель (Federated) + Security Champions",
+                        desc: "Центральне Governance розробляє стандарти й політики, а щоденне виконання делегується підготовленим Security Champions у бізнес- та продуктових командах.",
+                        style: "bg-emerald-50 border-emerald-300",
+                        titleColor: "text-emerald-950",
+                        metrics: { security: 75, trust: 85, budget: 85000, risk: "Помірний" },
+                        trustText: "+10% (85%)",
+                        trustClass: "text-emerald-700",
+                        costText: "$15,000 (Залишок: $85,000)",
+                        riskClass: "text-amber-700",
+                        takeaway: "✅ Найкращий вибір! Федеративна модель з балансом між центральним Governance та Security Champions зберігає швидкість бізнесу та підвищує зрілість безпеки."
+                    },
+                    {
+                        id: "C",
+                        label: "Варіант C: Повністю Децентралізована модель (Decentralized)",
+                        desc: "Кожна бізнес-команда самостійно визначає свій рівень безпеки, інструменти та правила без єдиних стандартів.",
+                        style: "bg-rose-50 border-rose-300",
+                        titleColor: "text-rose-950",
+                        metrics: { security: 50, trust: 80, budget: 95000, risk: "Критичний" },
+                        trustText: "+5% (80%)",
+                        trustClass: "text-emerald-700",
+                        costText: "$5,000 (Залишок: $95,000)",
+                        riskClass: "text-rose-700",
+                        takeaway: "❌ Децентралізація без центрального нагляду створює фрагментацію та високий ризик прихованих вразливостей."
+                    }
+                ]
+            }
+        },
+        2: {
+            defaultMetrics: { security: 65, trust: 75, budget: 100000, risk: 'Високий' },
+            practiceBadge: "Практика 2",
+            practiceTitle: "Перевірка знань: Security Policies, Standards, Procedures & Guidelines",
+            lectureHTML: `
+                <div class="border-b border-slate-200 pb-5">
+                    <span class="text-xs font-semibold uppercase tracking-wider text-blue-700 bg-blue-50 px-3 py-1 rounded">Лекція 2</span>
+                    <h1 class="text-2xl font-bold text-slate-900 mt-2">Security Policies &amp; Governance Documentation Hierarchy</h1>
+                    <p class="text-sm text-slate-500 mt-1">Ієрархія нормативних документів, життєвий цикл політик та управління винятками (Exceptions)</p>
+                </div>
+                <section class="space-y-4">
+                    <h2 class="text-lg font-bold text-slate-900">1. Ієрархія документів інформаційної безпеки</h2>
+                    <div class="grid md:grid-cols-4 gap-4 text-xs">
+                        <div class="p-4 rounded-lg border border-slate-200 bg-slate-50 space-y-1">
+                            <div class="font-bold text-sm text-[#122d55]">Policy (Політика)</div>
+                            <p class="text-slate-700">Обов'язковий документ високого рівня: «Що і чому ми захищаємо?» Затверджується керівництвом.</p>
+                        </div>
+                        <div class="p-4 rounded-lg border border-slate-200 bg-slate-50 space-y-1">
+                            <div class="font-bold text-sm text-[#122d55]">Standard (Стандарт)</div>
+                            <p class="text-slate-700">Обов'язкові вимірювані вимоги та параметри (напр., довжина пароля, алгоритми шифрування).</p>
+                        </div>
+                        <div class="p-4 rounded-lg border border-slate-200 bg-slate-50 space-y-1">
+                            <div class="font-bold text-sm text-[#122d55]">Procedure (Процедура)</div>
+                            <p class="text-slate-700">Покрокові інструкції «Як саме виконати?» для операційних команд (SOP, Runbooks).</p>
+                        </div>
+                        <div class="p-4 rounded-lg border border-slate-200 bg-slate-50 space-y-1">
+                            <div class="font-bold text-sm text-[#122d55]">Guideline (Рекомендація)</div>
+                            <p class="text-slate-700">Необов'язкові кращі практики та поради, що допомагають реалізувати політику.</p>
+                        </div>
+                    </div>
+                </section>
+                <section class="space-y-4 pt-2">
+                    <h2 class="text-lg font-bold text-slate-900">2. Policy Exceptions (Управління винятками)</h2>
+                    <p class="text-sm text-slate-700">Виняток із політики не скасовує ризик. Якісний процес Policy Exception вимагає: чіткого бізнес-обґрунтування, визначення компенсаційних контролів, погодження Risk Owner, обмеженого строку дії (Expiration Date) та періодичного перегляду.</p>
+                </section>
+            `,
+            quizzes: [
+                {
+                    type: "single",
+                    question: "1. Який тип нормативного документа встановлює обов'язкові вимірювані технічні параметри (наприклад, мінімальну довжину пароля або стандарт TLS 1.3)?",
+                    options: [
+                        "А) Guideline",
+                        "Б) Standard",
+                        "В) Procedure",
+                        "Г) Charter"
+                    ],
+                    correct: 1,
+                    takeaway: "Standard переводить загальні принципи Policy у конкретні обов'язкові вимоги."
+                },
+                {
+                    type: "single",
+                    question: "2. Яка обов'язкова умова має бути зафіксована при оформленні винятку з політики безпеки (Policy Exception)?",
+                    options: [
+                        "А) Безстрокова дія винятку, щоб не повертатися до нього в майбутньому",
+                        "Б) Обмежений строк дії (Expiration Date), компенсаційні контролі та погодження Risk Owner",
+                        "В) Усна згода системного адміністратора",
+                        "Г) Повне видалення вимоги зі стандарту безпеки"
+                    ],
+                    correct: 1,
+                    takeaway: "Будь-який виняток є тимчасовим прийняттям ризику і потребує строку дії, компенсаційних заходів та відповідального власника ризику."
+                }
+            ],
+            simulator: {
+                type: "single",
+                badge: "Симулятор 2",
+                title: "Запит на виняток із політики шифрування для критичного клієнта",
+                contextHTML: `
+                    <p class="text-sm text-slate-700">
+                        Комерційний відділ просить терміново підключити великого партнера, стара система якого підтримує лише застарілий протокол TLS 1.0, що прямо заборонено вашим стандартом безпеки.
+                    </p>
+                    <p class="text-sm font-medium text-slate-900 pt-1">Оберіть управлінське рішення CISO:</p>
+                `,
+                options: [
+                    {
+                        id: "A",
+                        label: "Варіант A: Оформити тимчасовий Policy Exception з компенсаційними контролями",
+                        desc: "Ізолювати інтеграцію в окремий сегмент, увімкнути посилений моніторинг, оформити виняток на 90 днів із підписом Risk Owner та планом міграції партнера на TLS 1.3.",
+                        style: "bg-emerald-50 border-emerald-300",
+                        titleColor: "text-emerald-950",
+                        metrics: { security: 82, trust: 90, budget: 90000, risk: "Помірний" },
+                        trustText: "+15% (90%)",
+                        trustClass: "text-emerald-700",
+                        costText: "$10,000 (Залишок: $90,000)",
+                        riskClass: "text-amber-700",
+                        takeaway: "✅ Зрілий підхід Governance: ви не заблокували бізнес-угоду, але керовано обмежили ризик у часі та зафіксували відповідальність."
+                    },
+                    {
+                        id: "B",
+                        label: "Варіант B: Неформально дозволити підключення без документів",
+                        desc: "Дозволити розробникам тимчасово вимкнути перевірку TLS без реєстрації винятку, щоб не витрачати час на бюрократію.",
+                        style: "bg-rose-50 border-rose-300",
+                        titleColor: "text-rose-950",
+                        metrics: { security: 50, trust: 70, budget: 100000, risk: "Критичний" },
+                        trustText: "-5% (70%)",
+                        trustClass: "text-rose-700",
+                        costText: "$0 (Залишок: $100,000)",
+                        riskClass: "text-rose-700",
+                        takeaway: "❌ Тимчасові неформальні обходи політик перетворюються на постійні вразливості та провалюють зовнішні аудити."
+                    }
+                ]
+            }
+        },
+        3: {
+            defaultMetrics: { security: 65, trust: 75, budget: 100000, risk: 'Високий' },
+            practiceBadge: "Практика 3",
+            practiceTitle: "Перевірка знань: Asset Management, Data Classification & Supply Chain",
+            lectureHTML: `
+                <div class="border-b border-slate-200 pb-5">
+                    <span class="text-xs font-semibold uppercase tracking-wider text-blue-700 bg-blue-50 px-3 py-1 rounded">Лекція 3</span>
+                    <h1 class="text-2xl font-bold text-slate-900 mt-2">Asset Management, Data Classification &amp; Third-Party Risk</h1>
+                    <p class="text-sm text-slate-500 mt-1">Інвентаризація активів, класифікація даних та управління ризиками постачальників (TPRM)</p>
+                </div>
+                <section class="space-y-4">
+                    <h2 class="text-lg font-bold text-slate-900">1. Принцип «Неможливо захистити те, про що не знаєш»</h2>
+                    <p class="text-sm text-slate-700">Ефективний Asset Management охоплює апаратне та програмне забезпечення, хмарні ресурси, дані, облікові записи та сторонні інтеграції із закріпленням <strong>Asset Owner</strong>.</p>
+                    <div class="grid md:grid-cols-4 gap-3 text-xs">
+                        <div class="p-3.5 rounded-lg border border-slate-200 bg-slate-50"><strong>Public:</strong> відкрита інформація.</div>
+                        <div class="p-3.5 rounded-lg border border-slate-200 bg-slate-50"><strong>Internal:</strong> для внутрішнього використання.</div>
+                        <div class="p-3.5 rounded-lg border border-slate-200 bg-slate-50"><strong>Confidential:</strong> комерційна таємниця, контракти.</div>
+                        <div class="p-3.5 rounded-lg border border-slate-200 bg-slate-50"><strong>Restricted / PII:</strong> персональні дані, ключі, фінанси.</div>
+                    </div>
+                </section>
+            `,
+            quizzes: [
+                {
+                    type: "multi",
+                    requiredCount: 2,
+                    question: "1. [МНОЖИННИЙ ВИБІР] Які два елементи є критичними для базового управління інформаційними активами? (Оберіть 2 варіанти)",
+                    options: [
+                        "А) Актуальний реєстр активів (Inventory), включаючи Shadow IT та хмарні сервіси",
+                        "Б) Призначений власник активу (Asset Owner), відповідальний за класифікацію та правила доступу",
+                        "В) Заборона використання будь-яких хмарних сервісів",
+                        "Г) Щорічне форматування всіх робочих станцій"
+                    ],
+                    correct: [0, 1],
+                    takeaway: "Без актуальної інвентаризації та відповідальних власників активів неможливо визначити пріоритети захисту."
+                }
+            ],
+            simulator: {
+                type: "two-stage",
+                badge: "Симулятор 3",
+                title: "Виявлення тіньового сховища даних (Shadow IT) та нового SaaS-вендора",
+                part1: {
+                    contextHTML: `<p class="text-sm text-slate-700"><strong>Етап 1:</strong> Команда маркетингу без погодження з ІБ завантажила базу клієнтів (PII) у новий хмарний сервіс аналітики. Ваша перша дія?</p>`,
+                    options: [
+                        {
+                            id: "A",
+                            label: "Варіант A: Класифікувати інцидент, обмежити доступ і провести швидку оцінку ризиків вендора",
+                            desc: "Призупинити синхронізацію PII, внести актив до реєстру, визначити власника даних та перевірити умови DPA/безпеки сервісу.",
+                            style: "bg-emerald-50 border-emerald-300 text-emerald-900",
+                            feedback: "<strong>✅ Правильно!</strong> Ви зупинили неконтрольовану експозицію Restricted-даних і перевели Shadow IT у керований процес."
+                        },
+                        {
+                            id: "B",
+                            label: "Варіант B: Заблокувати весь інтернет-трафік відділу маркетингу на тиждень",
+                            desc: "Радикально відрізати відділ від мережі без розбору бізнес-потреб.",
+                            style: "bg-rose-50 border-rose-300 text-rose-900",
+                            feedback: "<strong>⚠️ Надмірна реакція:</strong> блокування роботи підрозділу без діалогу провокує ще більше приховування Shadow IT."
+                        }
+                    ]
+                },
+                part2: {
+                    contextHTML: `<p class="text-sm text-slate-700"><strong>Етап 2:</strong> Як системно запобігти повторенню подібних випадків у компанії?</p>`,
+                    options: [
+                        {
+                            id: "A",
+                            label: "Варіант A: Впровадити легкий процес Vendor Onboarding + моніторинг CASB/SSO",
+                            desc: "Створити швидкий чекліст перевірки нових SaaS до закупівлі та контролювати підключення через корпоративний SSO.",
+                            style: "bg-emerald-50 border-emerald-300",
+                            titleColor: "text-emerald-950",
+                            metrics: { security: 85, trust: 88, budget: 75000, risk: "Помірний" },
+                            trustText: "+13% (88%)",
+                            trustClass: "text-emerald-700",
+                            costText: "$25,000 (Залишок: $75,000)",
+                            riskClass: "text-amber-700",
+                            takeaway: "Системне поєднання процесу погодження постачальників і технічної видимості через SSO усуває корінь проблеми Shadow IT."
+                        },
+                        {
+                            id: "B",
+                            label: "Варіант B: Розіслати email із погрозою штрафів за використання нових сервісів",
+                            desc: "Обмежитися адміністративним попередженням без зміни процесу закупівлі ПЗ.",
+                            style: "bg-blue-50 border-blue-300",
+                            titleColor: "text-slate-900",
+                            metrics: { security: 60, trust: 60, budget: 100000, risk: "Високий" },
+                            trustText: "-15% (60%)",
+                            trustClass: "text-rose-600",
+                            costText: "$0 (Залишок: $100,000)",
+                            riskClass: "text-rose-600",
+                            takeaway: "Заборони без зручного процесу легального онбордингу вендорів не працюють на практиці."
+                        }
+                    ]
+                }
+            }
+        },
+        4: {
+            defaultMetrics: { security: 65, trust: 75, budget: 100000, risk: 'Високий' },
+            practiceBadge: "Практика 4",
+            practiceTitle: "Перевірка знань: Security Controls Design, FAIR-CAM & NIST SP 800-53A",
+            lectureHTML: `
+                <div class="border-b border-slate-200 pb-5">
+                    <span class="text-xs font-semibold uppercase tracking-wider text-blue-700 bg-blue-50 px-3 py-1 rounded">Лекція 4</span>
+                    <h1 class="text-2xl font-bold text-slate-900 mt-2">Security Controls Design &amp; Effectiveness Assessment</h1>
+                    <p class="text-sm text-slate-500 mt-1">Проєктування контролів, модель FAIR-CAM (Capability, Coverage, Reliability) та оцінювання за NIST SP 800-53A</p>
+                </div>
+                <section class="space-y-4">
+                    <h2 class="text-lg font-bold text-slate-900">1. Design Effectiveness vs Operating Effectiveness</h2>
+                    <div class="grid md:grid-cols-2 gap-5 text-xs">
+                        <div class="p-5 rounded-lg border border-slate-200 bg-white space-y-1.5">
+                            <div class="font-bold text-sm text-[#122d55]">Design Effectiveness (Чи правильний задум?)</div>
+                            <p class="text-slate-700">Чи здатен контроль за своєю конструкцією запобігти ризику або виявити його, якщо працюватиме так, як спроєктовано.</p>
+                        </div>
+                        <div class="p-5 rounded-lg border border-slate-200 bg-slate-50 space-y-1.5">
+                            <div class="font-bold text-sm text-[#122d55]">Operating Effectiveness (Чи працює на практиці?)</div>
+                            <p class="text-slate-700">Чи виконується контроль регулярно, вчасно, у повному обсязі та належними виконавцями в реальній роботі.</p>
+                        </div>
+                    </div>
+                </section>
+                <section class="space-y-4 pt-2">
+                    <h2 class="text-lg font-bold text-slate-900">2. Домени FAIR-CAM та характеристики контролів</h2>
+                    <div class="grid md:grid-cols-3 gap-4 text-xs">
+                        <div class="p-4 rounded-lg border border-slate-200 bg-slate-50"><strong>Loss Event Controls:</strong> безпосередньо зменшують частоту або величину втрат.</div>
+                        <div class="p-4 rounded-lg border border-slate-200 bg-slate-50"><strong>Variance Management Controls:</strong> підтримують стабільність інших контролів (виявлення та усунення збоїв).</div>
+                        <div class="p-4 rounded-lg border border-slate-200 bg-slate-50"><strong>Decision Support Controls:</strong> забезпечують видимість і дані для рішень.</div>
+                    </div>
+                    <div class="p-4 rounded-lg border border-blue-200 bg-blue-50/40 text-xs space-y-1">
+                        <div><strong>Три характеристики за FAIR-CAM:</strong> <em>Capability</em> (сила механізму) &bull; <em>Coverage</em> (частка охоплених активів) &bull; <em>Reliability</em> (стабільність роботи в часі). Їх не можна механічно перемножувати в один відсоток!</div>
+                        <div><strong>Методи перевірки (NIST SP 800-53A):</strong> <em>Examine</em> (аналіз артефактів) &bull; <em>Interview</em> (опитування персоналу) &bull; <em>Test</em> (активна перевірка поведінки контролю).</div>
+                    </div>
+                    <div class="p-4 rounded-lg border border-slate-200 bg-white text-xs space-y-1">
+                        <div class="font-bold text-slate-900">Ролі у життєвому циклі контролю:</div>
+                        <ul class="list-disc pl-5 text-slate-700 space-y-0.5">
+                            <li><strong>Control Owner:</strong> відповідальність за дизайн, ресурси та результативність.</li>
+                            <li><strong>Control Operator:</strong> щоденне виконання та технічна підтримка.</li>
+                            <li><strong>Control Assessor:</strong> перевірка дизайну та ефективності.</li>
+                            <li><strong>Risk Owner:</strong> управління пов'язаним ризиком та рішення щодо прийнятності.</li>
+                        </ul>
+                        <p class="pt-1 border-t border-slate-200 font-medium text-slate-900">Управління недоліками: Identify &rarr; Assess &rarr; Assign &rarr; Remediate &rarr; Monitor &rarr; Validate.</p>
+                    </div>
+                </section>
+            `,
+            quizzes: [
+                {
+                    type: "single",
+                    question: "1. Який зв'язок існує між вимогами безпеки та конкретними контролями під час їх проєктування?",
+                    options: [
+                        "А) Одна вимога завжди відповідає строго одному контролю",
+                        "Б) Одна вимога може реалізовуватися декількома контролями, а один механізм може підтримувати декілька вимог",
+                        "В) Контролі не пов'язані з вимогами і впроваджуються незалежно",
+                        "Г) Кількість контролів має бути як мінімум вдвічі більшою за кількість вимог, щоб забезпечити їх належне виконання"
+                    ],
+                    correct: 1,
+                    takeaway: "Архітектура контролю є гнучкою: 1 вимога → N контролів, і навпаки (1 механізм → N вимог)."
+                },
+                {
+                    type: "single",
+                    question: "2. До якого функціонального домену FAIR-CAM належить моніторинг працездатності антивірусного агента на робочих станціях (виявлення, що агент вимкнено, та його відновлення)?",
+                    options: [
+                        "А) Loss Event Controls",
+                        "Б) Variance Management Controls",
+                        "В) Decision Support Controls",
+                        "Г) Risk Acceptance Controls"
+                    ],
+                    correct: 1,
+                    takeaway: "Variance Management Controls спрямовані на стабільну роботу інших контролів: запобігання відхиленням, їх виявлення (Identification) та усунення (Correction)."
+                },
+                {
+                    type: "single",
+                    question: "3. У чому полягає різниця між Design Effectiveness та Operating Effectiveness?",
+                    options: [
+                        "А) Design Effectiveness перевіряє, чи здатен контроль за своїм задумом досягти мети, а Operating Effectiveness — чи виконується він фактично відповідно до цього дизайну",
+                        "Б) Design Effectiveness стосується бізнес-цілей, а Operating — технічних засобів",
+                        "В) Design Effectiveness оцінює вартість контролю, а Operating — його швидкість",
+                        "Г) Між цими поняттями немає різниці, це синоніми"
+                    ],
+                    correct: 0,
+                    takeaway: "Навіть ідеально спроєктований контроль (Design) не дасть результату, якщо він не виконується регулярно та вчасно на практиці (Operating)."
+                },
+                {
+                    type: "single",
+                    question: "4. Яке застереження встановлює модель FAIR-CAM щодо характеристик Capability, Coverage та Reliability?",
+                    options: [
+                        "А) Їх можна оцінювати лише раз на рік",
+                        "Б) Їх не можна автоматично перемножувати, щоб отримати єдиний універсальний відсоток ефективності",
+                        "В) Показник Capability завжди важливіший за Coverage",
+                        "Г) Reliability вимірюється виключно в грошовому еквіваленті"
+                    ],
+                    correct: 1,
+                    takeaway: "Capability, Coverage та Reliability — це взаємодоповнювальні характеристики, які не можна механічно перемножити в одну цифру."
+                },
+                {
+                    type: "single",
+                    question: "5. Який метод оцінювання NIST застосовується, коли аудитор проводить контрольовану спробу входу в систему без використання MFA для перевірки фактичної поведінки?",
+                    options: [
+                        "А) Examine",
+                        "Б) Interview",
+                        "В) Test",
+                        "Г) Monitor"
+                    ],
+                    correct: 2,
+                    takeaway: "Метод Test передбачає активну перевірку фактичної поведінки контролю в реальних або наближених до реальних умовах."
+                }
+            ],
+            simulator: {
+                type: "single",
+                badge: "Симулятор 4",
+                title: "Розбір інциденту з EDR та переглядом привілейованих доступів",
+                contextHTML: `
+                    <p class="text-sm text-slate-700">
+                        Ви — CISO у фінтех-компанії (бюджет <strong>$100,000</strong>). Попри значні інвестиції в безпеку, компанія ледь уникнула шифрування інфраструктури через компрометацію облікового запису адміністратора. Під час розбору польотів ви проаналізували два ключові контролі, на які покладався бізнес:
+                    </p>
+                    <ul class="list-disc pl-5 text-sm text-slate-700 space-y-1">
+                        <li>Компанія придбала найсучасніший EDR-продукт із високою здатністю виявляти загрози (<strong>Capability</strong>), але через поспішне впровадження агент встановлено лише на <strong>60%</strong> корпоративних ноутбуків.</li>
+                        <li>На половині з тих ноутбуків, де агент усе ж стоїть, користувачі або системні збої вимкнули службу захисту, і команда безпеки про це навіть не знала, бо не відстежувала працездатність самого агента.</li>
+                        <li>Регламент перегляду привілейованих доступів добре прописаний на папері (чіткий <strong>Control Design</strong>: раз на квартал, з погодженням та критеріями), але на практиці керівники відділів просто натискають «Підтвердити все» раз на рік без перевірки та реального відкликання зайвих прав.</li>
+                        <li>Під час презентації результатів засновнику один із менеджерів запропонував перемножити відсотки <em>Capability, Coverage та Reliability</em> EDR, щоб вивести «єдиний точний індекс захищеності» для звіту інвесторам.</li>
+                    </ul>
+                    <p class="text-sm font-medium text-slate-900 pt-1">Оберіть варіант аналізу, який точно визначає три реальні причини провалу контролів згідно з підходами NIST SP 800-53A та FAIR-CAM:</p>
+                `,
+                options: [
+                    {
+                        id: "A",
+                        label: "Варіант A: Заміна вендора EDR, переписування регламенту та розрахунок індексу ефективності",
+                        desc: "Головна проблема полягає в низькому показнику Capability самого EDR-рішення, тому продукт потрібно замінити; регламент перегляду доступів має дефект у Design Effectiveness; для звіту інвесторам необхідно перемножити Capability, Coverage та Reliability EDR.",
+                        style: "bg-blue-50 border-blue-300",
+                        titleColor: "text-slate-900",
+                        metrics: { security: 52, trust: 55, budget: 0, risk: "Високий" },
+                        trustText: "-20% (55%)",
+                        trustClass: "text-rose-600",
+                        costText: "$120,000 (Перевищення бюджету!)",
+                        riskClass: "text-rose-600",
+                        takeaway: "❌ Помилковий аналіз. Характеристики Capability, Coverage та Reliability не можна механічно перемножувати в один універсальний відсоток. Крім того, проблема не в технічній здатності EDR (Capability) і не в паперовому дизайні перегляду прав (Design Effectiveness), а в їхньому реальному покритті та виконанні."
+                    },
+                    {
+                        id: "B",
+                        label: "Варіант B: Дефект Decision Support, відсутність Scope та перехід на ручний щорічний аудит",
+                        desc: "Проблема криється у виборі класу продукту (Decision Support Controls); низька ефективність перегляду доступів викликана відсутністю Control Objective та Scope; замість автоматизації моніторингу варто проводити ручне Periodic Assessment кожного ноутбука раз на рік.",
+                        style: "bg-rose-50 border-rose-300",
+                        titleColor: "text-rose-950",
+                        metrics: { security: 58, trust: 60, budget: 30000, risk: "Високий" },
+                        trustText: "-15% (60%)",
+                        trustClass: "text-rose-700",
+                        costText: "$70,000 (Залишок: $30,000)",
+                        riskClass: "text-rose-700",
+                        takeaway: "❌ Хибний діагноз. Проблема з вимкненими агентами — це збій у Variance Management Controls та відсутність Ongoing Monitoring («Чи працює контроль зараз?»), а не привід переходити на ручні річні перевірки. Так само перегляд доступів мав нормальний дизайн на папері, але провалився на етапі фактичного виконання (Operate)."
+                    },
+                    {
+                        id: "C",
+                        label: "Варіант C: Провал Coverage і Variance Management, низька Operating Effectiveness та відмова від множення метрик",
+                        desc: "EDR провалився через низьке охоплення (Coverage 60%) та відсутність контролю в домені Variance Management Controls (без Ongoing Monitoring вимкнених агентів); перегляд доступів має належний Design Effectiveness, але провалює Operating Effectiveness; перемноження Capability, Coverage та Reliability є методологічно хибним за FAIR-CAM.",
+                        style: "bg-emerald-50 border-emerald-300",
+                        titleColor: "text-emerald-950",
+                        metrics: { security: 90, trust: 90, budget: 75000, risk: "Низький" },
+                        trustText: "+15% (90%)",
+                        trustClass: "text-emerald-700",
+                        costText: "$25,000 (Залишок: $75,000)",
+                        riskClass: "text-emerald-700",
+                        takeaway: "✅ Точне влучання CISO. Ви правильно застосували принципи FAIR-CAM та NIST SP 800-53A: відділили Design Effectiveness від Operating Effectiveness, виявили прогалини в Coverage та Variance Management Controls і вберегли компанію від маніпулятивної метрики «перемноженої ефективності»."
+                    }
+                ]
+            }
+        },
+        5: {
+            defaultMetrics: { security: 65, trust: 75, budget: 100000, risk: 'Високий' },
+            practiceBadge: "Практика 5",
+            practiceTitle: "Перевірка знань: Risk-Based Security Decision Making",
+            lectureHTML: `
+                <div class="border-b border-slate-200 pb-5">
+                    <span class="text-xs font-semibold uppercase tracking-wider text-blue-700 bg-blue-50 px-3 py-1 rounded">Лекція 5</span>
+                    <h1 class="text-2xl font-bold text-slate-900 mt-2">Risk-Based Security Decision Making</h1>
+                    <p class="text-sm text-slate-500 mt-1">Управління ризиками за ISO 31000:2018, ідентифікація та оцінка ризиків, стратегії реагування та Risk Register</p>
+                </div>
+
+                <section class="space-y-4">
+                    <h2 class="text-lg font-bold text-slate-900">1. Що таке Risk Management та визначення ризику (ISO 31000:2018)</h2>
+                    <p class="text-sm text-slate-700"><strong>Risk Management</strong> — це не лише виявлення ризиків, а механізм підтримки управлінських рішень, який дозволяє:</p>
+                    <div class="grid md:grid-cols-5 gap-3 text-xs">
+                        <div class="p-3.5 rounded-lg border border-slate-200 bg-slate-50"><strong>1.</strong> Пов'язати security issues із потенційними наслідками для бізнесу.</div>
+                        <div class="p-3.5 rounded-lg border border-slate-200 bg-slate-50"><strong>2.</strong> Зрозуміти рівень risk exposure та критичність проблем.</div>
+                        <div class="p-3.5 rounded-lg border border-slate-200 bg-slate-50"><strong>3.</strong> Визначити прийнятний і неприйнятний рівень ризику.</div>
+                        <div class="p-3.5 rounded-lg border border-slate-200 bg-slate-50"><strong>4.</strong> Порівняти альтернативні способи реагування.</div>
+                        <div class="p-3.5 rounded-lg border border-slate-200 bg-slate-50"><strong>5.</strong> Обґрунтувати пріоритети та розподіл ресурсів.</div>
+                    </div>
+
+                    <div class="bg-blue-50/40 p-5 rounded-lg border border-blue-200 space-y-3">
+                        <div class="text-sm font-bold text-[#122d55]">Визначення за ISO 31000:2018: Ризик — це вплив невизначеності на цілі організації</div>
+                        <div class="grid md:grid-cols-3 gap-4 text-xs">
+                            <div class="bg-white p-4 rounded-lg border border-slate-200 space-y-1">
+                                <div class="font-bold text-[#122d55]">Objective | Ціль</div>
+                                <p class="text-slate-700">Результат, якого організація прагне досягти або підтримувати.</p>
+                                <p class="text-slate-500 italic">Приклад: безперервне проведення клієнтських платежів.</p>
+                            </div>
+                            <div class="bg-white p-4 rounded-lg border border-slate-200 space-y-1">
+                                <div class="font-bold text-[#122d55]">Uncertainty | Невизначеність</div>
+                                <p class="text-slate-700">Невизначеність щодо майбутніх подій, умов або результатів.</p>
+                                <p class="text-slate-500 italic">Приклад: чи відбудеться відмова платіжної платформи або кібератака.</p>
+                            </div>
+                            <div class="bg-white p-4 rounded-lg border border-slate-200 space-y-1">
+                                <div class="font-bold text-[#122d55]">Effect | Вплив</div>
+                                <p class="text-slate-700">Можливе відхилення від очікуваного результату.</p>
+                                <p class="text-slate-500 italic">Приклад: недоступність платежів, фінансові втрати, регуляторні наслідки.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="space-y-3 pt-2">
+                    <h2 class="text-lg font-bold text-slate-900">2. Risk-Based vs Compliance-Based Security Management</h2>
+                    <div class="grid md:grid-cols-2 gap-5 text-xs">
+                        <div class="p-5 rounded-lg border border-slate-200 bg-white space-y-2">
+                            <div class="font-bold text-sm text-slate-900">Compliance-Based Approach (Чи виконуємо вимоги?)</div>
+                            <ul class="list-disc pl-4 space-y-1 text-slate-700">
+                                <li>Чи реалізовано обов'язкові security controls?</li>
+                                <li>Чи є порушення вимог або policies?</li>
+                                <li>Чи закрито audit findings?</li>
+                            </ul>
+                            <p class="pt-1 font-semibold text-slate-900">Результат: compliance status.</p>
+                        </div>
+                        <div class="p-5 rounded-lg border border-slate-200 bg-slate-50 space-y-2">
+                            <div class="font-bold text-sm text-[#122d55]">Risk-Based Approach (Які ризики загрожують цілям?)</div>
+                            <ul class="list-disc pl-4 space-y-1 text-slate-700">
+                                <li>Наскільки controls знижують реальний risk exposure?</li>
+                                <li>Які наслідки можливі та чи є ризик прийнятним?</li>
+                                <li>Чи залишився неприйнятний residual risk?</li>
+                            </ul>
+                            <p class="pt-1 font-semibold text-[#122d55]">Результат: risk-informed management decisions.</p>
+                        </div>
+                    </div>
+                    <p class="text-xs text-slate-600 italic">Note: Compliance визначає обов'язкові обмеження. Risk Management допомагає ухвалювати рішення з урахуванням цих обмежень і фактичних ризиків.</p>
+                </section>
+
+                <section class="space-y-4 pt-2">
+                    <h2 class="text-lg font-bold text-slate-900">3. Процес управління ризиками: Scope, Context та Criteria</h2>
+                    <div class="grid md:grid-cols-3 gap-5 text-xs">
+                        <div class="p-5 rounded-lg border border-slate-200 bg-slate-50 space-y-1.5">
+                            <div class="font-bold text-sm text-[#122d55]">Scope (Межі)</div>
+                            <p class="text-slate-700"><strong>Питання:</strong> Що саме оцінюємо? Вся організація, окремий бізнес-процес, інформаційна система, IT service, проєкт або взаємодія з постачальником.</p>
+                        </div>
+                        <div class="p-5 rounded-lg border border-slate-200 bg-slate-50 space-y-1.5">
+                            <div class="font-bold text-sm text-[#122d55]">Context (Контекст)</div>
+                            <p class="text-slate-700">Business objectives та critical services; оргструктура й operating model; IT-архітектура й залежності; зовнішні загрози й постачальники; регуляторні вимоги; наявні контролі та інциденти.</p>
+                        </div>
+                        <div class="p-5 rounded-lg border border-slate-200 bg-slate-50 space-y-1.5">
+                            <div class="font-bold text-sm text-[#122d55]">Risk Criteria (Критерії ризику)</div>
+                            <p class="text-slate-700">Шкали <em>likelihood</em> та <em>impact</em>, рівні <em>risk significance</em>, критерії прийнятності ризиків (Risk Appetite / Tolerance) і правила ухвалення рішень.</p>
+                        </div>
+                    </div>
+
+                    <div class="p-4 rounded-lg border border-slate-200 bg-white space-y-2 text-xs">
+                        <div class="font-bold text-slate-900">6 категорій наслідків (Impact Categories):</div>
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-2 text-slate-700">
+                            <div><strong>Financial:</strong> грошові втрати та додаткові витрати.</div>
+                            <div><strong>Operational:</strong> порушення діяльності та критичних послуг.</div>
+                            <div><strong>Privacy:</strong> порушення приватності та шкода фізичним особам.</div>
+                            <div><strong>Regulatory / Compliance:</strong> нормативні порушення та обмеження.</div>
+                            <div><strong>Reputational:</strong> втрата довіри та репутаційна шкода.</div>
+                            <div><strong>Strategic / Business:</strong> вплив на стратегічні цілі й розвиток.</div>
+                        </div>
+                        <p class="text-amber-900 font-medium pt-1">⚠️ Один сценарій може мати наслідки в кількох категоріях. Фінансові втрати при цьому не повинні дублюватися.</p>
+                    </div>
+                </section>
+
+                <section class="space-y-4 pt-2">
+                    <h2 class="text-lg font-bold text-slate-900">4. Risk Assessment: Identification, Analysis та Evaluation</h2>
+                    <div class="grid md:grid-cols-2 gap-5 text-xs">
+                        <div class="p-5 rounded-lg border border-slate-200 bg-slate-50 space-y-2">
+                            <div class="font-bold text-sm text-[#122d55]">1. Identification — What can happen?</div>
+                            <p><strong>Event-based:</strong> ризик ідентифікується через стратегічні події, джерела ризику та наслідки для зацікавлених сторін.</p>
+                            <p><strong>Asset-based:</strong> операційні сценарії деталізуються через конкретні активи, загрози та вразливості для формування детальних заходів обробки.</p>
+                            <div class="pt-1 border-t border-slate-200">
+                                <strong>4 джерела інформації:</strong>
+                                <ul class="list-disc pl-4 mt-1 space-y-0.5 text-slate-700">
+                                    <li><em>Зовнішні дані:</em> CTI, CERT/ISAC, NIST SP 800-30, MITRE ATT&amp;CK.</li>
+                                    <li><em>Перевірки й тестування:</em> сканування, pentests, аудити, винятки з політик.</li>
+                                    <li><em>Власний досвід:</em> інциденти, near misses, дані SOC/SIEM, BC/DR тести.</li>
+                                    <li><em>Архітектура й залежності:</em> single points of failure, legacy-технології, постачальники.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="p-5 rounded-lg border border-slate-200 bg-slate-50 space-y-2">
+                            <div class="font-bold text-sm text-[#122d55]">2. Analysis (Risk Level = Likelihood &times; Impact) &amp; 3. Evaluation</div>
+                            <p><strong>Фактори Likelihood:</strong> threat capability/intent/активність; exposure активу та вектори атаки; вразливості й підготовчі умови; ефективність наявних контролів; історичні дані.</p>
+                            <p><strong>Виміри Impact:</strong> фінансові втрати; доступність сервісів; регуляторні штрафи; довіра клієнтів і репутація; порушення CIA (конфіденційності, цілісності, доступності).</p>
+                            <p class="pt-1 border-t border-slate-200"><strong>Evaluation — What decision follows?</strong> Порівняння розрахованого рівня ризику з критеріями прийнятності для визначення пріоритетів і вибору стратегії реагування.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="space-y-4 pt-2">
+                    <h2 class="text-lg font-bold text-slate-900">5. Risk Treatment, Risk Register та Підходи до оцінювання</h2>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs">
+                        <div class="p-4 rounded-lg border border-slate-200 bg-white">
+                            <div class="font-bold text-[#122d55]">Avoid (Уникнення)</div>
+                            <p class="text-slate-700 mt-1">Відмова від діяльності або її зміна, щоб повністю усунути джерело ризику.</p>
+                        </div>
+                        <div class="p-4 rounded-lg border border-slate-200 bg-white">
+                            <div class="font-bold text-[#122d55]">Modify / Mitigate (Зниження)</div>
+                            <p class="text-slate-700 mt-1">Зменшення likelihood або наслідків шляхом впровадження контролів.</p>
+                        </div>
+                        <div class="p-4 rounded-lg border border-slate-200 bg-white">
+                            <div class="font-bold text-[#122d55]">Share (Розподіл / Передача)</div>
+                            <p class="text-slate-700 mt-1">Передача частини фінансових наслідків або відповідальності третім сторонам (страхування, SLA).</p>
+                        </div>
+                        <div class="p-4 rounded-lg border border-slate-200 bg-white">
+                            <div class="font-bold text-[#122d55]">Retain / Accept (Прийняття)</div>
+                            <p class="text-slate-700 mt-1">Усвідомлене утримання ризику без додаткових заходів (коли захист дорожчий за збитки).</p>
+                        </div>
+                    </div>
+
+                    <div class="p-5 rounded-lg border border-slate-200 bg-slate-50 text-xs space-y-2">
+                        <div class="font-bold text-sm text-[#122d55]">Структура Реєстру Ризиків (Risk Register — 11 ключових полів)</div>
+                        <div class="grid md:grid-cols-3 gap-2 text-slate-700">
+                            <div><strong>1. Risk ID / Category:</strong> ідентифікатор і категорія.</div>
+                            <div><strong>2. Risk Scenario:</strong> подія, умови та наслідки.</div>
+                            <div><strong>3. Affected Objective / Asset:</strong> ціль, сервіс або актив.</div>
+                            <div><strong>4. Likelihood &amp; Impact:</strong> результати аналізу.</div>
+                            <div><strong>5. Inherent / Current Risk:</strong> до контролів та поточний.</div>
+                            <div><strong>6. Risk Owner:</strong> відповідальний керівник.</div>
+                            <div><strong>7. Treatment Decision:</strong> обрана стратегія.</div>
+                            <div><strong>8. Action Plan / Due Date:</strong> заходи та строки.</div>
+                            <div><strong>9. Residual Risk:</strong> залишковий ризик після обробки.</div>
+                            <div><strong>10. Acceptance / Escalation:</strong> статус погодження.</div>
+                            <div class="md:col-span-2"><strong>11. Review Date / Status:</strong> дата наступного перегляду та поточний стан.</div>
+                        </div>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-5 text-xs">
+                        <div class="p-4 rounded-lg border border-slate-200 bg-white space-y-1.5">
+                            <div class="font-bold text-slate-900">Три підходи до оцінки ризиків:</div>
+                            <p><strong>Qualitative (Якісний):</strong> описові категорії; для первинного screening (обмеження — суб'єктивність).</p>
+                            <p><strong>Semi-Quantitative (Напівкількісний):</strong> бальні шкали та Risk Score; для пріоритезації (обмеження — Score &ne; реальна грошова величина ризику).</p>
+                            <p><strong>Quantitative (Кількісний):</strong> частота, величина та розподіл втрат у грошах; для фінансових рішень (обмеження — високі вимоги до даних і ресурсів).</p>
+                        </div>
+                        <div class="p-4 rounded-lg border border-slate-200 bg-white space-y-1.5">
+                            <div class="font-bold text-slate-900">Planned vs Trigger-Based Assessment:</div>
+                            <p><strong>Planned Assessment:</strong> затверджений план, встановлена періодичність, визначений Scope, контроль виконання.</p>
+                            <p><strong>Trigger-Based Assessment:</strong> нова критична послуга, суттєва IT-зміна, інцидент або нова загроза, findings / неефективні контролі, зміна постачальника.</p>
+                        </div>
+                    </div>
+                </section>
+            `,
+            quizzes: [
+                {
+                    type: "single",
+                    question: "1. З яких трьох ключових елементів складається визначення ризику за стандартом ISO 31000:2018?",
+                    options: [
+                        "А) Загроза, вразливість, контрзахід.",
+                        "Б) Ціль (Objective), невизначеність (Uncertainty), вплив (Effect).",
+                        "В) Імовірність (Likelihood), наслідки (Impact), ризик-рейтинг (Risk Score).",
+                        "Г) Актив, власник активу, залишковий ризик."
+                    ],
+                    correct: 1,
+                    takeaway: "За ISO 31000:2018 ризик — це вплив невизначеності на досягнення бізнес-цілей організації."
+                },
+                {
+                    type: "single",
+                    question: "2. Які виміри (параметри) використовуються для базового якісного аналізу ризиків (Qualitative Assessment)?",
+                    options: [
+                        "А) Бюджет безпеки та кількість співробітників.",
+                        "Б) Likelihood (Ймовірність) та Impact (Вплив).",
+                        "В) Frequency (Частота) та Recovery Time Objective (RTO).",
+                        "Г) Threat Level та Compliance Status."
+                    ],
+                    correct: 1,
+                    takeaway: "Рівень ризику визначається через поєднання ймовірності настання події (Likelihood) та тяжкості її наслідків (Impact)."
+                },
+                {
+                    type: "single",
+                    question: "3. Який результат та обмеження притаманні напівкількісному (Semi-Quantitative) підходу до оцінки ризиків?",
+                    options: [
+                        "А) Результат — бальні шкали та Risk Score; обмеження — отриманий score не дорівнює реальній абсолютній величині ризику.",
+                        "Б) Результат — точний фінансовий збиток у доларах; обмеження — відсутність будь-яких шкал.",
+                        "В) Результат — лише описові категорії; обмеження — неможливість пріоритетизації.",
+                        "Г) Результат — сертифікат відповідності ISO; обмеження — висока вартість даних."
+                    ],
+                    correct: 0,
+                    takeaway: "Бали зручні для пріоритетизації ризиків між собою, але вони не відображають точні фінансові втрати у грошовому еквіваленті."
+                },
+                {
+                    type: "single",
+                    question: "4. Що з наведеного найкраще описує поняття «Risk Owner» (Власник ризику) у Реєстрі Ризиків?",
+                    options: [
+                        "А) Зовнішній аудитор, який проводить щорічну перевірку комплаєнсу.",
+                        "Б) Зловмисник або хакерське угруповання, що створює загрозу для інфраструктури.",
+                        "В) Особа або керівник, яка має повноваження та відповідальність за управління конкретним ризиком.",
+                        "Г) Розробник програмного забезпечення, який написав код із вразливістю."
+                    ],
+                    correct: 2,
+                    takeaway: "Risk Owner — це менеджер або посадова особа, відповідальна за моніторинг ризику, виділення ресурсів та впровадження обраної стратегії реагування."
+                },
+                {
+                    type: "single",
+                    question: "5. У чому полягає сутність стратегії «Retain / Accept»?",
+                    options: [
+                        "А) Часткова передача операційного контролю за ризиком підрозділам IT для мінімізації його наслідків.",
+                        "Б) Переведення ризику в категорію низького пріоритету в Реєстрі Ризиків без затвердження керівництвом.",
+                        "В) Усвідомлене залишення ризику без додаткових заходів.",
+                        "Г) Відстрочення реалізації заходів із захисту до моменту настання першого інциденту або запиту аудитора."
+                    ],
+                    correct: 2,
+                    takeaway: "Accept/Retain застосовують тоді, коли організація свідомо погоджується з наявним залишковим ризиком, розуміючи, що витрати на додатковий захист є економічно недоцільними."
+                }
+            ],
+            simulator: {
+                type: "single",
+                badge: "Симулятор 5",
+                title: "Криза інфраструктури та атака на ланцюжок постачальників",
+                contextHTML: `
+                    <p class="text-sm text-slate-700">
+                        Ви — новопризначений CISO у платіжному сервісі, який активно інтегрує сторонні API та готується до масштабного релізу нової платіжної платформи. Під час внутрішнього аудиту виявлено застарілі legacy-сервери з критичними CVE, відсутність MFA на адмін-панелях розробників та неперевіреного стороннього постачальника логістичних даних. У цей же час CERT-UA повідомляє про сплеск атак на Supply Chain у фінтех-секторі. Засновник виділив вам обмежений бюджет <strong>$100,000</strong> та вимагає обрати стратегію реагування на ризики.
+                    </p>
+                    <p class="text-sm font-medium text-slate-900 pt-1">Оберіть один із трьох стратегічних шляхів управління ризиками в компанії:</p>
+                `,
+                options: [
+                    {
+                        id: "A",
+                        label: "Варіант A: Avoid & Over-Engineering",
+                        desc: "Ви застосовуєте радикальну стратегію уникнення ризику (Avoid). Негайно відключаєте стороннє API та legacy-сервери, зупиняючи пов'язані бізнес-процеси до повного переписування коду. Вимагаєте від команди розробки закрити всі знайдені вразливості протягом 48 годин, заморожуючи всі продуктові релізи.",
+                        style: "bg-blue-50 border-blue-300",
+                        titleColor: "text-slate-900",
+                        metrics: { security: 75, trust: 60, budget: 10000, risk: "Помірний" },
+                        trustText: "-15% (60%)",
+                        trustClass: "text-rose-600",
+                        costText: "$90,000 (Залишок: $10,000)",
+                        riskClass: "text-amber-700",
+                        takeaway: "Це рішення гарантує закриття технічних векторів атак, але створює операційний колапс. Ви захистили компанію від вразливостей, але вбили гнучкість розробки, зіпсували стосунки з бізнес-лідерами та порушили принципи ISO 31000 щодо підтримки бізнес-цілей."
+                    },
+                    {
+                        id: "B",
+                        label: "Варіант B: Mitigate & Share",
+                        desc: "Ви будуєте збалансовану ризик-орієнтовану модель. Впроваджуєте обов'язкове MFA для адмін-панелей та розробників, усуваючи найпростіший вектор атак. Для стороннього API купуєте кіберстрахування (Share) та підписуєте додаткові угоди з безпеки (SLA). Legacy-сервери ізолюєте через мікросегментацію мережі, а патчі ставите у планові технологічні вікна.",
+                        style: "bg-emerald-50 border-emerald-300",
+                        titleColor: "text-emerald-950",
+                        metrics: { security: 88, trust: 90, budget: 65000, risk: "Помірний" },
+                        trustText: "+15% (90%)",
+                        trustClass: "text-emerald-700",
+                        costText: "$35,000 (Залишок: $65,000)",
+                        riskClass: "text-emerald-700",
+                        takeaway: "✅ Ідеальний баланс між Risk Management та швидкістю бізнесу. Ви реалізували концепцію свідомого управління: захистили критичні вектори, переклали частину фінансової відповідальності за постачальника та зберегли операційну діяльність компанії."
+                    },
+                    {
+                        id: "C",
+                        label: "Варіант C: Laissez-Faire & Retain",
+                        desc: "Ви вирішуєте не заважати розробникам і не чіпати legacy-системи та стороннє API. Замість впровадження MFA на адмін-панелі обмежуєтеся базовим моніторингом логів у SIEM. Усі виявлені ризики заносите до реєстру зі статусом Low та відкладаєте їх вирішення на наступний рік без затвердження керівництвом.",
+                        style: "bg-rose-50 border-rose-300",
+                        titleColor: "text-rose-950",
+                        metrics: { security: 42, trust: 55, budget: 95000, risk: "Критичний" },
+                        trustText: "-20% (55%)",
+                        trustClass: "text-rose-700",
+                        costText: "$5,000 (Залишок: $95,000)",
+                        riskClass: "text-rose-700",
+                        takeaway: "❌ Ілюзія економії та нехтування ризиками. Ви підмінили усвідомлене прийняття ризику керівництвом (Risk Acceptance) простим ігноруванням проблем. Перший же інцидент через відсутність MFA знищить довіру бізнесу та викличе мільйонні збитки."
+                    }
+                ]
+            }
+        },
+        6: {
+            defaultMetrics: { security: 65, trust: 75, budget: 150000, risk: 'Високий' },
+            practiceBadge: "Практика 6",
+            practiceTitle: "Перевірка знань: Information Security Strategy Development",
+            lectureHTML: `
+                <div class="border-b border-slate-200 pb-5">
+                    <span class="text-xs font-semibold uppercase tracking-wider text-blue-700 bg-blue-50 px-3 py-1 rounded">Лекція 6</span>
+                    <h1 class="text-2xl font-bold text-slate-900 mt-2">Information Security Strategy Development</h1>
+                    <p class="text-sm text-slate-500 mt-1">Стратегічні драйвери, оцінка поточного й цільового стану, пріоритизація портфеля та когнітивні викривлення</p>
+                </div>
+
+                <section class="space-y-4">
+                    <h2 class="text-lg font-bold text-slate-900">1. Що таке Information Security Strategy та 4 ключові питання</h2>
+                    <p class="text-sm text-slate-700"><strong>Information Security Strategy</strong> — довгостроковий підхід організації до управління інформаційною безпекою, який визначає бажані результати, стратегічні цілі, принципи та пріоритети розвитку спроможностей ІБ відповідно до бізнес-цілей, ризиків і доступних ресурсів.</p>
+
+                    <div class="grid md:grid-cols-4 gap-4 text-xs">
+                        <div class="p-4 rounded-lg border border-slate-200 bg-slate-50 space-y-1">
+                            <div class="font-bold text-[#122d55]">01 Why?</div>
+                            <p class="text-slate-700">Які бізнес-цілі та ризики визначають потребу в розвитку ІБ?</p>
+                        </div>
+                        <div class="p-4 rounded-lg border border-slate-200 bg-slate-50 space-y-1">
+                            <div class="font-bold text-[#122d55]">02 Where are we?</div>
+                            <p class="text-slate-700">Який поточний стан безпеки та її спроможностей?</p>
+                        </div>
+                        <div class="p-4 rounded-lg border border-slate-200 bg-slate-50 space-y-1">
+                            <div class="font-bold text-[#122d55]">03 Where do we want to be?</div>
+                            <p class="text-slate-700">Які результати й цільові спроможності необхідні?</p>
+                        </div>
+                        <div class="p-4 rounded-lg border border-slate-200 bg-slate-50 space-y-1">
+                            <div class="font-bold text-[#122d55]">04 What will we prioritize?</div>
+                            <p class="text-slate-700">Які стратегічні напрями оберемо в умовах обмежених ресурсів?</p>
+                        </div>
+                    </div>
+
+                    <div class="p-4 rounded-lg border border-blue-200 bg-blue-50/40 text-xs space-y-2">
+                        <div class="font-bold text-[#122d55]">Strategy vs Policy vs Program vs Plan</div>
+                        <div class="grid md:grid-cols-4 gap-3 text-slate-700">
+                            <div class="bg-white p-3 rounded border border-slate-200"><strong>Strategy | напрям:</strong> яких результатів прагнемо і що пріоритизуємо? <em>(Приклад: Secure Digital Growth)</em></div>
+                            <div class="bg-white p-3 rounded border border-slate-200"><strong>Policy | правила:</strong> яких принципів і правил потрібно дотримуватися? <em>(Приклад: Access Control Policy)</em></div>
+                            <div class="bg-white p-3 rounded border border-slate-200"><strong>Program | ініціативи:</strong> які взаємопов'язані зміни організуємо? <em>(Приклад: Identity Security Program)</em></div>
+                            <div class="bg-white p-3 rounded border border-slate-200"><strong>Plan | виконання:</strong> які конкретні кроки, строки та відповідальні? <em>(Приклад: MFA Rollout Plan)</em></div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="space-y-3 pt-2">
+                    <h2 class="text-lg font-bold text-slate-900">2. Understanding Strategic Drivers (Фактори впливу на стратегію)</h2>
+                    <div class="grid md:grid-cols-3 gap-4 text-xs">
+                        <div class="p-4 rounded-lg border border-slate-200 bg-white">
+                            <div class="font-bold text-[#122d55]">Business Strategy</div>
+                            <p class="text-slate-700 mt-1">Ринки, продукти, клієнти, бізнес-трансформація.</p>
+                        </div>
+                        <div class="p-4 rounded-lg border border-slate-200 bg-white">
+                            <div class="font-bold text-[#122d55]">Critical Business Dependencies</div>
+                            <p class="text-slate-700 mt-1">Дані, критичні сервіси, постачальники, технології.</p>
+                        </div>
+                        <div class="p-4 rounded-lg border border-slate-200 bg-white">
+                            <div class="font-bold text-[#122d55]">Risk Landscape</div>
+                            <p class="text-slate-700 mt-1">Кіберзагрози, суттєві ризики, risk appetite.</p>
+                        </div>
+                        <div class="p-4 rounded-lg border border-slate-200 bg-white">
+                            <div class="font-bold text-[#122d55]">Regulatory &amp; Contractual</div>
+                            <p class="text-slate-700 mt-1">Законодавство, регуляторні вимоги, зобов'язання перед клієнтами.</p>
+                        </div>
+                        <div class="p-4 rounded-lg border border-slate-200 bg-white">
+                            <div class="font-bold text-[#122d55]">Stakeholder Expectations</div>
+                            <p class="text-slate-700 mt-1">CEO, board, CIO, CRO, клієнти, аудитори.</p>
+                        </div>
+                        <div class="p-4 rounded-lg border border-slate-200 bg-white">
+                            <div class="font-bold text-[#122d55]">Internal Constraints</div>
+                            <p class="text-slate-700 mt-1">Компетенції, бюджет, культура, технологічний борг.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="space-y-4 pt-2">
+                    <h2 class="text-lg font-bold text-slate-900">3. Current State Assessment та Вимірювання зрілості</h2>
+                    <div class="grid md:grid-cols-3 gap-3 text-xs">
+                        <div class="p-3.5 rounded-lg border border-slate-200 bg-slate-50"><strong>Maturity Assessment:</strong> наскільки розвинені та керовані ключові процеси ІБ.</div>
+                        <div class="p-3.5 rounded-lg border border-slate-200 bg-slate-50"><strong>NIST CSF Current Profile:</strong> які cybersecurity outcomes досягаються зараз.</div>
+                        <div class="p-3.5 rounded-lg border border-slate-200 bg-slate-50"><strong>Risk Assessment:</strong> які суттєві ризики потребують уваги.</div>
+                        <div class="p-3.5 rounded-lg border border-slate-200 bg-slate-50"><strong>Audit &amp; Control Assessment:</strong> які існують прогалини у вимогах і контролях.</div>
+                        <div class="p-3.5 rounded-lg border border-slate-200 bg-slate-50"><strong>Security Metrics &amp; Incident Data:</strong> що демонструють фактичні результати роботи ІБ.</div>
+                        <div class="p-3.5 rounded-lg border border-slate-200 bg-slate-50"><strong>SWOT Analysis:</strong> Strengths (Internal +), Weaknesses (Internal &minus;), Opportunities (External +), Threats (External &minus;).</div>
+                    </div>
+                    <p class="text-xs text-slate-600 italic">Note: Не всі методи одночасно. Підходи обирають відповідно до контексту, доступності даних і мети оцінювання.</p>
+
+                    <div class="grid md:grid-cols-2 gap-5 text-xs">
+                        <div class="p-5 rounded-lg border border-slate-200 bg-white space-y-2">
+                            <div class="font-bold text-sm text-[#122d55]">NIST CSF 2.0 Tiers (рівень організації)</div>
+                            <ul class="space-y-1 text-slate-700">
+                                <li><strong>Partial:</strong> реактивне управління ризиками; практики фрагментарні, рішення ситуативні.</li>
+                                <li><strong>Risk Informed:</strong> ризики враховуються в рішеннях, але єдині практики ще не впроваджені в усій організації.</li>
+                                <li><strong>Repeatable:</strong> формалізовані політики, процеси й ролі; практики регулярно та послідовно застосовуються.</li>
+                                <li><strong>Adaptive:</strong> захист постійно адаптується до змін загроз на основі даних, досвіду та прогнозування.</li>
+                            </ul>
+                        </div>
+                        <div class="p-5 rounded-lg border border-slate-200 bg-white space-y-2">
+                            <div class="font-bold text-sm text-[#122d55]">CMMI-подібна шкала зрілості (1–5, рівень процесу)</div>
+                            <ul class="space-y-1 text-slate-700">
+                                <li><strong>1. Initial:</strong> процес непередбачуваний, залежить від конкретних людей.</li>
+                                <li><strong>2. Managed:</strong> процес планується, виконується й контролюється, але може відрізнятися між командами.</li>
+                                <li><strong>3. Defined:</strong> єдиний стандартизований процес, який застосовується в організації.</li>
+                                <li><strong>4. Quant. Managed:</strong> ефективність вимірюється кількісними показниками й управляється на основі даних.</li>
+                                <li><strong>5. Optimizing:</strong> процес систематично вдосконалюється на основі вимірювань і аналізу причин проблем.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="p-4 rounded-lg border border-slate-200 bg-slate-50 text-xs space-y-1.5">
+                        <div class="font-bold text-slate-900">Current State Assessment — 4 Expected Outputs:</div>
+                        <div class="grid md:grid-cols-4 gap-2 text-slate-700">
+                            <div><strong>Capability Baseline:</strong> поточний рівень спроможностей, підтверджений доказами, з оцінкою впевненості.</div>
+                            <div><strong>Key Risks &amp; Weaknesses:</strong> суттєві ризики та слабкі місця, які заважають бізнес-цілям.</div>
+                            <div><strong>Strengths &amp; Opportunities:</strong> на що можна спертися і які зовнішні можливості використати.</div>
+                            <div><strong>Constraints:</strong> обмеження, які визначають, що реалістично в горизонті стратегії.</div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="space-y-4 pt-2">
+                    <h2 class="text-lg font-bold text-slate-900">4. Target State та Критерії і кроки пріоритизації</h2>
+                    <div class="p-5 rounded-lg border border-slate-200 bg-white text-xs space-y-2">
+                        <div class="font-bold text-sm text-[#122d55]">Target State (Бажаний майбутній стан безпеки) — 6 компонентів:</div>
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-2 text-slate-700">
+                            <div><strong>Політики та принципи:</strong> документовані правила та керівні принципи.</div>
+                            <div><strong>Організаційна структура:</strong> чікі ролі та відповідальність команд безпеки.</div>
+                            <div><strong>Процеси та процедури:</strong> стандартизовані робочі процеси та інструкції.</div>
+                            <div><strong>Культура та поведінка:</strong> свідоме ставлення до безпеки серед усіх співробітників.</div>
+                            <div><strong>Інформаційні активи:</strong> захист критичних даних та бізнес-сервісів.</div>
+                            <div><strong>Компетенції персоналу:</strong> розвиток навичок і знань команд у сфері кіберзахисту.</div>
+                        </div>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-5 text-xs">
+                        <div class="p-5 rounded-lg border border-slate-200 bg-slate-50 space-y-2">
+                            <div class="font-bold text-sm text-[#122d55]">4 критерії вибору стратегічних пріоритетів</div>
+                            <ol class="list-decimal pl-4 space-y-1 text-slate-700">
+                                <li><strong>Business impact:</strong> критично впливає на бізнес-ціль або неприйнятний ризик.</li>
+                                <li><strong>Significant change:</strong> створює нову спроможність або суттєво підвищує її рівень.</li>
+                                <li><strong>Resource concentration:</strong> потребує бюджету, людей і уваги понад звичайну роботу.</li>
+                                <li><strong>Executive decision:</strong> потребує рішення керівництва і свідомих компромісів.</li>
+                            </ol>
+                        </div>
+
+                        <div class="p-5 rounded-lg border border-slate-200 bg-slate-50 space-y-2">
+                            <div class="font-bold text-sm text-[#122d55]">Prioritization in Four Steps</div>
+                            <ol class="list-decimal pl-4 space-y-1 text-slate-700">
+                                <li><strong>Non-Negotiables:</strong> регуляторні й договірні вимоги, ризики поза risk appetite &rarr; мінімальний baseline.</li>
+                                <li><strong>Evaluate Options:</strong> оцінка кандидатів за критеріями (business alignment, risk reduction, strategic value, feasibility, resources).</li>
+                                <li><strong>Select Portfolio:</strong> вибір реалістичного набору з урахуванням залежностей, послідовності та спроможності команди.</li>
+                                <li><strong>Make Trade-offs Explicit:</strong> фіксація того, що свідомо не робимо, прийнятого ризику, власника рішення і строку перегляду.</li>
+                            </ol>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="space-y-4 pt-2">
+                    <h2 class="text-lg font-bold text-slate-900">5. Cognitive Biases in Strategy Development та Key Takeaways</h2>
+                    <div class="grid md:grid-cols-2 gap-5 text-xs">
+                        <div class="p-5 rounded-lg border border-rose-200 bg-rose-50/40 space-y-1.5 text-rose-950">
+                            <div class="font-bold text-sm">5 когнітивних викривлень у стратегії:</div>
+                            <p><strong>Overconfidence:</strong> «Ми точно знаємо, які атаки будуть через три роки».</p>
+                            <p><strong>Status Quo Bias:</strong> «Ми завжди інвестували в ці технології, тому продовжимо».</p>
+                            <p><strong>Anchoring:</strong> «Минулорічний бюджет був 10 млн — відштовхуємося від цієї цифри».</p>
+                            <p><strong>Confirmation Bias:</strong> «Враховуємо лише факти, які підтверджують наш вибір».</p>
+                            <p><strong>Groupthink:</strong> «Всі погоджуються з CISO, хоча мають сумніви».</p>
+                            <p class="pt-1 font-semibold">Як зменшити вплив: документувати припущення &bull; розглядати альтернативи &bull; шукати контраргументи &bull; залучати різних стейкхолдерів.</p>
+                        </div>
+
+                        <div class="p-5 rounded-lg border border-emerald-200 bg-emerald-50/40 space-y-1.5 text-emerald-950">
+                            <div class="font-bold text-sm">Key Takeaways якісної стратегії ІБ:</div>
+                            <p><strong>Business-Aligned:</strong> підтримує цілі компанії, її бізнес-модель та очікування стейкхолдерів.</p>
+                            <p><strong>Evidence-Based:</strong> поточний стан, ризики й припущення підтверджуються достатніми даними.</p>
+                            <p><strong>Outcome-Oriented:</strong> описує бажані результати та target capabilities, а не тільки дії.</p>
+                            <p><strong>Focused &amp; Realistic:</strong> встановлює пріоритети, враховує обмеження та передбачає компроміси.</p>
+                            <p><strong>Governed &amp; Agreed:</strong> розробляється із залученням ключових стейкхолдерів і погоджується на належному рівні управління.</p>
+                        </div>
+                    </div>
+                </section>
+            `,
+            quizzes: [
+                {
+                    type: "single",
+                    question: "1. До якої категорії стратегічних драйверів (Strategic Drivers) належать технологічний борг, рівень компетенцій команди та корпоративна культура?",
+                    options: [
+                        "А) Critical Business Dependencies",
+                        "Б) Risk Landscape",
+                        "В) Stakeholder Expectations",
+                        "Г) Internal Constraints"
+                    ],
+                    correct: 3,
+                    takeaway: "Internal Constraints охоплюють внутрішні обмеження організації (бюджет, компетенції, культуру, технологічний борг), які визначають реалістичність стратегії."
+                },
+                {
+                    type: "single",
+                    question: "2. Який підхід до оцінювання поточного стану (Current State Assessment) варто обрати, якщо CISO потрібно зрозуміти, які саме цільові результати безпеки (outcomes) вже досягаються в компанії?",
+                    options: [
+                        "А) NIST CSF Current Profile",
+                        "Б) Audit & Control Assessment",
+                        "В) Security Metrics & Incident Data",
+                        "Г) SWOT Analysis"
+                    ],
+                    correct: 0,
+                    takeaway: "NIST CSF Current Profile показує, які cybersecurity outcomes досягаються зараз."
+                },
+                {
+                    type: "single",
+                    question: "3. За CMMI-подібною шкалою зрілості процес управління вразливостями в компанії має чіткий опис, але в команді розробки та команді інфраструктури він виконується за різними правилами. Якому рівню зрілості це відповідає?",
+                    options: [
+                        "А) Level 1 - Initial",
+                        "Б) Level 2 - Managed",
+                        "В) Level 3 - Defined",
+                        "Г) Level 4 - Quantitatively Managed"
+                    ],
+                    correct: 1,
+                    takeaway: "На рівні Managed (2) процес планується, виконується й контролюється, але ще може відрізнятися між командами; єдиним стандартизованим для всієї організації він стає лише на рівні Defined (3)."
+                },
+                {
+                    type: "single",
+                    question: "4. Який із перелічених артефактів не є обов'язковим вихідним результатом (Expected Output) завершеного етапу Current State Assessment?",
+                    options: [
+                        "А) Capability Baseline (поточний рівень спроможностей, підтверджений доказами)",
+                        "Б) Key Risks & Weaknesses (суттєві ризики та слабкі місця)",
+                        "В) Documentation & Expenses (зафіксовані інциденти, плани всіх майбутніх витрат)",
+                        "Г) Constraints (обмеження, що визначають реалістичність у горизонті стратегії)"
+                    ],
+                    correct: 2,
+                    takeaway: "Чотири результати Current State Assessment — це Capability Baseline, Key Risks & Weaknesses, Strengths & Opportunities та Constraints, які слугують входом для визначення Target State."
+                },
+                {
+                    type: "single",
+                    question: "5. У процесі пріоритизації (Prioritization in Four Steps) навіщо виділяють перший крок Non-Negotiables?",
+                    options: [
+                        "А) Щоб відразу відкинути найдорожчі технічні проєкти, які не окупаються за один рік",
+                        "Б) Щоб визначити обов'язковий мінімальний baseline (регуляторні, договірні вимоги та ризики поза risk appetite)",
+                        "В) Щоб зафіксувати список ініціатив, від яких компанія свідомо відмовляється на наступні 12 місяців",
+                        "Г) Щоб оцінити всіх кандидатів за бальною матрицею критеріїв бізнес-ефекту та реалістичності"
+                    ],
+                    correct: 1,
+                    takeaway: "Non-Negotiables — це обов'язковий мінімум (вимоги закону, клієнтів і ризики поза межами апетиту), який є фільтром перед бальним оцінюванням варіантів."
+                }
+            ],
+            simulator: {
+                type: "single",
+                badge: "Симулятор 6",
+                title: "Вихід e-commerce сервісу на ринок ЄС",
+                contextHTML: `
+                    <p class="text-sm text-slate-700">
+                        Ви — CISO у швидкозростаючій продуктовій компанії (хмарний сервіс для e-commerce). Рада директорів затвердила головну бізнес-ціль на наступні 2 роки: <strong>вихід на ринок Європейського Союзу та підписання контрактів із великими ритейл-мережами</strong>.
+                    </p>
+                    <ul class="list-disc pl-5 text-sm text-slate-700 space-y-1">
+                        <li><strong>Why? (Драйвери та бізнес-цілі):</strong> Експансія в ЄС вимагає обов'язкової відповідності GDPR та проходження клієнтських аудитів безпеки (Regulatory &amp; Contractual), а головний ризик — витік персональних даних покупців (Risk Landscape).</li>
+                        <li><strong>Where are we? (Capability Baseline &amp; Constraints):</strong> Поточний рівень компанії за NIST CSF 2.0 — між <em>Partial</em> та <em>Risk Informed</em> (процеси фрагментарні). У компанії сильна команда розробки, але є чіткі внутрішні обмеження (Internal Constraints): невеликий штат ІБ (<strong>лише 3 інженери</strong>), затверджений річний бюджет (<strong>$150,000</strong>) і застарілий монолітний модуль авторизації (технологічний борг).</li>
+                        <li><strong>Where do we want to be? (Target State):</strong> За 18 місяців вивести критичні процеси на стабільний стандартизований рівень, забезпечити надійний захист даних покупців та базову інфраструктурну гігієну для корпоративних контрактів.</li>
+                        <li><strong>What will we prioritize? (Ресурси та компроміси):</strong> Потрібно сформувати портфель пріоритетів із 4 кроків (<em>Non-Negotiables &rarr; Evaluate Options &rarr; Select Portfolio &rarr; Make Trade-offs Explicit</em>), уникаючи типових управлінських викривлень.</li>
+                    </ul>
+                    <p class="text-sm font-medium text-slate-900 pt-1">Оберіть одну з трьох запропонованих стратегій ІБ, яка найкраще відповідає на всі чотири ключові питання стратегії:</p>
+                `,
+                options: [
+                    {
+                        id: "A",
+                        label: "Варіант A: Стратегія «Технологічне лідерство та проактивний захист (Next-Gen Cyber Resilience)»",
+                        desc: "Ціль на 18 місяців — NIST CSF Adaptive (Tier 4) та CMMI Optimizing (Level 5) у всіх доменах. Основні інвестиції йдуть у SIEM/SOAR із AI-аналітикою та цілодобовий SOC 24/7; рефакторинг старого модуля авторизації та комплаєнс GDPR переносяться на 2-й рік. Бюджет формується від подвоєного торішнього IT-бюджету з наймом аналітиків.",
+                        style: "bg-blue-50 border-blue-300",
+                        titleColor: "text-slate-900",
+                        metrics: { security: 62, trust: 55, budget: 0, risk: "Високий" },
+                        trustText: "-20% (55%)",
+                        trustClass: "text-rose-600",
+                        costText: "$320,000 (Перевищення ліміту $150k удвічі!)",
+                        riskClass: "text-rose-600",
+                        takeaway: "❌ Стратегія не відповідає контексту та обмеженням компанії. Попри привабливу обгортку «технологічного лідерства», тут порушено послідовність пріоритизації: проігноровано перший крок Non-Negotiables (обов'язкові вимоги GDPR та закриття критичного ризику авторизації), не враховано Internal Constraints (штат 3 людини та ліміт $150k), а цільовий рівень Adaptive / Optimizing є нереалістичним стрибком із поточного стану Partial."
+                    },
+                    {
+                        id: "B",
+                        label: "Варіант B: Стратегія «Швидкий комплаєнс та оптимізація витрат (Lean Compliance & Core Defense)»",
+                        desc: "Зберігаємо поточну операційну модель на рівні Risk Informed (NIST CSF Tier 2). Пріоритет — розробка пакета політик для європейських клієнтів та оновлення звичних фаєрволів і антивірусів. Модернізація монолітного модуля авторизації та хмарного IAM відкладаються, щоб не чіпати стабільність релізів.",
+                        style: "bg-rose-50 border-rose-300",
+                        titleColor: "text-rose-950",
+                        metrics: { security: 58, trust: 60, budget: 105000, risk: "Критичний" },
+                        trustText: "-15% (60%)",
+                        trustClass: "text-rose-700",
+                        costText: "$45,000 (Залишок: $105,000)",
+                        riskClass: "text-rose-700",
+                        takeaway: "❌ Підміна стратегії паперовим комплаєнсом та інерцією. Цей підхід виглядає безпечним для бюджету, але порушує принцип Outcome-Oriented: замість побудови цільових спроможностей (target capabilities) відбувається підміна Strategy набором Policy. Крім того, збереження звичних інструментів замість вирішення проблеми з авторизацією є проявом Status Quo Bias, а неприйнятний ризик витоку даних залишається незакритим."
+                    },
+                    {
+                        id: "C",
+                        label: "Варіант C: Стратегія «Фокусоване масштабування спроможностей (Secure European Expansion)»",
+                        desc: "Цільовий стан за 18 місяців — перехід критичних процесів із Partial/Risk Informed на стандартизований рівень Repeatable (NIST CSF Tier 3) та Defined (CMMI Level 3). На першому кроці закриваються Non-Negotiables (GDPR, перебудова IAM і заміна старого модуля авторизації, базове реагування на інциденти). Команда з 3 інженерів фокусується на Identity & Data Protection, моніторинг 24/7 передається зовнішньому MSSP, а власний SOC і AI свідомо відкладаються на 12 місяців із фіксацією компромісів.",
+                        style: "bg-emerald-50 border-emerald-300",
+                        titleColor: "text-emerald-950",
+                        metrics: { security: 88, trust: 100, budget: 10000, risk: "Низький" },
+                        trustText: "+25% (100%)",
+                        trustClass: "text-emerald-700",
+                        costText: "$140,000 (Залишок: $10,000 із $150,000)",
+                        riskClass: "text-emerald-700",
+                        takeaway: "✅ Збалансована та реалістична стратегія CISO. Ви побудували рішення навколо всіх чотирьох ключових питань, врахували Internal Constraints (люди, бюджет, техборг) і провели ініціативи через усі 4 кроки пріоритизації — від обов'язкового базового рівня (Non-Negotiables) до чесної фіксації відкладених напрямів (Make Trade-offs Explicit)."
+                    }
+                ]
+            }
+        },
+        7: {
+            defaultMetrics: { security: 65, trust: 75, budget: 100000, risk: 'Високий' },
+            practiceBadge: "Практика 7",
+            practiceTitle: "Перевірка знань: Security Strategy Execution",
+            lectureHTML: `
+                <div class="border-b border-slate-200 pb-5">
+                    <span class="text-xs font-semibold uppercase tracking-wider text-blue-700 bg-blue-50 px-3 py-1 rounded">Лекція 7</span>
+                    <h1 class="text-2xl font-bold text-slate-900 mt-2">Security Strategy Execution</h1>
+                    <p class="text-sm text-slate-500 mt-1">Перетворення стратегії на спроможності, каскадування цілей, RAID Log, управління виконанням та передача в BAU</p>
+                </div>
+
+                <!-- 1. Strategy vs Security Program & Security Capability -->
+                <section class="space-y-4">
+                    <h2 class="text-lg font-bold text-slate-900">1. Strategy vs Security Program та Security Capability</h2>
+                    <p class="text-sm text-slate-700"><strong>Security Strategy Execution</strong> — перетворення затвердженої стратегії інформаційної безпеки на реальні спроможності, ефективні контролі та вимірювані результати.</p>
+
+                    <div class="grid md:grid-cols-2 gap-5 text-xs">
+                        <div class="p-5 rounded-lg border border-slate-200 bg-white space-y-1.5">
+                            <div class="font-bold text-sm text-[#122d55]">Information Security Strategy</div>
+                            <p class="text-slate-700">Визначає бажаний стан (<strong>Target State</strong>), бізнес-пріоритети та очікувані результати.</p>
+                        </div>
+                        <div class="p-5 rounded-lg border border-slate-200 bg-slate-50 space-y-1.5">
+                            <div class="font-bold text-sm text-[#122d55]">Information Security Program</div>
+                            <p class="text-slate-700">Організована сукупність взаємопов'язаних спроможностей, процесів, контролів, ресурсів і робіт для досягнення та підтримання стратегії.</p>
+                            <p class="pt-1 text-slate-600"><strong>Дві складові:</strong> <em>Program Development</em> (що створити або змінити?) та <em>Program Management</em> (як організувати роботу, залежності й перевірку ефективності?).</p>
+                        </div>
+                    </div>
+
+                    <div class="p-5 rounded-lg border border-blue-200 bg-blue-50/40 text-xs space-y-2">
+                        <div class="font-bold text-sm text-[#122d55]">Security Capability (Спроможність) — стійка здатність забезпечувати функцію ІБ:</div>
+                        <div class="grid md:grid-cols-3 gap-3 text-slate-700">
+                            <div class="bg-white p-3.5 rounded border border-slate-200"><strong>Технології:</strong> PAM, MFA, інтеграції, журнали й моніторинг.</div>
+                            <div class="bg-white p-3.5 rounded border border-slate-200"><strong>Процеси:</strong> погодження, перегляд, відкликання доступів, винятки.</div>
+                            <div class="bg-white p-3.5 rounded border border-slate-200"><strong>Люди:</strong> власники контролів, адміністратори, операційна підтримка.</div>
+                        </div>
+                        <p class="text-slate-700 italic pt-1">Note: Security Capability не можна ототожнювати з конкретним продуктом чи обладнанням — без процесів, підготовлених команд та тестування система не дає результату.</p>
+                    </div>
+                </section>
+
+                <!-- 2. Три типи робіт та 5 кроків Execution Roadmap -->
+                <section class="space-y-4 pt-2">
+                    <h2 class="text-lg font-bold text-slate-900">2. Три типи робіт у Security Program та Execution Roadmap</h2>
+                    <div class="grid md:grid-cols-3 gap-5 text-xs">
+                        <div class="p-5 rounded-lg border border-slate-200 bg-slate-50 space-y-1.5">
+                            <div class="font-bold text-sm text-[#122d55]">Project</div>
+                            <p class="text-slate-700">Тимчасова робота з виділеним бюджетом, строком і визначеним результатом (наприклад: впровадження PAM-платформи).</p>
+                        </div>
+                        <div class="p-5 rounded-lg border border-slate-200 bg-slate-50 space-y-1.5">
+                            <div class="font-bold text-sm text-[#122d55]">Changes by Functional Teams</div>
+                            <p class="text-slate-700">Покращення силами постійних команд у межах їхніх робочих циклів (DevOps додає перевірку секретів у CI/CD, SOC оновлює правила моніторингу).</p>
+                        </div>
+                        <div class="p-5 rounded-lg border border-slate-200 bg-slate-50 space-y-1.5">
+                            <div class="font-bold text-sm text-[#122d55]">Operations (BAU)</div>
+                            <p class="text-slate-700">Регулярне функціонування процесів і контролів (щоденна обробка заявок на доступ, щоквартальний access review, щомісячний патчінг).</p>
+                        </div>
+                    </div>
+
+                    <div class="p-4 rounded-lg border border-slate-200 bg-white text-xs space-y-2">
+                        <div class="font-bold text-slate-900">Execution Roadmap — 5 кроків побудови:</div>
+                        <div class="grid md:grid-cols-5 gap-2 text-slate-700">
+                            <div class="p-2.5 rounded bg-slate-50 border border-slate-200"><strong>1. Цільові результати:</strong> спроможності й метрики, що підтвердять Target State.</div>
+                            <div class="p-2.5 rounded bg-slate-50 border border-slate-200"><strong>2. Необхідні зміни:</strong> зафіксувати прогалини та конкретні deliverables.</div>
+                            <div class="p-2.5 rounded bg-slate-50 border border-slate-200"><strong>3. Послідовність і залежності:</strong> що робиться паралельно, а що чекає на передумови.</div>
+                            <div class="p-2.5 rounded bg-slate-50 border border-slate-200"><strong>4. Milestones, owners, критерії:</strong> відповідальні та спосіб підтвердження результату.</div>
+                            <div class="p-2.5 rounded bg-slate-50 border border-slate-200"><strong>5. Ресурси, строки, перегляд:</strong> реалістичність плану та правила реагування на відхилення.</div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 3. Каскадування цілей (Goals Cascade) -->
+                <section class="space-y-4 pt-2">
+                    <h2 class="text-lg font-bold text-slate-900">3. Каскадування цілей (Goals Cascade)</h2>
+                    <p class="text-sm text-slate-700">Каскадування — це узгодження внеску кожної команди в спільний річний результат, а не механічний розподіл задач.</p>
+
+                    <div class="grid md:grid-cols-5 gap-3 text-xs">
+                        <div class="p-3.5 rounded-lg border border-slate-200 bg-slate-50"><strong>Objective:</strong> бажана зміна результату, а не перелік активностей (<em>Value &ne; Activity</em>).</div>
+                        <div class="p-3.5 rounded-lg border border-slate-200 bg-slate-50"><strong>Business &amp; Security Value:</strong> користь для бізнесу (безперервність, захист клієнтів) та зниження ризику.</div>
+                        <div class="p-3.5 rounded-lg border border-slate-200 bg-slate-50"><strong>Key Results / KPIs:</strong> вимірювані показники прогресу, а не факт виконання задачі (<em>KR &ne; Task</em>).</div>
+                        <div class="p-3.5 rounded-lg border border-slate-200 bg-slate-50"><strong>Acceptance Criteria:</strong> конкретні умови та докази приймання результату.</div>
+                        <div class="p-3.5 rounded-lg border border-slate-200 bg-slate-50"><strong>Definition of Done (DoD):</strong> загальний стандарт завершеності та якості робіт.</div>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-4 text-xs">
+                        <div class="p-4 rounded-lg border border-rose-200 bg-rose-50/50 text-rose-950">
+                            <strong>❌ Слабка ціль (Security Awareness):</strong> «Забезпечити проходження навчання 100% співробітників» — вимірює лише активність.
+                        </div>
+                        <div class="p-4 rounded-lg border border-emerald-200 bg-emerald-50/50 text-emerald-950">
+                            <strong>✅ Якісна ціль (Security Awareness):</strong> «Підвищити здатність розпізнавати фішинг: знизити click rate з 18% до 8% та підвищити reporting rate з 25% до 50%».
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 4. Залежності, Milestones та RAID Log -->
+                <section class="space-y-4 pt-2">
+                    <h2 class="text-lg font-bold text-slate-900">4. Залежності, Milestones та RAID Log</h2>
+                    <div class="grid md:grid-cols-2 gap-5 text-xs">
+                        <div class="p-5 rounded-lg border border-slate-200 bg-white space-y-2">
+                            <div class="font-bold text-sm text-[#122d55]">Dependency vs Issue vs Risk та Milestone vs Decision Gate</div>
+                            <p><strong>Dependency:</strong> потрібна передумова від іншої команди чи системи (напр., PAM інтеграція чекає на Identity Platform Upgrade).</p>
+                            <p><strong>Issue:</strong> проблема вже виникла (підтверджена затримка на 6 тижнів).</p>
+                            <p><strong>Risk:</strong> можливий майбутній наслідок (недосягнення річного охоплення систем).</p>
+                            <div class="pt-1 border-t border-slate-200">
+                                <strong>Milestone:</strong> значущий контрольний результат етапу.<br>
+                                <strong>Decision Gate:</strong> перевірка критеріїв із управлінським рішенням (<em>Go / No-Go</em>: продовжити, скоригувати чи зупинити).
+                            </div>
+                        </div>
+
+                        <div class="p-5 rounded-lg border border-slate-200 bg-slate-50 space-y-2">
+                            <div class="font-bold text-sm text-[#122d55]">RAID Log (питання для управлінської уваги)</div>
+                            <ul class="space-y-1.5 text-slate-700">
+                                <li><strong>R — Risk:</strong> що може статися?</li>
+                                <li><strong>A — Assumption:</strong> що ми припускаємо під час планування?</li>
+                                <li><strong>I — Issue:</strong> що вже сталося і потребує дій?</li>
+                                <li><strong>D — Dependency:</strong> від чого залежить виконання?</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 5. Управління виконанням, Три рівні контролю та Передача в BAU -->
+                <section class="space-y-4 pt-2">
+                    <h2 class="text-lg font-bold text-slate-900">5. Governance, Cadence, Рівні контролю та Передача в BAU</h2>
+                    <div class="grid md:grid-cols-2 gap-5 text-xs">
+                        <div class="p-5 rounded-lg border border-slate-200 bg-slate-50 space-y-1.5">
+                            <div class="font-bold text-sm text-[#122d55]">Execution Governance &amp; Cadence</div>
+                            <p><strong>Рівні рішень:</strong> <em>CISO / Leadership</em> (стратегічні результати, перерозподіл бюджету, пріоритети) &rarr; <em>Program / Domain Owner</em> (інтегроване виконання, залежності, прогноз) &rarr; <em>Team / Workstream Owners</em> (результати, якість, блокери).</p>
+                            <p><strong>Ритм управління:</strong> Annual Planning &rarr; Quarterly Planning &rarr; Monthly Execution Review &rarr; Weekly Team Check-in + <em>Event-driven escalation</em> (негайна ескалація критичного блокера).</p>
+                            <p class="pt-1 border-t border-slate-200"><strong>Execution Risk &ne; Cybersecurity Risk:</strong> затримка впровадження контролів подовжує період вразливості (exposure) і вимагає тимчасових контролів або офіційного risk acceptance.</p>
+                        </div>
+
+                        <div class="p-5 rounded-lg border border-slate-200 bg-white space-y-2">
+                            <div class="font-bold text-sm text-[#122d55]">Три рівні контролю результатів</div>
+                            <p><strong>1. Delivery (Що виконано?):</strong> технічні роботи, інтеграції (напр., 42 із 60 систем підключено до PAM).</p>
+                            <p><strong>2. Capability (Що реально працює?):</strong> перевірені контролі, операційна готовність (напр., контролі працюють на 48% систем).</p>
+                            <p><strong>3. Outcome (Що змінилося для ІБ?):</strong> реальний вплив на ризик та target state (зменшення неконтрольованих адмін-шляхів).</p>
+                            <p class="text-amber-900 font-medium pt-1">⚠️ 70% технічно інтегрованих систем (Delivery) &ne; 70% ефективного контролю (Capability) &ne; 70% зниження ризику (Outcome).</p>
+                        </div>
+                    </div>
+
+                    <div class="p-4 rounded-lg border border-emerald-200 bg-emerald-50/40 text-xs text-emerald-950 space-y-1">
+                        <div><strong>Результати Strategy Review:</strong> Confirm (підтвердити) &bull; Adjust (скоригувати) &bull; Add (додати нові вимоги) &bull; Stop / De-scope (прибрати неактуальне) &bull; Re-plan (оновити строки).</div>
+                        <div><strong>Умови завершення проєкту та передачі в BAU:</strong> Delivery completed &rarr; Controls validated &rarr; Operational ownership визначено &rarr; BAU readiness підтверджено &rarr; Residual gaps мають власників і строки.</div>
+                    </div>
+                </section>
+            `,
+            quizzes: [
+                {
+                    type: "single",
+                    question: "1. У чому полягає принципова різниця між Information Security Strategy та Information Security Program?",
+                    options: [
+                        "А) Strategy пишеться виключно для зовнішніх аудиторів, а Program — для внутрішніх технічних спеціалістів.",
+                        "Б) Strategy визначає бажаний цільовий стан і пріоритети, тоді як Program організовує людей, процеси, технології та проєкти для досягнення й сталого підтримання цих спроможностей.",
+                        "В) Strategy охоплює лише технічні засоби захисту, а Program відповідає виключно за бюджетування та закупівлі.",
+                        "Г) Між цими поняттями немає різниці: затверджена стратегія автоматично є програмою виконання."
+                    ],
+                    correct: 1,
+                    takeaway: "Затверджена стратегія визначає напрям («Куди йдемо?»), але реальні зміни та підтримання результатів у часі забезпечує саме Security Program."
+                },
+                {
+                    type: "single",
+                    question: "2. Команда Security Awareness сформулювала річну ціль: «Забезпечити проходження навчання з кібербезпеки 100% співробітників банку». Чому це формулювання є слабким із погляду управління програмою ІБ?",
+                    options: [
+                        "А) Оскільки навчання неможливо провести для керівництва компанії та підрядників.",
+                        "Б) Воно вимірює лише активність (завершення курсу), а не реальний результат чи зміну поведінки (наприклад, зниження phishing click rate та зростання reporting rate).",
+                        "В) У річних цілях заборонено використовувати відсоткові показники.",
+                        "Г) Навчання співробітників належить до категорії BAU, тому для нього взагалі не ставлять цілей."
+                    ],
+                    correct: 1,
+                    takeaway: "Value ≠ Activity, а Key Result ≠ Task. Справжня цінність виникає тоді, коли змінюється поведінка працівників і знижується ризик компрометації, а не коли просто закрито чекліст проходження навчання."
+                },
+                {
+                    type: "single",
+                    question: "3. У проєкті впровадження PAM оновлення базової платформи автентифікації (Identity Platform Upgrade), від якого залежить підключення систем, офіційно затримується на 6 тижнів. Як цей факт класифікується в управлінському реєстрі RAID Log?",
+                    options: [
+                        "А) Assumption (Припущення)",
+                        "Б) Dependency (Залежність)",
+                        "В) Issue (Проблема)",
+                        "Г) Definition of Done (Критерій завершеності)"
+                    ],
+                    correct: 2,
+                    takeaway: "Dependency — це потрібна передумова до початку робіт; Issue — проблема, яка вже виникла зараз (підтверджена затримка); Risk — можливий майбутній наслідок (наприклад, недосягнення річного охоплення систем)."
+                },
+                {
+                    type: "single",
+                    question: "4. Компанія технічно підключила 42 із 60 критичних систем до нової PAM-платформи (70% охоплення), але перевірені контролі реально працюють і підтримуються операційною командою лише на 48% систем. Який рівень контролю реалізації стратегії вимірює показник «48% працюючих контролів»?",
+                    options: [
+                        "А) Delivery (виконання робіт)",
+                        "Б) Capability (реальна робоча спроможність)",
+                        "В) Outcome (вплив на стратегічний ризик)",
+                        "Г) Business As Usual (BAU)"
+                    ],
+                    correct: 1,
+                    takeaway: "70% технічно інтегрованих систем (Delivery) не дорівнює 70% ефективного контролю (Capability), а той, своєю чергою, не дорівнює 70% зниження ризику (Outcome)."
+                },
+                {
+                    type: "multi",
+                    requiredCount: 3,
+                    question: "5. [МНОЖИННИЙ ВИБІР] Які з наведених умов мають бути виконані перед тим, як етап впровадження змін (Project / Change) можна вважати успішно завершеним і передати в сталий режим програми (BAU)? (Оберіть 3 правильні варіанти)",
+                    options: [
+                        "А) Контролі пройшли практичну перевірку ефективності (Controls validated)",
+                        "Б) Усі 100% співробітників компанії отримали права адміністратора для тестування системи",
+                        "В) Визначено власників процесів та підтверджено готовність операційної підтримки (Operational ownership & BAU readiness)",
+                        "Г) Повністю скасовано подальший моніторинг та перегляд прав доступу",
+                        "Д) Усі незакриті залишкові недоліки (Residual gaps) зафіксовані, мають відповідальних власників та погоджені строки усунення",
+                        "Е) Документацію та процедури винятків перенесено на наступний рік без призначення відповідальних"
+                    ],
+                    correct: [0, 2, 4],
+                    takeaway: "Завершення проєкту — це не лише встановлення продукту, а передача робочої спроможності в експлуатацію з перевіреними контролями, операційною підтримкою та планом закриття залишкових прогалин."
+                }
+            ],
+            simulator: {
+                type: "single",
+                badge: "Симулятор 7",
+                title: "Зрив графіка Security Roadmap у банку FinCor",
+                contextHTML: `
+                    <p class="text-sm text-slate-700">
+                        Ви — CISO у банку <strong>FinCor</strong>. Рада директорів затвердила вашу річну стратегічну ціль: до кінця року щонайменше <strong>85% із 60 критичних банківських систем</strong> повинні мати перевірені ефективні PAM-контролі для зменшення експозиції до неконтрольованого привілейованого доступу.
+                    </p>
+                    <p class="text-sm text-slate-700">
+                        На щомісячному <em>Monthly Execution Review</em> власник напряму Identity Security доповідає про відхилення: через <strong>6-тижневу затримку оновлення Identity Platform</strong> перша хвиля підключення 10 критичних систем опинилася під загрозою зриву. Водночас команда IT Operations попереджає, що не встигає підготувати процедури підтримки для прийняття систем в експлуатацію, а частина власників систем пропонує взагалі виключити складні legacy-системи зі scope цього року, щоб вчасно відзвітувати про виконання KPI. У вас є <strong>$100,000</strong> резервного бюджету програми.
+                    </p>
+                    <p class="text-sm font-medium text-slate-900 pt-1">Оберіть один із трьох управлінських шляхів реагування на це відхилення:</p>
+                `,
+                options: [
+                    {
+                        id: "A",
+                        label: "Варіант A: «Жорстке дотримання графіка та обрізання Scope» (Delivery-First)",
+                        desc: "Ви вимагаєте від команд будь-що виконати квартальний KPI за кількістю підключених систем. Щоб вкластися в строки попри затримку Identity Platform, ви погоджуєтесь виключити 12 складних legacy-систем із річного плану («перенесемо на наступний рік»), а перші 10 систем підключаєте до PAM у спрощеному режимі, не чекаючи, поки IT Operations напише процедури моніторингу та відкликання доступів.",
+                        style: "bg-blue-50 border-blue-300",
+                        titleColor: "text-slate-900",
+                        metrics: { security: 60, trust: 60, budget: 85000, risk: "Високий" },
+                        trustText: "-15% (60%)",
+                        trustClass: "text-rose-600",
+                        costText: "$15,000 (Залишок: $85,000)",
+                        riskClass: "text-rose-600",
+                        takeaway: "❌ Класична пастка «оманливих показників прогресу» та неконтрольованої зміни scope. Ви оптимізували метрику Delivery (кількість підключень), але провалили Capability та Outcome — привілейований доступ до найвразливіших систем залишився без реального контролю."
+                    },
+                    {
+                        id: "B",
+                        label: "Варіант B: «Перепланування черговості, тимчасові контролі та підготовка Ops»",
+                        desc: "Ви скликаєте позачерговий Decision Gate із власниками напрямів та командами. Замість того щоб чекати на Identity Platform, ви змінюєте послідовність (re-sequencing): у Q2 підключаєте ті критичні системи, які не залежать від оновлення платформи, а для 10 заблокованих систем разом із Risk Owners запроваджуєте тимчасові компенсаційні контролі (посилений моніторинг сесій адмінів та ручний щотижневий review). Частину бюджету спрямовуєте на залучення додаткових інженерів, щоб допомогти IT Operations вчасно завершити процедури підтримки й приймання систем.",
+                        style: "bg-emerald-50 border-emerald-300",
+                        titleColor: "text-emerald-950",
+                        metrics: { security: 88, trust: 90, budget: 55000, risk: "Помірний" },
+                        trustText: "+15% (90%)",
+                        trustClass: "text-emerald-700",
+                        costText: "$45,000 (Залишок: $55,000)",
+                        riskClass: "text-amber-700",
+                        takeaway: "✅ Еталонне застосування Program Management. Ви розрізнили Execution Risk і Cybersecurity Risk: затримку в Roadmap закрили тимчасовими контролями, перебудували черговість хвиль інтеграції та забезпечили готовність операційної команди (BAU) приймати систему в роботу."
+                    },
+                    {
+                        id: "C",
+                        label: "Варіант C: «Заморозити програму та чекати на суміжну команду» (Passive Escalation)",
+                        desc: "Ви фіксуєте в RAID Log, що затримка сталася з вини команди Security Engineering, і повністю призупиняєте роботи по PAM-програмі на 6 тижнів, доки суміжний департамент не виправить баги в Identity Platform. Жодних тимчасових заходів не вживається, адже «за планом спочатку має бути готова базова платформа».",
+                        style: "bg-rose-50 border-rose-300",
+                        titleColor: "text-rose-950",
+                        metrics: { security: 45, trust: 55, budget: 100000, risk: "Критичний" },
+                        trustText: "-20% (55%)",
+                        trustClass: "text-rose-700",
+                        costText: "$0 (Залишок: $100,000)",
+                        riskClass: "text-rose-700",
+                        takeaway: "❌ Управління програмою — це не пасивне очікування ідеальних умов. Коли критична залежність (Dependency) перетворюється на проблему (Issue), CISO зобов'язаний адаптувати план, шукати паралельні треки робіт і закривати вікно експозиції тимчасовими контролями."
+                    }
+                ]
+            }
+        }
+    };
+
+    let currentModuleId = 7;
+    let answeredQuestions = { 1: {}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}, 7: {} };
+    let multiSelections = { 3: {}, 7: {} };
+    let selectedDecisions = { 1: null, 2: null, 3: { part1: null, part2: null }, 4: null, 5: null, 6: null, 7: null };
+
+    function switchModule(modId) {
+        currentModuleId = modId;
+
+        [1, 2, 3, 4, 5, 6, 7].forEach(id => {
+            const btn = document.getElementById('mod-btn-' + id);
+            if (id === modId) {
+                btn.className = "px-3.5 py-1.5 rounded-lg text-xs font-semibold transition bg-[#122d55] text-white shadow-sm";
+            } else {
+                btn.className = "px-3.5 py-1.5 rounded-lg text-xs font-semibold transition bg-slate-100 text-slate-700 hover:bg-slate-200";
+            }
+        });
+
+        renderModuleContent();
+    }
+
+    function renderModuleContent() {
+        const mod = modulesData[currentModuleId];
+
+        // 1. Render Lecture
+        document.getElementById('lecture-container').innerHTML = mod.lectureHTML;
+
+        // 2. Render Practice
+        document.getElementById('practice-badge').innerText = mod.practiceBadge;
+        document.getElementById('practice-title').innerText = mod.practiceTitle;
+        renderQuiz();
+
+        // 3. Render Simulator
+        renderSimulator();
+    }
+
+    function renderQuiz() {
+        const mod = modulesData[currentModuleId];
+        const container = document.getElementById('quiz-container');
+        const currentAnswers = answeredQuestions[currentModuleId];
+        container.innerHTML = '';
+
+        mod.quizzes.forEach((q, qIndex) => {
+            const qBlock = document.createElement('div');
+            qBlock.className = "p-6 bg-slate-50 rounded-xl border border-slate-200 space-y-4";
+
+            if (q.type === "multi") {
+                if (!multiSelections[currentModuleId]) multiSelections[currentModuleId] = {};
+                if (!multiSelections[currentModuleId][qIndex]) multiSelections[currentModuleId][qIndex] = [];
+
+                const selectedArr = multiSelections[currentModuleId][qIndex];
+                const isSubmitted = currentAnswers[qIndex] !== undefined;
+
+                let optionsHtml = q.options.map((opt, oIndex) => {
+                    const isChecked = selectedArr.includes(oIndex);
+                    let btnStyle = isChecked
+                        ? "border-blue-600 bg-blue-50/70 text-slate-900 font-medium"
+                        : "border-slate-300 bg-white hover:border-blue-400 text-slate-800";
+
+                    if (isSubmitted) {
+                        const isActuallyCorrect = q.correct.includes(oIndex);
+                        if (isActuallyCorrect) {
+                            btnStyle = "border-emerald-500 bg-emerald-50 text-emerald-900 font-semibold";
+                        } else if (isChecked && !isActuallyCorrect) {
+                            btnStyle = "border-rose-400 bg-rose-50 text-rose-900";
+                        } else {
+                            btnStyle = "border-slate-200 bg-white text-slate-400";
+                        }
+                    }
+
+                    return `
+                        <button onclick="toggleMultiOption(${qIndex}, ${oIndex})" ${isSubmitted ? 'disabled' : ''} class="w-full p-3.5 text-left border rounded-lg transition text-sm flex items-center space-x-3 ${btnStyle}">
+                            <span class="w-4 h-4 rounded border flex items-center justify-center text-xs ${isChecked ? 'bg-blue-600 border-blue-600 text-white' : 'border-slate-400 bg-white'}">
+                                ${isChecked ? '✓' : ''}
+                            </span>
+                            <span>${opt}</span>
+                        </button>
+                    `;
+                }).join('');
+
+                let actionOrFeedback = '';
+                if (!isSubmitted) {
+                    actionOrFeedback = `
+                        <button onclick="submitMultiAnswer(${qIndex})" class="px-4 py-2 bg-[#122d55] text-white text-xs font-semibold rounded-lg hover:bg-blue-900 transition">
+                            Перевірити відповідь (обрано ${selectedArr.length} з ${q.requiredCount})
+                        </button>
+                    `;
+                } else {
+                    const isAllCorrect = selectedArr.length === q.correct.length && q.correct.every(val => selectedArr.includes(val));
+                    actionOrFeedback = `
+                        <div class="p-4 rounded-lg text-xs border ${isAllCorrect ? 'bg-emerald-50/80 border-emerald-200 text-emerald-900' : 'bg-amber-50 border-amber-200 text-amber-900'}">
+                            <strong>${isAllCorrect ? '✅ Усі правильні варіанти обрано!' : '⚠️ Є неточності.'} Takeaway:</strong> ${q.takeaway}
+                        </div>
+                    `;
+                }
+
+                qBlock.innerHTML = `
+                    <div class="font-semibold text-slate-900 text-sm">${q.question}</div>
+                    <div class="space-y-2.5">${optionsHtml}</div>
+                    <div>${actionOrFeedback}</div>
+                `;
+            } else {
+                let optionsHtml = q.options.map((opt, oIndex) => {
+                    let btnStyle = "border-slate-300 bg-white hover:border-blue-500 hover:bg-blue-50/40 text-slate-800";
+                    if (currentAnswers[qIndex] !== undefined) {
+                        if (oIndex === q.correct) {
+                            btnStyle = "border-emerald-500 bg-emerald-50 text-emerald-900 font-semibold";
+                        } else if (oIndex === currentAnswers[qIndex]) {
+                            btnStyle = "border-rose-400 bg-rose-50 text-rose-900";
+                        } else {
+                            btnStyle = "border-slate-200 bg-white text-slate-400";
+                        }
+                    }
+                    return `
+                        <button onclick="selectAnswer(${qIndex}, ${oIndex})" class="w-full p-3.5 text-left border rounded-lg transition text-sm ${btnStyle}">
+                            ${opt}
+                        </button>
+                    `;
+                }).join('');
+
+                let takeawayHtml = '';
+                if (currentAnswers[qIndex] !== undefined) {
+                    const isCorrect = currentAnswers[qIndex] === q.correct;
+                    takeawayHtml = `
+                        <div class="p-4 rounded-lg text-xs border ${isCorrect ? 'bg-emerald-50/80 border-emerald-200 text-emerald-900' : 'bg-amber-50 border-amber-200 text-amber-900'}">
+                            <strong>${isCorrect ? '✅ Правильно!' : '❌ Невірно.'} Takeaway:</strong> ${q.takeaway}
+                        </div>
+                    `;
+                }
+
+                qBlock.innerHTML = `
+                    <div class="font-semibold text-slate-900 text-sm">${q.question}</div>
+                    <div class="space-y-2.5">${optionsHtml}</div>
+                    ${takeawayHtml}
+                `;
+            }
+
+            container.appendChild(qBlock);
+        });
+
+        document.getElementById('quiz-progress').innerText = `${Object.keys(currentAnswers).length} / ${mod.quizzes.length}`;
+    }
+
+    function selectAnswer(qIndex, oIndex) {
+        answeredQuestions[currentModuleId][qIndex] = oIndex;
+        renderQuiz();
+    }
+
+    function toggleMultiOption(qIndex, oIndex) {
+        if (answeredQuestions[currentModuleId][qIndex] !== undefined) return;
+        const arr = multiSelections[currentModuleId][qIndex];
+        const idx = arr.indexOf(oIndex);
+        if (idx > -1) {
+            arr.splice(idx, 1);
+        } else {
+            arr.push(oIndex);
+        }
+        renderQuiz();
+    }
+
+    function submitMultiAnswer(qIndex) {
+        const arr = multiSelections[currentModuleId][qIndex];
+        if (arr.length === 0) return;
+        answeredQuestions[currentModuleId][qIndex] = [...arr];
+        renderQuiz();
+    }
+
+    function resetQuiz() {
+        answeredQuestions[currentModuleId] = {};
+        if (multiSelections[currentModuleId]) multiSelections[currentModuleId] = {};
+        renderQuiz();
+    }
+
+    function switchTab(tabId) {
+        document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+        document.getElementById('tab-' + tabId).classList.add('active');
+
+        ['lectures', 'tests', 'simulator'].forEach(id => {
+            const btn = document.getElementById('tab-btn-' + id);
+            if (id === tabId) {
+                btn.className = "px-5 py-2 rounded-md text-xs font-semibold tracking-wide transition-all text-white bg-blue-600 shadow";
+            } else {
+                btn.className = "px-5 py-2 rounded-md text-xs font-semibold tracking-wide transition-all text-slate-300 hover:text-white";
+            }
+        });
+    }
+
+    function renderSimulator() {
+        const mod = modulesData[currentModuleId];
+        const sim = mod.simulator;
+        const simContainer = document.getElementById('simulator-container');
+
+        if (sim.type === "two-stage") {
+            const p1OptionsHtml = sim.part1.options.map(opt => `
+                <button onclick="makeTwoStageDecision(1, '${opt.id}')" id="sim3-p1-${opt.id}" class="w-full p-4 border border-slate-300 rounded-xl hover:border-blue-600 hover:bg-blue-50/30 transition text-left space-y-1.5">
+                    <div class="font-bold text-slate-900 text-sm">${opt.label}</div>
+                    <p class="text-xs text-slate-600">${opt.desc}</p>
+                </button>
+            `).join('');
+
+            const p2OptionsHtml = sim.part2.options.map(opt => `
+                <button onclick="makeTwoStageDecision(2, '${opt.id}')" id="sim3-p2-${opt.id}" class="w-full p-4 border border-slate-300 rounded-xl hover:border-blue-600 hover:bg-blue-50/30 transition text-left space-y-1.5">
+                    <div class="font-bold text-slate-900 text-sm">${opt.label}</div>
+                    <p class="text-xs text-slate-600">${opt.desc}</p>
+                </button>
+            `).join('');
+
+            simContainer.innerHTML = `
+                <div class="border-b border-slate-200 pb-4 flex flex-wrap justify-between items-center gap-4">
+                    <div>
+                        <span class="text-xs font-bold text-blue-700 bg-blue-50 px-3 py-1 rounded uppercase">${sim.badge}</span>
+                        <h2 class="text-xl font-bold text-slate-900 mt-2">${sim.title}</h2>
+                    </div>
+                    <button onclick="resetSimulator()" class="text-xs font-medium text-slate-500 hover:text-slate-800 underline">
+                        Скинути симуляцію
+                    </button>
+                </div>
+
+                <!-- Part 1 -->
+                <div class="bg-slate-50 p-6 rounded-xl border border-slate-200 space-y-4">
+                    ${sim.part1.contextHTML}
+                    <div class="space-y-3">${p1OptionsHtml}</div>
+                    <div id="sim3-p1-feedback" class="hidden p-4 rounded-lg text-xs border"></div>
+                </div>
+
+                <!-- Part 2 -->
+                <div class="bg-slate-50 p-6 rounded-xl border border-slate-200 space-y-4">
+                    ${sim.part2.contextHTML}
+                    <div class="space-y-3">${p2OptionsHtml}</div>
+                    <div id="sim3-p2-feedback" class="hidden p-5 rounded-xl text-sm border space-y-2"></div>
+                </div>
+            `;
+
+            const saved = selectedDecisions[3];
+            if (saved.part1) makeTwoStageDecision(1, saved.part1);
+            if (saved.part2) makeTwoStageDecision(2, saved.part2);
+            if (!saved.part2) updateDashboardMetrics(mod.defaultMetrics);
+            return;
+        }
+
+        // Standard single-stage simulator
+        const optionsHtml = sim.options.map(opt => `
+            <button onclick="makeDecision('${opt.id}')" id="sim-btn-${opt.id}" class="w-full p-5 border border-slate-300 rounded-xl hover:border-blue-600 hover:bg-blue-50/30 transition text-left space-y-2">
+                <div class="font-bold text-slate-900">${opt.label}</div>
+                <p class="text-xs text-slate-600">${opt.desc}</p>
+            </button>
+        `).join('');
+
+        simContainer.innerHTML = `
+            <div class="border-b border-slate-200 pb-4 flex flex-wrap justify-between items-center gap-4">
+                <div>
+                    <span class="text-xs font-bold text-blue-700 bg-blue-50 px-3 py-1 rounded uppercase">${sim.badge}</span>
+                    <h2 class="text-xl font-bold text-slate-900 mt-2">${sim.title}</h2>
+                </div>
+                <button onclick="resetSimulator()" class="text-xs font-medium text-slate-500 hover:text-slate-800 underline">
+                    Скинути симуляцію
+                </button>
+            </div>
+            <div class="bg-slate-50 p-6 rounded-xl border border-slate-200 space-y-2">
+                <div class="text-xs font-bold uppercase tracking-wider text-[#122d55]">Опис дилеми</div>
+                ${sim.contextHTML}
+            </div>
+            <div class="space-y-4">${optionsHtml}</div>
+            <div id="sim-feedback" class="hidden p-6 rounded-xl text-sm border space-y-3"></div>
+        `;
+
+        if (selectedDecisions[currentModuleId]) {
+            makeDecision(selectedDecisions[currentModuleId]);
+        } else {
+            updateDashboardMetrics(mod.defaultMetrics);
+        }
+    }
+
+    function makeTwoStageDecision(part, optionId) {
+        const sim = modulesData[3].simulator;
+        if (part === 1) {
+            selectedDecisions[3].part1 = optionId;
+            const opt = sim.part1.options.find(o => o.id === optionId);
+            sim.part1.options.forEach(o => {
+                const btn = document.getElementById('sim3-p1-' + o.id);
+                if (btn) btn.classList.remove('ring-2', 'ring-blue-600', 'bg-blue-50/40');
+            });
+            document.getElementById('sim3-p1-' + optionId).classList.add('ring-2', 'ring-blue-600', 'bg-blue-50/40');
+            const fb = document.getElementById('sim3-p1-feedback');
+            fb.className = `p-4 rounded-lg text-xs border ${opt.style}`;
+            fb.innerHTML = opt.feedback;
+        } else {
+            selectedDecisions[3].part2 = optionId;
+            const opt = sim.part2.options.find(o => o.id === optionId);
+            sim.part2.options.forEach(o => {
+                const btn = document.getElementById('sim3-p2-' + o.id);
+                if (btn) btn.classList.remove('ring-2', 'ring-blue-600', 'bg-blue-50/40');
+            });
+            document.getElementById('sim3-p2-' + optionId).classList.add('ring-2', 'ring-blue-600', 'bg-blue-50/40');
+            const fb = document.getElementById('sim3-p2-feedback');
+            fb.className = `p-5 rounded-xl text-sm border space-y-2 ${opt.style}`;
+            fb.innerHTML = `
+                <div class="font-bold ${opt.titleColor}">${opt.label}</div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3 py-1.5 text-xs font-semibold">
+                    <div class="bg-white p-2.5 rounded border border-slate-200">🤝 Business Trust: <span class="${opt.trustClass}">${opt.trustText}</span></div>
+                    <div class="bg-white p-2.5 rounded border border-slate-200">💰 Витрати: <span class="text-slate-900">${opt.costText}</span></div>
+                    <div class="bg-white p-2.5 rounded border border-slate-200">⚠️ Risk Level: <span class="${opt.riskClass}">${opt.metrics.risk}</span></div>
+                </div>
+                <p class="text-slate-800 text-xs"><strong>💡 CISO Takeaway:</strong> ${opt.takeaway}</p>
+            `;
+            updateDashboardMetrics(opt.metrics);
+        }
+    }
+
+    function makeDecision(optionId) {
+        selectedDecisions[currentModuleId] = optionId;
+        const sim = modulesData[currentModuleId].simulator;
+        const opt = sim.options.find(o => o.id === optionId);
+        if (!opt) return;
+
+        sim.options.forEach(o => {
+            const btn = document.getElementById('sim-btn-' + o.id);
+            if (btn) btn.classList.remove('ring-2', 'ring-blue-600', 'bg-blue-50/40');
+        });
+        const activeBtn = document.getElementById('sim-btn-' + optionId);
+        if (activeBtn) activeBtn.classList.add('ring-2', 'ring-blue-600', 'bg-blue-50/40');
+
+        const fb = document.getElementById('sim-feedback');
+        fb.className = `p-6 rounded-xl text-sm border space-y-3 ${opt.style}`;
+        fb.innerHTML = `
+            <div class="font-bold ${opt.titleColor}">${opt.label}</div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 py-2 text-xs font-semibold">
+                <div class="bg-white p-2.5 rounded border border-slate-200">🤝 Business Trust: <span class="${opt.trustClass}">${opt.trustText}</span></div>
+                <div class="bg-white p-2.5 rounded border border-slate-200">💰 Витрати: <span class="text-slate-900">${opt.costText}</span></div>
+                <div class="bg-white p-2.5 rounded border border-slate-200">⚠️ Risk Level: <span class="${opt.riskClass}">${opt.metrics.risk}</span></div>
+            </div>
+            <p class="text-slate-800"><strong>💡 CISO Takeaway:</strong> ${opt.takeaway}</p>
+        `;
+
+        updateDashboardMetrics(opt.metrics);
+    }
+
+    function updateDashboardMetrics(m) {
+        document.getElementById('metric-security').innerText = m.security + '%';
+        document.getElementById('metric-trust').innerText = m.trust + '%';
+        document.getElementById('metric-budget').innerText = '$' + m.budget.toLocaleString();
+        document.getElementById('metric-risk').innerText = m.risk;
+    }
+
+    function resetSimulator() {
+        if (currentModuleId === 3) {
+            selectedDecisions[3] = { part1: null, part2: null };
+        } else {
+            selectedDecisions[currentModuleId] = null;
+        }
+        renderSimulator();
+    }
+
+    // Ініціалізація при завантаженні (відкривається одразу Лекція 7)
+    renderModuleContent();
+</script>
+</body>
+</html>
