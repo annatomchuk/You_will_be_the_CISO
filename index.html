@@ -83,6 +83,9 @@
                 <button onclick="switchModule(6)" id="mod-btn-6" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold transition bg-slate-100 text-slate-700 hover:bg-slate-200">
                     Модуль 6. Security Strategy
                 </button>
+                <button onclick="switchModule(7)" id="mod-btn-7" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold transition bg-slate-100 text-slate-700 hover:bg-slate-200">
+                    Модуль 7. Security Implementation &amp; Execution
+                </button>
             </div>
             <div class="text-xs text-slate-500">
                 Прогрес практики модуля: <span id="quiz-progress" class="font-bold text-slate-800">0 / 5</span>
@@ -1764,18 +1767,261 @@
                     }
                 ]
             }
+        },
+        7: {
+            defaultMetrics: { security: 65, trust: 75, budget: 150000, risk: 'Високий' },
+            practiceBadge: "Практика 7",
+            practiceTitle: "Перевірка знань: Security Implementation & Execution",
+            lectureHTML: `
+                <div class="border-b border-slate-200 pb-5">
+                    <span class="text-xs font-semibold uppercase tracking-wider text-blue-700 bg-blue-50 px-3 py-1 rounded">Лекція 7</span>
+                    <h1 class="text-2xl font-bold text-slate-900 mt-2">Security Implementation &amp; Execution</h1>
+                    <p class="text-sm text-slate-500 mt-1">Архітектура програми реалізації (Roadmap, Milestones, Dependencies, Business Case), моделі постачання, управління ресурсами, операційний перехід у BAU та типові пастки виконання</p>
+                </div>
+
+                <!-- 1. From Strategy to Execution -->
+                <section class="space-y-4">
+                    <h2 class="text-lg font-bold text-slate-900">1. Від стратегії до виконання: Що таке Security Implementation</h2>
+                    <p class="text-sm text-slate-700"><strong>Security Implementation &amp; Execution</strong> — це переведення затвердженої стратегії інформаційної безпеки у керовані програми, проєкти, бізнес-кейси та стабільну операційну діяльність (BAU) із вимірюваним зниженням ризиків і створенням нових спроможностей.</p>
+
+                    <div class="grid md:grid-cols-4 gap-4 text-xs">
+                        <div class="p-4 rounded-lg border border-slate-200 bg-slate-50 space-y-1">
+                            <div class="font-bold text-[#122d55]">Strategy (Напрям)</div>
+                            <p class="text-slate-700">Визначає бажані результати, пріоритети та компроміси («Що і навіщо ми змінюємо?»).</p>
+                        </div>
+                        <div class="p-4 rounded-lg border border-slate-200 bg-slate-50 space-y-1">
+                            <div class="font-bold text-[#122d55]">Program (Портфель змін)</div>
+                            <p class="text-slate-700">Група взаємопов'язаних проєктів та ініціатив, що разом створюють нову спроможність ІБ.</p>
+                        </div>
+                        <div class="p-4 rounded-lg border border-slate-200 bg-slate-50 space-y-1">
+                            <div class="font-bold text-[#122d55]">Project (Тимчасова робота)</div>
+                            <p class="text-slate-700">Обмежене у часі впровадження конкретного рішення, процесу або технології з чіткими deliverables.</p>
+                        </div>
+                        <div class="p-4 rounded-lg border border-slate-200 bg-slate-50 space-y-1">
+                            <div class="font-bold text-[#122d55]">BAU (Business-As-Usual)</div>
+                            <p class="text-slate-700">Постійна операційна підтримка, моніторинг, оновлення та виконання контролю після запуску.</p>
+                        </div>
+                    </div>
+
+                    <div class="p-4 rounded-lg border border-blue-200 bg-blue-50/40 text-xs space-y-1.5">
+                        <div class="font-bold text-[#122d55]">Три виміри впровадження будь-якої зміни (People &bull; Process &bull; Technology)</div>
+                        <p class="text-slate-700">Успішна реалізація ніколи не зводиться до закупівлі ліцензій: зміна <strong>Technology</strong> (налаштування, інтеграція) обов'язково вимагає оновлення <strong>Process</strong> (регламенти, SOP, ескалації) та підготовки <strong>People</strong> (навчання адміністраторів, зміна звичок користувачів, чіткий Ownership).</p>
+                    </div>
+                </section>
+
+                <!-- 2. Roadmap, Dependencies, Sequencing & Business Case -->
+                <section class="space-y-4 pt-2">
+                    <h2 class="text-lg font-bold text-slate-900">2. Roadmap, Dependencies, Sequencing та Business Case</h2>
+                    <div class="grid md:grid-cols-2 gap-5 text-xs">
+                        <div class="p-5 rounded-lg border border-slate-200 bg-white space-y-2">
+                            <div class="font-bold text-sm text-[#122d55]">Архітектура Implementation Roadmap</div>
+                            <ul class="space-y-1.5 text-slate-700">
+                                <li><strong>Workstreams (Робочі потоки):</strong> паралельні напрями реалізації (наприклад, IAM, Cloud Security, Vendor Risk, SOC/Detection).</li>
+                                <li><strong>Milestones (Контрольні точки):</strong> перевіряємі результати та стани готовності, а не просто «проведено нараду» чи «куплено софт».</li>
+                                <li><strong>Dependencies (Залежності):</strong> технічні, організаційні або ресурсні передумови (наприклад, неможливо впровадити SSO/MFA без інвентаризації облікових записів та інтеграції з IdP).</li>
+                                <li><strong>Sequencing (Послідовність хвиль):</strong> <em>Wave 1 (Quick Wins &amp; Non-Negotiables)</em> &rarr; <em>Wave 2 (Core Capabilities)</em> &rarr; <em>Wave 3 (Optimization &amp; Automation)</em>.</li>
+                            </ul>
+                        </div>
+
+                        <div class="p-5 rounded-lg border border-slate-200 bg-white space-y-2">
+                            <div class="font-bold text-sm text-[#122d55]">Структура переконливого Business Case для бізнесу</div>
+                            <ul class="space-y-1.5 text-slate-700">
+                                <li><strong>1. Problem &amp; Business Context:</strong> який бізнес-ризик, регуляторна вимога або блокер продажів вирішується.</li>
+                                <li><strong>2. Options Analyzed (включно з «Do Nothing»):</strong> порівняння альтернатив та наслідків бездіяльності.</li>
+                                <li><strong>3. Expected Risk Reduction &amp; Value:</strong> наскільки знижується risk exposure або прискорюється бізнес (напр., швидше проходження клієнтських аудитів).</li>
+                                <li><strong>4. Total Cost of Ownership (TCO):</strong> не лише CAPEX (ліцензії/впровадження), а й OPEX (підтримка, люди, навчання, продовження підписок).</li>
+                                <li><strong>5. Timeline, Risks &amp; Success Metrics:</strong> реалістичний графік, ризики впровадження та KPI результату.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 3. Delivery Models & Resource Management -->
+                <section class="space-y-4 pt-2">
+                    <h2 class="text-lg font-bold text-slate-900">3. Моделі постачання (Delivery Models) та Управління ресурсами</h2>
+                    <div class="grid md:grid-cols-3 gap-4 text-xs">
+                        <div class="p-4 rounded-lg border border-slate-200 bg-slate-50 space-y-1.5">
+                            <div class="font-bold text-sm text-[#122d55]">In-House (Власна команда)</div>
+                            <p class="text-slate-700"><strong>Коли доцільно:</strong> ядро архітектури, управління ризиками, критичні рішення та процеси, тісно інтегровані з продуктом.</p>
+                            <p class="text-slate-600"><strong>Компроміс:</strong> високий контроль і накопичення знань, але тривалий найм і високі постійні витрати.</p>
+                        </div>
+                        <div class="p-4 rounded-lg border border-slate-200 bg-slate-50 space-y-1.5">
+                            <div class="font-bold text-sm text-[#122d55]">Co-Managed / MSSP (Гібрид)</div>
+                            <p class="text-slate-700"><strong>Коли доцільно:</strong> функції, що потребують цілодобового покриття (24/7 SOC, моніторинг, реагування), де власний штат нерентабельний.</p>
+                            <p class="text-slate-600"><strong>Компроміс:</strong> швидкий старт і масштабованість, але критично залежить від якості SLA та внутрішнього контролю.</p>
+                        </div>
+                        <div class="p-4 rounded-lg border border-slate-200 bg-slate-50 space-y-1.5">
+                            <div class="font-bold text-sm text-[#122d55]">External Consulting / Integrators</div>
+                            <p class="text-slate-700"><strong>Коли доцільно:</strong> разові складні впровадження, пентести, підготовка до сертифікації, де потрібна вузька експертиза.</p>
+                            <p class="text-slate-600"><strong>Компроміс:</strong> швидке закриття дефіциту навичок, але ризик втрати знань після завершення контракту без Knowledge Transfer.</p>
+                        </div>
+                    </div>
+
+                    <div class="p-4 rounded-lg border border-amber-200 bg-amber-50/60 text-xs text-amber-950 space-y-1">
+                        <div class="font-bold uppercase">Принципи управління бюджетом та потужністю команди (Capacity Management):</div>
+                        <p><strong>CAPEX vs OPEX:</strong> закупівля інструменту (CAPEX) без закладеного бюджету та годин інженерів на його щорічну експлуатацію (OPEX) створює «мертві» контролі. При плануванні дорожньої карти враховуйте не лише бюджет, а й <strong>пропускну здатність (bandwidth)</strong> суміжних команд — IT-операцій, DevOps та бізнес-власників.</p>
+                    </div>
+                </section>
+
+                <!-- 4. Change Management, Operational Handover (BAU) & Pitfalls -->
+                <section class="space-y-4 pt-2">
+                    <h2 class="text-lg font-bold text-slate-900">4. Change Management, перехід у BAU та типові пастки виконання</h2>
+                    <div class="grid md:grid-cols-2 gap-5 text-xs">
+                        <div class="p-5 rounded-lg border border-slate-200 bg-slate-50 space-y-2">
+                            <div class="font-bold text-sm text-[#122d55]">Operational Handover (Передача у BAU)</div>
+                            <p class="text-slate-700">Проєкт не вважається завершеним у момент увімкнення інструменту. Для стабільної роботи в BAU необхідні:</p>
+                            <ul class="list-disc pl-4 space-y-1 text-slate-700">
+                                <li>Призначений <strong>Control Owner</strong> та <strong>Control Operator</strong> (із Module 4);</li>
+                                <li>Документовані операційні процедури (<strong>Runbooks / SOP</strong>) та регламент реагування на збої;</li>
+                                <li>Інтеграція у моніторинг (<strong>Ongoing Monitoring</strong>) та регулярну звітність (KPI/KRI);</li>
+                                <li>Проведене навчання операційної команди та передача знань (<strong>Knowledge Transfer</strong>).</li>
+                            </ul>
+                        </div>
+
+                        <div class="p-5 rounded-lg border border-rose-200 bg-rose-50/40 space-y-2 text-rose-950">
+                            <div class="font-bold text-sm">5 типових пасток виконання (Execution Pitfalls)</div>
+                            <ul class="space-y-1.5">
+                                <li><strong>1. Shelfware (Купили й поклали на полицю):</strong> придбання дорогого рішення без ресурсів на інтеграцію та налаштування правил.</li>
+                                <li><strong>2. Big Bang Rollout:</strong> спроба одночасно увімкнути жорсткі обмеження для всієї компанії без пілотної групи, що паралізує бізнес.</li>
+                                <li><strong>3. Ignoring Dependencies:</strong> запуск проєкту без готовності базових передумов (напр., DLP без класифікації даних).</li>
+                                <li><strong>4. Missing Operational Handover:</strong> після запуску інструмент ніхто не адмініструє, алерти ігноруються, ефективність деградує.</li>
+                                <li><strong>5. Change Fatigue &amp; Resistance:</strong> впровадження змін без комунікації «навіщо це бізнесу» та підтримки стейкхолдерів.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+            `,
+            quizzes: [
+                {
+                    type: "single",
+                    question: "1. Чому в процесі реалізації стратегії ІБ (Security Implementation) критично розрізняти CAPEX та OPEX у бізнес-кейсі?",
+                    options: [
+                        "А) Оскільки регулятори вимагають, щоб витрати на кібербезпеку перевищували 50% від загального IT-бюджету.",
+                        "Б) Оскільки закупівля технології (CAPEX) без закладеного бюджету та годин персоналу на її підтримку, оновлення й моніторинг (OPEX) призводить до деградації контролю після запуску.",
+                        "В) Оскільки OPEX покриває лише закупівлю серверного обладнання, а CAPEX — заробітну плату зовнішніх аудиторів.",
+                        "Г) Оскільки стандарт ISO 27001 забороняє використовувати операційні витрати (OPEX) для впровадження контролів."
+                    ],
+                    correct: 1,
+                    takeaway: "Total Cost of Ownership (TCO) включає як початкове впровадження (CAPEX), так і постійну підтримку в режимі BAU (OPEX). Без OPEX інструмент швидко перетворюється на Shelfware."
+                },
+                {
+                    type: "single",
+                    question: "2. Яка з наведених дій є головною ознакою коректно виконаного етапу Operational Handover (переведення проєкту в режим BAU)?",
+                    options: [
+                        "А) Підписання акту приймання-передачі програмного забезпечення з вендором та закриття задачі в Jira.",
+                        "Б) Призначення Control Owner і Control Operator, створення операційних runbooks, налаштування моніторингу та передача знань команді підтримки.",
+                        "В) Проведення одноразового тестування на проникнення перед стартом закупівлі ліцензій.",
+                        "Г) Переведення всіх співробітників компанії на роботу без локальних прав адміністратора в один день без попередження."
+                    ],
+                    correct: 1,
+                    takeaway: "Проєкт стає реальною спроможністю безпеки лише після повноцінного переходу в BAU: коли є власник, оператор, регламент дій (runbook) і постійний моніторинг."
+                },
+                {
+                    type: "single",
+                    question: "3. У компанії вирішили одночасно запустити систему запобігання витокам даних (DLP) у режимі жорсткого блокування файлів для всіх 800 співробітників, не провівши попередньої інвентаризації та класифікації даних і не запустивши пілотну групу. Які дві пастки виконання поєднано в цьому сценарії?",
+                    options: [
+                        "А) Shelfware та Overconfidence Bias.",
+                        "Б) Big Bang Rollout та Ignoring Dependencies.",
+                        "В) Groupthink та Compliance-Based Approach.",
+                        "Г) Co-Managed Delivery та Risk Acceptance."
+                    ],
+                    correct: 1,
+                    takeaway: "Жорсткий запуск одразу на всю організацію без пілоту — це Big Bang Rollout, а впровадження DLP без попередньої класифікації даних — Ignoring Dependencies."
+                },
+                {
+                    type: "single",
+                    question: "4. Коли для реалізації функції інформаційної безпеки найбільш виправданою є модель Co-Managed / MSSP порівняно з повністю In-House моделлю?",
+                    options: [
+                        "А) Коли потрібно визначити бізнес-цілі компанії та затвердити рівень ризик-апетиту Ради директорів.",
+                        "Б) Коли необхідно забезпечити цілодобовий моніторинг та реагування на інциденти (24/7 SOC), але утримання власної цілодобової зміни аналітиків є економічно та кадрово недоцільним.",
+                        "В) Коли компанія хоче повністю зняти з себе відповідальність (Accountability) за ризики перед регулятором.",
+                        "Г) Коли бюджет безпеки дорівнює нулю, а інфраструктура складається з одного офісного маршрутизатора."
+                    ],
+                    correct: 1,
+                    takeaway: "Модель Co-Managed / MSSP оптимальна для цілодобових операційних функцій (24/7 SOC/Monitoring), тоді як стратегічне управління та відповідальність за ризики залишаються всередині компанії."
+                },
+                {
+                    type: "single",
+                    question: "5. Що найкраще описує принцип Sequencing (хвильового планування) у Security Implementation Roadmap?",
+                    options: [
+                        "А) Виконання всіх ініціатив в алфавітному порядку їхніх назв у реєстрі проєктів.",
+                        "Б) Розподіл ініціатив на послідовні хвилі (від обов'язкових базових вимог і швидких перемог до складних залежних спроможностей та автоматизації) з урахуванням залежностей і пропускної здатності команд.",
+                        "В) Відкладення всіх регуляторних вимог на останній квартал трирічної стратегії.",
+                        "Г) Одночасний запуск усіх проєктів стратегії в перший місяць року для максимального освоєння бюджету."
+                    ],
+                    correct: 1,
+                    takeaway: "Sequencing враховує залежності (Dependencies) та реальну потужність команд (Capacity), дозволяючи спочатку закласти фундамент і закрити критичні ризики, а потім масштабувати зрілість."
+                }
+            ],
+            simulator: {
+                type: "single",
+                badge: "Симулятор 7",
+                title: "Запуск програми трансформації безпеки після затвердження стратегії",
+                contextHTML: `
+                    <p class="text-sm text-slate-700">
+                        Ви — CISO у середній фінтех-компанії (450 співробітників). Рада директорів затвердила вашу стратегію на рік і виділила бюджет <strong>$150,000</strong>. У вашому підпорядкуванні — <strong>2 інженери безпеки</strong>, а команда IT-операцій уже завантажена міграцією хмарної інфраструктури. На цей рік заплановано три ключові ініціативи:
+                    </p>
+                    <ul class="list-disc pl-5 text-sm text-slate-700 space-y-1">
+                        <li><strong>Ініціатива 1:</strong> Впровадження єдиного входу (SSO) та обов'язкової багатофакторної автентифікації (MFA) для всіх співробітників і привілейованих облікових записів (критична вимога регулятора та страхувальника).</li>
+                        <li><strong>Ініціатива 2:</strong> Запуск цілодобового моніторингу та виявлення загроз (24/7 Detection &amp; Response) для хмарних сервісів.</li>
+                        <li><strong>Ініціатива 3:</strong> Впровадження системи запобігання витокам даних (DLP) на робочих станціях, хоча в компанії ще не проведено інвентаризацію та класифікацію конфіденційних даних.</li>
+                    </ul>
+                    <p class="text-sm font-medium text-slate-900 pt-1">Оберіть план реалізації (Execution Plan), який забезпечить реальне зниження ризиків без паралічу бізнесу та вигорання команди:</p>
+                `,
+                options: [
+                    {
+                        id: "A",
+                        label: "Варіант A: «Усе й одразу (Big Bang & In-House Everything)»",
+                        desc: "Ви запускаєте всі три проєкти паралельно в Q1. Купуєте ліцензії на DLP і SIEM на весь бюджет, вмикаєте MFA та жорсткі правила блокування DLP для всіх 450 співробітників одночасно в понеділок вранці, а чергування 24/7 розподіляєте між двома своїми інженерами без створення runbooks.",
+                        style: "bg-rose-50 border-rose-300",
+                        titleColor: "text-rose-950",
+                        metrics: { security: 52, trust: 45, budget: 0, risk: "Критичний" },
+                        trustText: "-30% (45%)",
+                        trustClass: "text-rose-700",
+                        costText: "$150,000 (Витрачено 100% на ліцензії, 0 на підтримку)",
+                        riskClass: "text-rose-700",
+                        takeaway: "❌ Катастрофа виконання. Ви зібрали всі класичні помилки: Big Bang Rollout заблокував роботу відділу продажів та розробки через хибні спрацювання DLP (бо дані не класифіковані — Ignoring Dependencies), бюджет витрачено на CAPEX без OPEX, а два інженери вигорять за два тижні в режимі 24/7 без передачі в BAU."
+                    },
+                    {
+                        id: "B",
+                        label: "Варіант B: «Фокус на закупівлях без зміни процесів (Tool-First Execution)»",
+                        desc: "Ви витрачаєте основну частину бюджету на закупівлю дорогого корпоративного DLP-комплексу та найм зовнішніх консультантів для написання паперових політик. Впровадження MFA відкладаєте на Q4, щоб не дратувати користувачів, а налаштування SIEM залишаєте розробникам за залишковим принципом без визначення Control Owners.",
+                        style: "bg-blue-50 border-blue-300",
+                        titleColor: "text-slate-900",
+                        metrics: { security: 58, trust: 60, budget: 25000, risk: "Високий" },
+                        trustText: "-15% (60%)",
+                        trustClass: "text-rose-600",
+                        costText: "$125,000 (Залишок: $25,000)",
+                        riskClass: "text-rose-600",
+                        takeaway: "❌ Класичне створення Shelfware. Ви порушили послідовність пріоритетів (відклали обов'язковий MFA), проігнорували залежності перед запуском DLP і не забезпечили Operational Handover (немає власників і операторів для SIEM)."
+                    },
+                    {
+                        id: "C",
+                        label: "Варіант C: «Хвильове впровадження, Co-Managed 24/7 та керований перехід у BAU»",
+                        desc: "Wave 1 (Q1–Q2): поетапний запуск SSO/MFA (пілот на IT/Security &rarr; фінанси &rarr; вся компанія) з навчанням користувачів і передачею в BAU з чітким SOP. Wave 2 (Q2–Q3): підключення Co-Managed MSSP для моніторингу 24/7 (заклавши OPEX у TCO) та проведення інвентаризації й класифікації даних. Wave 3 (Q4): пілотний запуск DLP у режимі моніторингу лише для критичних сховищ даних.",
+                        style: "bg-emerald-50 border-emerald-300",
+                        titleColor: "text-emerald-950",
+                        metrics: { security: 90, trust: 95, budget: 35000, risk: "Низький" },
+                        trustText: "+20% (95%)",
+                        trustClass: "text-emerald-700",
+                        costText: "$115,000 (TCO з OPEX; Залишок: $35,000)",
+                        riskClass: "text-emerald-700",
+                        takeaway: "✅ Еталонне виконання стратегії CISO! Ви врахували залежності (спочатку класифікація даних, потім DLP), уникнули Big Bang Rollout через пілотні хвилі, обрали Co-Managed модель для 24/7 відповідно до потужності команди (2 інженери) та забезпечили повноцінний Operational Handover у BAU."
+                    }
+                ]
+            }
         }
     };
 
     let currentModuleId = 1;
-    let answeredQuestions = { 1: {}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {} };
+    let answeredQuestions = { 1: {}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}, 7: {} };
     let multiSelections = { 3: {} };
-    let selectedDecisions = { 1: null, 2: null, 3: { part1: null, part2: null }, 4: null, 5: null, 6: null };
+    let selectedDecisions = { 1: null, 2: null, 3: { part1: null, part2: null }, 4: null, 5: null, 6: null, 7: null };
 
     function switchModule(modId) {
         currentModuleId = modId;
 
-        [1, 2, 3, 4, 5, 6].forEach(id => {
+        [1, 2, 3, 4, 5, 6, 7].forEach(id => {
             const btn = document.getElementById('mod-btn-' + id);
             if (id === modId) {
                 btn.className = "px-3.5 py-1.5 rounded-lg text-xs font-semibold transition bg-[#122d55] text-white shadow-sm";
