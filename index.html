@@ -77,6 +77,9 @@
                 <button onclick="switchModule(4)" id="mod-btn-4" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold transition bg-slate-100 text-slate-700 hover:bg-slate-200">
                     Модуль 4. Управління контролями ІБ
                 </button>
+                <button onclick="switchModule(5)" id="mod-btn-5" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold transition bg-slate-100 text-slate-700 hover:bg-slate-200">
+                    Модуль 5. Risk-Based Decision Making
+                </button>
             </div>
             <div class="text-xs text-slate-500">
                 Прогрес практики модуля: <span id="quiz-progress" class="font-bold text-slate-800">0 / 5</span>
@@ -929,7 +932,6 @@
                     <p class="text-sm text-slate-500 mt-1">Анатомія контролю, FAIR-CAM, NIST SP 800-53A, оцінювання ефективності та життєвий цикл</p>
                 </div>
 
-                <!-- 1. Від вимоги до конкретного контролю та Анатомія -->
                 <section class="space-y-4">
                     <h2 class="text-lg font-bold text-slate-900">1. Від вимоги до контролю та Анатомія контролю</h2>
                     <div class="bg-slate-50 p-4 rounded-lg border border-slate-200 text-xs text-slate-700 space-y-2">
@@ -955,7 +957,6 @@
                     </div>
                 </section>
 
-                <!-- 2. FAIR-CAM та три характеристики -->
                 <section class="space-y-4 pt-2">
                     <h2 class="text-lg font-bold text-slate-900">2. Модель FAIR-CAM: функціональні домени та характеристики</h2>
                     <div class="grid md:grid-cols-3 gap-5 text-xs">
@@ -982,7 +983,6 @@
                     </div>
                 </section>
 
-                <!-- 3. Ефективність контролів: NIST SP 800-53A, Design vs Operating -->
                 <section class="space-y-4 pt-2">
                     <h2 class="text-lg font-bold text-slate-900">3. Оцінка ефективності (NIST SP 800-53A) та методи перевірки</h2>
                     <div class="grid md:grid-cols-3 gap-4 text-xs">
@@ -1011,7 +1011,6 @@
                     </div>
                 </section>
 
-                <!-- 4. Життєвий цикл, Ролі, Моніторинг та Недоліки -->
                 <section class="space-y-4 pt-2">
                     <h2 class="text-lg font-bold text-slate-900">4. Життєвий цикл, Control Ownership та Управління недоліками</h2>
                     <div class="grid md:grid-cols-2 gap-5 text-xs">
@@ -1156,18 +1155,317 @@
                     }
                 ]
             }
+        },
+        5: {
+            practiceBadge: "Практика 5",
+            practiceTitle: "Перевірка знань: Risk-Based Security Decision Making",
+            lectureHTML: `
+                <div class="border-b border-slate-200 pb-5">
+                    <span class="text-xs font-semibold uppercase tracking-wider text-blue-700 bg-blue-50 px-3 py-1 rounded">Лекція 5</span>
+                    <h1 class="text-2xl font-bold text-slate-900 mt-2">Risk-Based Security Decision Making</h1>
+                    <p class="text-sm text-slate-500 mt-1">Управління ризиками за ISO 31000:2018, ідентифікація та оцінка ризиків, стратегії реагування та Risk Register</p>
+                </div>
+
+                <!-- 1. Роль Risk Management та ISO 31000:2018 -->
+                <section class="space-y-4">
+                    <h2 class="text-lg font-bold text-slate-900">1. Що таке Risk Management та визначення ризику (ISO 31000:2018)</h2>
+                    <p class="text-sm text-slate-700"><strong>Risk Management</strong> — це не лише виявлення ризиків, а механізм підтримки управлінських рішень, який дозволяє:</p>
+                    <div class="grid md:grid-cols-5 gap-3 text-xs">
+                        <div class="p-3.5 rounded-lg border border-slate-200 bg-slate-50"><strong>1.</strong> Пов'язати security issues із потенційними наслідками для бізнесу.</div>
+                        <div class="p-3.5 rounded-lg border border-slate-200 bg-slate-50"><strong>2.</strong> Зрозуміти рівень risk exposure та критичність проблем.</div>
+                        <div class="p-3.5 rounded-lg border border-slate-200 bg-slate-50"><strong>3.</strong> Визначити прийнятний і неприйнятний рівень ризику.</div>
+                        <div class="p-3.5 rounded-lg border border-slate-200 bg-slate-50"><strong>4.</strong> Порівняти альтернативні способи реагування.</div>
+                        <div class="p-3.5 rounded-lg border border-slate-200 bg-slate-50"><strong>5.</strong> Обґрунтувати пріоритети та розподіл ресурсів.</div>
+                    </div>
+
+                    <div class="bg-blue-50/40 p-5 rounded-lg border border-blue-200 space-y-3">
+                        <div class="text-sm font-bold text-[#122d55]">Визначення за ISO 31000:2018: Ризик — це вплив невизначеності на цілі організації</div>
+                        <div class="grid md:grid-cols-3 gap-4 text-xs">
+                            <div class="bg-white p-4 rounded-lg border border-slate-200 space-y-1">
+                                <div class="font-bold text-[#122d55]">Objective | Ціль</div>
+                                <p class="text-slate-700">Результат, якого організація прагне досягти або підтримувати.</p>
+                                <p class="text-slate-500 italic">Приклад: безперервне проведення клієнтських платежів.</p>
+                            </div>
+                            <div class="bg-white p-4 rounded-lg border border-slate-200 space-y-1">
+                                <div class="font-bold text-[#122d55]">Uncertainty | Невизначеність</div>
+                                <p class="text-slate-700">Невизначеність щодо майбутніх подій, умов або результатів.</p>
+                                <p class="text-slate-500 italic">Приклад: чи відбудеться відмова платіжної платформи або кібератака.</p>
+                            </div>
+                            <div class="bg-white p-4 rounded-lg border border-slate-200 space-y-1">
+                                <div class="font-bold text-[#122d55]">Effect | Вплив</div>
+                                <p class="text-slate-700">Можливе відхилення від очікуваного результату.</p>
+                                <p class="text-slate-500 italic">Приклад: недоступність платежів, фінансові втрати, регуляторні наслідки.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 2. Risk-Based vs Compliance-Based -->
+                <section class="space-y-3 pt-2">
+                    <h2 class="text-lg font-bold text-slate-900">2. Risk-Based vs Compliance-Based Security Management</h2>
+                    <div class="grid md:grid-cols-2 gap-5 text-xs">
+                        <div class="p-5 rounded-lg border border-slate-200 bg-white space-y-2">
+                            <div class="font-bold text-sm text-slate-900">Compliance-Based Approach (Чи виконуємо вимоги?)</div>
+                            <ul class="list-disc pl-4 space-y-1 text-slate-700">
+                                <li>Чи реалізовано обов'язкові security controls?</li>
+                                <li>Чи є порушення вимог або policies?</li>
+                                <li>Чи закрито audit findings?</li>
+                            </ul>
+                            <p class="pt-1 font-semibold text-slate-900">Результат: compliance status.</p>
+                        </div>
+                        <div class="p-5 rounded-lg border border-slate-200 bg-slate-50 space-y-2">
+                            <div class="font-bold text-sm text-[#122d55]">Risk-Based Approach (Які ризики загрожують цілям?)</div>
+                            <ul class="list-disc pl-4 space-y-1 text-slate-700">
+                                <li>Наскільки controls знижують реальний risk exposure?</li>
+                                <li>Які наслідки можливі та чи є ризик прийнятним?</li>
+                                <li>Чи залишився неприйнятний residual risk?</li>
+                            </ul>
+                            <p class="pt-1 font-semibold text-[#122d55]">Результат: risk-informed management decisions.</p>
+                        </div>
+                    </div>
+                    <p class="text-xs text-slate-600 italic">Note: Compliance визначає обов'язкові обмеження. Risk Management допомагає ухвалювати рішення з урахуванням цих обмежень і фактичних ризиків.</p>
+                </section>
+
+                <!-- 3. Scope, Context and Criteria -->
+                <section class="space-y-4 pt-2">
+                    <h2 class="text-lg font-bold text-slate-900">3. Процес управління ризиками: Scope, Context та Criteria</h2>
+                    <div class="grid md:grid-cols-3 gap-5 text-xs">
+                        <div class="p-5 rounded-lg border border-slate-200 bg-slate-50 space-y-1.5">
+                            <div class="font-bold text-sm text-[#122d55]">Scope (Межі)</div>
+                            <p class="text-slate-700"><strong>Питання:</strong> Що саме оцінюємо? Вся організація, окремий бізнес-процес, інформаційна система, IT service, проєкт або взаємодія з постачальником.</p>
+                        </div>
+                        <div class="p-5 rounded-lg border border-slate-200 bg-slate-50 space-y-1.5">
+                            <div class="font-bold text-sm text-[#122d55]">Context (Контекст)</div>
+                            <p class="text-slate-700">Business objectives та critical services; оргструктура й operating model; IT-архітектура й залежності; зовнішні загрози й постачальники; регуляторні вимоги; наявні контролі та інциденти.</p>
+                        </div>
+                        <div class="p-5 rounded-lg border border-slate-200 bg-slate-50 space-y-1.5">
+                            <div class="font-bold text-sm text-[#122d55]">Risk Criteria (Критерії ризику)</div>
+                            <p class="text-slate-700">Шкали <em>likelihood</em> та <em>impact</em>, рівні <em>risk significance</em>, критерії прийнятності ризиків (Risk Appetite / Tolerance) і правила ухвалення рішень.</p>
+                        </div>
+                    </div>
+
+                    <div class="p-4 rounded-lg border border-slate-200 bg-white space-y-2 text-xs">
+                        <div class="font-bold text-slate-900">6 категорій наслідків (Impact Categories):</div>
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-2 text-slate-700">
+                            <div><strong>Financial:</strong> грошові втрати та додаткові витрати.</div>
+                            <div><strong>Operational:</strong> порушення діяльності та критичних послуг.</div>
+                            <div><strong>Privacy:</strong> порушення приватності та шкода фізичним особам.</div>
+                            <div><strong>Regulatory / Compliance:</strong> нормативні порушення та обмеження.</div>
+                            <div><strong>Reputational:</strong> втрата довіри та репутаційна шкода.</div>
+                            <div><strong>Strategic / Business:</strong> вплив на стратегічні цілі й розвиток.</div>
+                        </div>
+                        <p class="text-amber-900 font-medium pt-1">⚠️ Один сценарій може мати наслідки в кількох категоріях. Фінансові втрати при цьому не повинні дублюватися.</p>
+                    </div>
+                </section>
+
+                <!-- 4. Risk Assessment: Identification, Analysis, Evaluation -->
+                <section class="space-y-4 pt-2">
+                    <h2 class="text-lg font-bold text-slate-900">4. Risk Assessment: Identification, Analysis та Evaluation</h2>
+                    <div class="grid md:grid-cols-2 gap-5 text-xs">
+                        <div class="p-5 rounded-lg border border-slate-200 bg-slate-50 space-y-2">
+                            <div class="font-bold text-sm text-[#122d55]">1. Identification — What can happen?</div>
+                            <p><strong>Event-based:</strong> ризик ідентифікується через стратегічні події, джерела ризику та наслідки для зацікавлених сторін.</p>
+                            <p><strong>Asset-based:</strong> операційні сценарії деталізуються через конкретні активи, загрози та вразливості для формування детальних заходів обробки.</p>
+                            <div class="pt-1 border-t border-slate-200">
+                                <strong>4 джерела інформації:</strong>
+                                <ul class="list-disc pl-4 mt-1 space-y-0.5 text-slate-700">
+                                    <li><em>Зовнішні дані:</em> CTI, CERT/ISAC, NIST SP 800-30, MITRE ATT&amp;CK.</li>
+                                    <li><em>Перевірки й тестування:</em> сканування, pentests, аудити, винятки з політик.</li>
+                                    <li><em>Власний досвід:</em> інциденти, near misses, дані SOC/SIEM, BC/DR тести.</li>
+                                    <li><em>Архітектура й залежності:</em> single points of failure, legacy-технології, постачальники.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="p-5 rounded-lg border border-slate-200 bg-slate-50 space-y-2">
+                            <div class="font-bold text-sm text-[#122d55]">2. Analysis (Risk Level = Likelihood &times; Impact) &amp; 3. Evaluation</div>
+                            <p><strong>Фактори Likelihood:</strong> threat capability/intent/активність; exposure активу та вектори атаки; вразливості й підготовчі умови; ефективність наявних контролів; історичні дані.</p>
+                            <p><strong>Виміри Impact:</strong> фінансові втрати; доступність сервісів; регуляторні штрафи; довіра клієнтів і репутація; порушення CIA (конфіденційності, цілісності, доступності).</p>
+                            <p class="pt-1 border-t border-slate-200"><strong>Evaluation — What decision follows?</strong> Порівняння розрахованого рівня ризику з критеріями прийнятності для визначення пріоритетів і вибору стратегії реагування.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 5. Risk Treatment, Risk Register & Approaches -->
+                <section class="space-y-4 pt-2">
+                    <h2 class="text-lg font-bold text-slate-900">5. Risk Treatment, Risk Register та Підходи до оцінювання</h2>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs">
+                        <div class="p-4 rounded-lg border border-slate-200 bg-white">
+                            <div class="font-bold text-[#122d55]">Avoid (Уникнення)</div>
+                            <p class="text-slate-700 mt-1">Відмова від діяльності або її зміна, щоб повністю усунути джерело ризику.</p>
+                        </div>
+                        <div class="p-4 rounded-lg border border-slate-200 bg-white">
+                            <div class="font-bold text-[#122d55]">Modify / Mitigate (Зниження)</div>
+                            <p class="text-slate-700 mt-1">Зменшення likelihood або наслідків шляхом впровадження контролів.</p>
+                        </div>
+                        <div class="p-4 rounded-lg border border-slate-200 bg-white">
+                            <div class="font-bold text-[#122d55]">Share (Розподіл / Передача)</div>
+                            <p class="text-slate-700 mt-1">Передача частини фінансових наслідків або відповідальності третім сторонам (страхування, SLA).</p>
+                        </div>
+                        <div class="p-4 rounded-lg border border-slate-200 bg-white">
+                            <div class="font-bold text-[#122d55]">Retain / Accept (Прийняття)</div>
+                            <p class="text-slate-700 mt-1">Усвідомлене утримання ризику без додаткових заходів (коли захист дорожчий за збитки).</p>
+                        </div>
+                    </div>
+
+                    <div class="p-5 rounded-lg border border-slate-200 bg-slate-50 text-xs space-y-2">
+                        <div class="font-bold text-sm text-[#122d55]">Структура Реєстру Ризиків (Risk Register — 11 ключових полів)</div>
+                        <div class="grid md:grid-cols-3 gap-2 text-slate-700">
+                            <div><strong>1. Risk ID / Category:</strong> ідентифікатор і категорія.</div>
+                            <div><strong>2. Risk Scenario:</strong> подія, умови та наслідки.</div>
+                            <div><strong>3. Affected Objective / Asset:</strong> ціль, сервіс або актив.</div>
+                            <div><strong>4. Likelihood &amp; Impact:</strong> результати аналізу.</div>
+                            <div><strong>5. Inherent / Current Risk:</strong> до контролів та поточний.</div>
+                            <div><strong>6. Risk Owner:</strong> відповідальний керівник.</div>
+                            <div><strong>7. Treatment Decision:</strong> обрана стратегія.</div>
+                            <div><strong>8. Action Plan / Due Date:</strong> заходи та строки.</div>
+                            <div><strong>9. Residual Risk:</strong> залишковий ризик після обробки.</div>
+                            <div><strong>10. Acceptance / Escalation:</strong> статус погодження.</div>
+                            <div class="md:col-span-2"><strong>11. Review Date / Status:</strong> дата наступного перегляду та поточний стан.</div>
+                        </div>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-5 text-xs">
+                        <div class="p-4 rounded-lg border border-slate-200 bg-white space-y-1.5">
+                            <div class="font-bold text-slate-900">Три підходи до оцінки ризиків:</div>
+                            <p><strong>Qualitative (Якісний):</strong> описові категорії; для первинного screening (обмеження — суб'єктивність).</p>
+                            <p><strong>Semi-Quantitative (Напівкількісний):</strong> бальні шкали та Risk Score; для пріоритезації (обмеження — Score &ne; реальна грошова величина ризику).</p>
+                            <p><strong>Quantitative (Кількісний):</strong> частота, величина та розподіл втрат у грошах; для фінансових рішень (обмеження — високі вимоги до даних і ресурсів).</p>
+                        </div>
+                        <div class="p-4 rounded-lg border border-slate-200 bg-white space-y-1.5">
+                            <div class="font-bold text-slate-900">Planned vs Trigger-Based Assessment:</div>
+                            <p><strong>Planned Assessment:</strong> затверджений план, встановлена періодичність, визначений Scope, контроль виконання.</p>
+                            <p><strong>Trigger-Based Assessment:</strong> нова критична послуга, суттєва IT-зміна, інцидент або нова загроза, findings / неефективні контролі, зміна постачальника.</p>
+                        </div>
+                    </div>
+                </section>
+            `,
+            quizzes: [
+                {
+                    type: "single",
+                    question: "1. З яких трьох ключових елементів складається визначення ризику за стандартом ISO 31000:2018?",
+                    options: [
+                        "А) Загроза, вразливість, контрзахід.",
+                        "Б) Ціль (Objective), невизначеність (Uncertainty), вплив (Effect).",
+                        "В) Імовірність (Likelihood), наслідки (Impact), ризик-рейтинг (Risk Score).",
+                        "Г) Актив, власник активу, залишковий ризик."
+                    ],
+                    correct: 1,
+                    takeaway: "За ISO 31000:2018 ризик — це вплив невизначеності на досягнення бізнес-цілей організації."
+                },
+                {
+                    type: "single",
+                    question: "2. Які виміри (параметри) використовуються для базового якісного аналізу ризиків (Qualitative Assessment)?",
+                    options: [
+                        "А) Бюджет безпеки та кількість співробітників.",
+                        "Б) Likelihood (Ймовірність) та Impact (Вплив).",
+                        "В) Frequency (Частота) та Recovery Time Objective (RTO).",
+                        "Г) Threat Level та Compliance Status."
+                    ],
+                    correct: 1,
+                    takeaway: "Рівень ризику визначається через поєднання ймовірності настання події (Likelihood) та тяжкості її наслідків (Impact)."
+                },
+                {
+                    type: "single",
+                    question: "3. Який результат та обмеження притаманні напівкількісному (Semi-Quantitative) підходу до оцінки ризиків?",
+                    options: [
+                        "А) Результат — бальні шкали та Risk Score; обмеження — отриманий score не дорівнює реальній абсолютній величині ризику.",
+                        "Б) Результат — точний фінансовий збиток у доларах; обмеження — відсутність будь-яких шкал.",
+                        "В) Результат — лише описові категорії; обмеження — неможливість пріоритетизації.",
+                        "Г) Результат — сертифікат відповідності ISO; обмеження — висока вартість даних."
+                    ],
+                    correct: 0,
+                    takeaway: "Бали зручні для пріоритетизації ризиків між собою, але вони не відображають точні фінансові втрати у грошовому еквіваленті."
+                },
+                {
+                    type: "single",
+                    question: "4. Що з наведеного найкраще описує поняття «Risk Owner» (Власник ризику) у Реєстрі Ризиків?",
+                    options: [
+                        "А) Зовнішній аудитор, який проводить щорічну перевірку комплаєнсу.",
+                        "Б) Зловмисник або хакерське угруповання, що створює загрозу для інфраструктури.",
+                        "В) Особа або керівник, яка має повноваження та відповідальність за управління конкретним ризиком.",
+                        "Г) Розробник програмного забезпечення, який написав код із вразливістю."
+                    ],
+                    correct: 2,
+                    takeaway: "Risk Owner — це менеджер або посадова особа, відповідальна за моніторинг ризику, виділення ресурсів та впровадження обраної стратегії реагування."
+                },
+                {
+                    type: "single",
+                    question: "5. У чому полягає сутність стратегії «Retain / Accept»?",
+                    options: [
+                        "А) Часткова передача операційного контролю за ризиком підрозділам IT для мінімізації його наслідків.",
+                        "Б) Переведення ризику в категорію низького пріоритету в Реєстрі Ризиків без затвердження керівництвом.",
+                        "В) Усвідомлене залишення ризику без додаткових заходів.",
+                        "Г) Відстрочення реалізації заходів із захисту до моменту настання першого інциденту або запиту аудитора."
+                    ],
+                    correct: 2,
+                    takeaway: "Accept/Retain застосовують тоді, коли організація свідомо погоджується з наявним залишковим ризиком, розуміючи, що витрати на додатковий захист є економічно недоцільними."
+                }
+            ],
+            simulator: {
+                type: "single",
+                badge: "Симулятор 5",
+                title: "Криза інфраструктури та атака на ланцюжок постачальників",
+                contextHTML: `
+                    <p class="text-sm text-slate-700">
+                        Ви — новопризначений CISO у платіжному сервісі, який активно інтегрує сторонні API та готується до масштабного релізу нової платіжної платформи. Під час внутрішнього аудиту виявлено застарілі legacy-сервери з критичними CVE, відсутність MFA на адмін-панелях розробників та неперевіреного стороннього постачальника логістичних даних. У цей же час CERT-UA повідомляє про сплеск атак на Supply Chain у фінтех-секторі. Засновник виділив вам обмежений бюджет <strong>$100,000</strong> та вимагає обрати стратегію реагування на ризики.
+                    </p>
+                    <p class="text-sm font-medium text-slate-900 pt-1">Оберіть один із трьох стратегічних шляхів управління ризиками в компанії:</p>
+                `,
+                options: [
+                    {
+                        id: "A",
+                        label: "Варіант A: Avoid & Over-Engineering",
+                        desc: "Ви застосовуєте радикальну стратегію уникнення ризику (Avoid). Негайно відключаєте стороннє API та legacy-сервери, зупиняючи пов'язані бізнес-процеси до повного переписування коду. Вимагаєте від команди розробки закрити всі знайдені вразливості протягом 48 годин, заморожуючи всі продуктові релізи.",
+                        style: "bg-blue-50 border-blue-300",
+                        titleColor: "text-slate-900",
+                        metrics: { security: 75, trust: 60, budget: 10000, risk: "Помірний" },
+                        trustText: "-15% (60%)",
+                        trustClass: "text-rose-600",
+                        costText: "$90,000 (Залишок: $10,000)",
+                        riskClass: "text-amber-700",
+                        takeaway: "Це рішення гарантує закриття технічних векторів атак, але створює операційний колапс. Ви захистили компанію від вразливостей, але вбили гнучкість розробки, зіпсували стосунки з бізнес-лідерами та порушили принципи ISO 31000 щодо підтримки бізнес-цілей."
+                    },
+                    {
+                        id: "B",
+                        label: "Варіант B: Mitigate & Share",
+                        desc: "Ви будуєте збалансовану ризик-орієнтовану модель. Впроваджуєте обов'язкове MFA для адмін-панелей та розробників, усуваючи найпростіший вектор атак. Для стороннього API купуєте кіберстрахування (Share) та підписуєте додаткові угоди з безпеки (SLA). Legacy-сервери ізолюєте через мікросегментацію мережі, а патчі ставите у планові технологічні вікна.",
+                        style: "bg-emerald-50 border-emerald-300",
+                        titleColor: "text-emerald-950",
+                        metrics: { security: 88, trust: 90, budget: 65000, risk: "Помірний" },
+                        trustText: "+15% (90%)",
+                        trustClass: "text-emerald-700",
+                        costText: "$35,000 (Залишок: $65,000)",
+                        riskClass: "text-emerald-700",
+                        takeaway: "✅ Ідеальний баланс між Risk Management та швидкістю бізнесу. Ви реалізували концепцію свідомого управління: захистили критичні вектори, переклали частину фінансової відповідальності за постачальника та зберегли операційну діяльність компанії."
+                    },
+                    {
+                        id: "C",
+                        label: "Варіант C: Laissez-Faire & Retain",
+                        desc: "Ви вирішуєте не заважати розробникам і не чіпати legacy-системи та стороннє API. Замість впровадження MFA на адмін-панелі обмежуєтеся базовим моніторингом логів у SIEM. Усі виявлені ризики заносите до реєстру зі статусом Low та відкладаєте їх вирішення на наступний рік без затвердження керівництвом.",
+                        style: "bg-rose-50 border-rose-300",
+                        titleColor: "text-rose-950",
+                        metrics: { security: 42, trust: 55, budget: 95000, risk: "Критичний" },
+                        trustText: "-20% (55%)",
+                        trustClass: "text-rose-700",
+                        costText: "$5,000 (Залишок: $95,000)",
+                        riskClass: "text-rose-700",
+                        takeaway: "❌ Ілюзія економії та нехтування ризиками. Ви підмінили усвідомлене прийняття ризику керівництвом (Risk Acceptance) простим ігноруванням проблем. Перший же інцидент через відсутність MFA знищить довіру бізнесу та викличе мільйонні збитки."
+                    }
+                ]
+            }
         }
     };
 
     let currentModuleId = 1;
-    let answeredQuestions = { 1: {}, 2: {}, 3: {}, 4: {} };
+    let answeredQuestions = { 1: {}, 2: {}, 3: {}, 4: {}, 5: {} };
     let multiSelections = { 3: {} };
-    let selectedDecisions = { 1: null, 2: null, 3: { part1: null, part2: null }, 4: null };
+    let selectedDecisions = { 1: null, 2: null, 3: { part1: null, part2: null }, 4: null, 5: null };
 
     function switchModule(modId) {
         currentModuleId = modId;
 
-        [1, 2, 3, 4].forEach(id => {
+        [1, 2, 3, 4, 5].forEach(id => {
             const btn = document.getElementById('mod-btn-' + id);
             if (id === modId) {
                 btn.className = "px-3.5 py-1.5 rounded-lg text-xs font-semibold transition bg-[#122d55] text-white shadow-sm";
