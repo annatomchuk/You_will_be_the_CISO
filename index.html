@@ -179,4 +179,638 @@
                             <div class="text-xs font-bold uppercase tracking-wider text-[#122d55] mb-1">Process</div>
                             <p class="text-xs text-slate-600">Правила, що перетворюються на конкретні послідовності дій.</p>
                         </div>
-                        <div class="bg-slate
+                        <div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
+                            <div class="text-xs font-bold uppercase tracking-wider text-[#122d55] mb-1">Technology</div>
+                            <p class="text-xs text-slate-600">Системи, інфраструктура, security controls.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="space-y-3 pt-2">
+                    <h2 class="text-lg font-bold text-slate-900">2. Три рівні управління (Governance vs Management vs Operations)</h2>
+                    <div class="grid md:grid-cols-3 gap-5">
+                        <div class="bg-slate-50 p-5 rounded-lg border border-slate-200 space-y-2">
+                            <h3 class="font-bold text-[#122d55] text-sm">Governance (Куди рухаємось?)</h3>
+                            <p class="text-xs text-slate-700"><strong>Фокус:</strong> Direction, Accountability, Risk boundaries, Oversight.</p>
+                        </div>
+                        <div class="bg-slate-50 p-5 rounded-lg border border-slate-200 space-y-2">
+                            <h3 class="font-bold text-[#122d55] text-sm">Management (Як організовуємо?)</h3>
+                            <p class="text-xs text-slate-700"><strong>Фокус:</strong> Programs &amp; Processes, Resources, Controls, Coordination.</p>
+                        </div>
+                        <div class="bg-slate-50 p-5 rounded-lg border border-slate-200 space-y-2">
+                            <h3 class="font-bold text-[#122d55] text-sm">Operations (Що робимо щодня?)</h3>
+                            <p class="text-xs text-slate-700"><strong>Фокус:</strong> Execution, Technical actions, Monitoring, Response.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="space-y-3 pt-2">
+                    <h2 class="text-lg font-bold text-slate-900">3. Security Operating Model</h2>
+                    <div class="grid md:grid-cols-3 gap-5">
+                        <div class="p-5 rounded-lg border border-slate-200 bg-white space-y-1.5">
+                            <div class="font-bold text-slate-900 text-sm">Centralized (Централізована)</div>
+                            <p class="text-xs text-slate-600">Capabilities зосереджені в єдиному центрі, єдині стандарти, сильний oversight.</p>
+                        </div>
+                        <div class="p-5 rounded-lg border border-slate-200 bg-white space-y-1.5">
+                            <div class="font-bold text-slate-900 text-sm">Decentralized (Децентралізована)</div>
+                            <p class="text-xs text-slate-600">Security розподілена між бізнес-юнітами / продуктами, фокус на швидкість та локальний контекст.</p>
+                        </div>
+                        <div class="p-5 rounded-lg border border-slate-200 bg-white space-y-1.5">
+                            <div class="font-bold text-slate-900 text-sm">Federated (Федеративна)</div>
+                            <p class="text-xs text-slate-600">Централізоване governance поєднується з розподіленим виконанням, баланс стандартів та близькості до бізнесу.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="space-y-3 pt-2">
+                    <h2 class="text-lg font-bold text-slate-900">4. NIST CSF 2.0 і функція GOVERN</h2>
+                    <p class="text-sm text-slate-700">
+                        <strong>NIST CSF 2.0</strong> — практичний фреймворк для управління кіберризиками, який складається із шістьох функцій:
+                        <span class="font-medium text-slate-900">Identify, Protect, Detect, Respond, Recover</span> та <span class="font-semibold text-[#122d55]">Govern</span>.
+                    </p>
+                    <div class="bg-slate-50 p-5 rounded-lg border border-slate-200 space-y-2.5">
+                        <div class="text-xs font-bold uppercase tracking-wider text-slate-500">Структура функції GOVERN</div>
+                        <ul class="space-y-2 text-sm text-slate-700">
+                            <li><strong class="text-[#122d55]">GV.OC (Organizational Context):</strong> Розуміння організації, цілей, зацікавлених сторін та залежностей.</li>
+                            <li><strong class="text-[#122d55]">GV.RM (Risk Management Strategy):</strong> Визначення підходу до управління кіберризиками.</li>
+                            <li><strong class="text-[#122d55]">GV.RR (Roles, Responsibilities &amp; Authorities):</strong> Розподіл ролей, відповідальності та повноважень (responsible, accountable, authority).</li>
+                            <li><strong class="text-[#122d55]">GV.PO (Policy):</strong> Перетворення управлінських рішень на чіткі вимоги та політики.</li>
+                            <li><strong class="text-[#122d55]">GV.OV (Oversight):</strong> Перевірка ефективності та нагляд за роботою системи.</li>
+                            <li><strong class="text-[#122d55]">GV.SC (Cybersecurity Supply Chain Risk Management):</strong> Управління ризиками та залежностями від постачальників.</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section class="space-y-3 pt-2">
+                    <h2 class="text-lg font-bold text-slate-900">5. Що таке GRC?</h2>
+                    <div class="p-5 rounded-lg border border-slate-200 bg-slate-50 space-y-2 text-sm text-slate-700">
+                        <p><strong>G + R + C:</strong> Єдина логіка управління замість трьох окремих напрямків (<em>Governance, Risk, Compliance</em>). GRC ширший, ніж одна функція:</p>
+                        <ul class="list-disc pl-5 space-y-1">
+                            <li><strong>GRC як концепція:</strong> Інтегроване управління всією організацією.</li>
+                            <li><strong>GRC як організаційна функція:</strong> Одна з команд, що підтримує цю логіку (зокрема <em>Security GRC</em>).</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section class="space-y-3 pt-2">
+                    <h2 class="text-lg font-bold text-slate-900">6. PDCA — система постійної адаптації</h2>
+                    <p class="text-sm text-slate-600">Оскільки Security Management — це не список controls, які одного разу потрібно впровадити, використовується безперервний цикл PDCA:</p>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <div class="p-4 rounded-lg border border-slate-200 bg-white">
+                            <div class="text-xs font-bold text-blue-700 uppercase">PLAN</div>
+                            <p class="text-xs text-slate-700 mt-1">Контекст &rarr; Objectives &rarr; Risks &rarr; План змін</p>
+                        </div>
+                        <div class="p-4 rounded-lg border border-slate-200 bg-white">
+                            <div class="text-xs font-bold text-blue-700 uppercase">DO</div>
+                            <p class="text-xs text-slate-700 mt-1">Processes &rarr; Controls &rarr; Technology &rarr; Training</p>
+                        </div>
+                        <div class="p-4 rounded-lg border border-slate-200 bg-white">
+                            <div class="text-xs font-bold text-blue-700 uppercase">CHECK</div>
+                            <p class="text-xs text-slate-700 mt-1">Metrics &rarr; Incidents &rarr; Audits &rarr; Control Effectiveness</p>
+                        </div>
+                        <div class="p-4 rounded-lg border border-slate-200 bg-white">
+                            <div class="text-xs font-bold text-blue-700 uppercase">ACT</div>
+                            <p class="text-xs text-slate-700 mt-1">Correct &rarr; Improve &rarr; Adapt</p>
+                        </div>
+                    </div>
+                </section>
+            `,
+            quizzes: [
+                {
+                    question: "1. Яке з наведених тверджень найбільш точно описує різницю між функціями Governance та Management у системі інформаційної безпеки?",
+                    options: [
+                        "A) Governance відповідає за реалізацію технічних заходів захисту, тоді як Management оцінює загальний рівень кіберризиків.",
+                        "B) Governance визначає загальний напрям розвитку, межі допустимого ризику та здійснює нагляд, тоді як Management організовує програми, ресурси та координує виконання процесів.",
+                        "C) Governance регулює діяльність внутрішніх команд, а Management координує взаємодію із зовнішніми постачальниками та аудиторами.",
+                        "D) Governance є сферою повноважень виключно підрозділу Internal Audit, тоді як Management здійснюється керівником CISO."
+                    ],
+                    correct: 1,
+                    takeaway: "Governance дає стратегічні орієнтири («Куди рухаємося?» та «Які межі ризику?»), а Management займається тактичною організацією («Як це впровадити та якими ресурсами?»)."
+                },
+                {
+                    question: "2. За модельною системою BMIS (Business Model of Information Security), чому впровадження інструменту контролю привілейованого доступу (PAM) або системи DLP не гарантує автоматичного зниження відповідного ризику?",
+                    options: [
+                        "A) Оскільки технологічні засоби автоматизації вимагають постійного перегляду нормативно-правової бази країни.",
+                        "B) Оскільки технологія становить лише одну з чотирьох складових системи і працює тільки у поєднанні з цілями організації (Organization), компетенціями людей (People) та регламентованими процесами (Process).",
+                        "C) Оскільки інструменти класу PAM та DLP призначені лише для виявлення (Detect), але не для запобігання (Protect) інцидентам.",
+                        "D) Оскільки будь-які технічні контролі втрачають ефективність без обов'язкової наявності незалежного третього рівня захисту."
+                    ],
+                    correct: 1,
+                    takeaway: "За BMIS безпека — це цілісна система. Навіть найдосконаліша технологія без розроблених процесів, визначених власників даних та навченого персоналу залишається лише непридатним інструментом."
+                },
+                {
+                    question: "3. Розглядаючи базові Security Operating Models, у чому полягає основний компроміс (trade-off) при виборі повністю Централізованої моделі (Centralized) порівняно з Децентралізованою (Decentralized)?",
+                    options: [
+                        "A) Централізована модель знижує витрати на обладнання, але повністю блокує можливість проходження зовнішніх аудитів.",
+                        "B) Централізована модель забезпечує єдині стандарти та сильний oversight, проте може створювати операційні «вузькі місця» (Bottlenecks) та знижувати швидкість адаптації до потреб окремих продуктів.",
+                        "C) Централізована модель унеможливлює залучення CISO до прийняття стратегічних рішень на рівні Ради директорів, зосереджуючи його виключно на IT-інфраструктурі.",
+                        "D) Децентралізована модель гарантує повну відповідність вимогам регуляторів, але суттєво підвищує плинність кадрів у команді розробників."
+                    ],
+                    correct: 1,
+                    takeaway: "Централізована модель гарантує консистентність і контроль, але ризикує стати завадою для швидкості бізнесу. Децентралізована модель дає швидкість, але несе ризик фрагментації стандартів безпеки."
+                },
+                {
+                    question: "4. Яке з наведених тверджень найточніше розмежовує поняття «Responsibility» та «Authority» у контексті управління кібербезпекою?",
+                    options: [
+                        "A) Responsibility визначає право ухвалювати бізнес-рішення, а Authority — обов'язок технічного виконання операцій.",
+                        "B) Responsibility є обов'язком лише технічної команди, тоді як Authority належить виключно керівникові CISO.",
+                        "C) Responsibility стосується виконання конкретних завдань і процедур, тоді як Authority описує надане повноваження приймати рішення.",
+                        "D) Responsibility та Authority є тотожними поняттями в моделі BMIS і завжди належать одній і тій самій особі."
+                    ],
+                    correct: 2,
+                    takeaway: "Responsibility — це безпосередня робота з виконання завдання, а Authority — це право ухвалювати рішення, дозволяти винятки або керувати ресурсами в межах визначених повноважень."
+                },
+                {
+                    question: "5. Що означає PDCA у контексті управління інформаційною безпекою?",
+                    options: [
+                        "A) Policy-Define-Control-Audit: набір інструкцій для перевірки відповідності зовнішнім стандартам безпеки.",
+                        "B) Plan-Do-Check-Act: система постійної адаптації та керування.",
+                        "C) Prevent-Detect-Contain-Analyze: технічний алгоритм реагування на критичні інциденти в операційній системі SOC.",
+                        "D) Process-Development-Compliance-Assessment: методологія розподілу обов'язків."
+                    ],
+                    correct: 1,
+                    takeaway: "PDCA розшифровується як Plan-Do-Check-Act (Плануй — Виконуй — Перевіряй — Дій). Цей цикл доводить, що Security Management неможливо «закінчити» раз і назавжди: через зміну загроз, технологій та бізнесу система постійно адаптується."
+                }
+            ],
+            simulator: {
+                badge: "Симулятор 1",
+                title: "Фінтех-стартап під тиском регулятора та інвесторів",
+                contextHTML: `
+                    <p class="text-sm text-slate-700">
+                        Ви — новопризначений CISO у фінтех-компанії, яка швидко зростає та планує вихід на ринок ЄС через 6 місяців. Зараз у компанії хаос із безпекою: розробники випускають оновлення без перевірок, регулятор вимагає відповідності стандартам, а сервіси працюють на хмарах десятка різних постачальників. Засновник компанії виділив вам обмежений бюджет <strong>$100,000</strong> та вимагає сформувати нову <em>Security Governance Model</em> на базі <strong>NIST CSF 2.0 (Govern)</strong>.
+                    </p>
+                    <p class="text-sm font-medium text-slate-900 pt-1">Оберіть один із трьох стратегічних шляхів побудови Governance у компанії:</p>
+                `,
+                options: [
+                    {
+                        id: "A",
+                        label: "Варіант A: «Повний контроль та централізація» (Compliance-First)",
+                        desc: "Ви впроваджуєте жорстку централізовану модель. Пишете товсті політики (GV.PO), забороняєте розробникам закривати таски без вашого підпису (GV.RR), проводите тотальний аудит постачальників (GV.SC) та наймаєте дорогих консультантів для контролю (GV.OV).",
+                        style: "bg-blue-50 border-blue-300",
+                        titleColor: "text-slate-900",
+                        metrics: { security: 80, trust: 65, budget: 5000, risk: "Низький" },
+                        trustText: "-10% (65%)",
+                        trustClass: "text-rose-600",
+                        costText: "$95,000 (Залишок: $5,000)",
+                        riskClass: "text-emerald-700",
+                        takeaway: "Це рішення гарантує проходження формальних перевірок, але створює операційні «вузькі місця» (Bottlenecks). Ви захистили компанію від регулятора, але вбили гнучкість розробки та зіпсували стосунки з бізнес-лідерами."
+                    },
+                    {
+                        id: "B",
+                        label: "Варіант B: «Збалансований NIST Govern & Спільна відповідальність»",
+                        desc: "Ви будуєте федеративну модель. Встановлюєте зрозумілі межі ризику (GV.RM) та чітко розмежовуєте ролі (GV.RR): бізнес-власники відповідають за свої ризики, а ви надаєте їм фреймворки та інструменти. Ви перетворюєте політики на автоматизовані правила в CI/CD (GV.PO) та впроваджуєте базову оцінку ризиків критичних постачальників (GV.SC).",
+                        style: "bg-emerald-50 border-emerald-300",
+                        titleColor: "text-emerald-950",
+                        metrics: { security: 78, trust: 90, budget: 45000, risk: "Помірний" },
+                        trustText: "+15% (90%)",
+                        trustClass: "text-emerald-700",
+                        costText: "$55,000 (Залишок: $45,000)",
+                        riskClass: "text-amber-700",
+                        takeaway: "✅ Ідеальний баланс між Governance та швидкістю бізнесу. Ви реалізували концепцію BMIS: поєднали процеси, людей і технології. Бізнес зрозумів свою відповідальність (Accountability), а безпека стала драйвером зростання."
+                    },
+                    {
+                        id: "C",
+                        label: "Варіант C: «Формальна безпека та повний делегат на розробку» (Laissez-Faire)",
+                        desc: "Ви вирішуєте не заважати розробникам. Купуєте один дешевий шаблон політик у інтернеті (GV.PO), оголошуєте, що кожен підрозділ сам відповідає за свої ризики (GV.RR), а нагляд (GV.OV) і перевірку постачальників (GV.SC) зводите до підписання чеклістів для галочки.",
+                        style: "bg-rose-50 border-rose-300",
+                        titleColor: "text-rose-950",
+                        metrics: { security: 45, trust: 55, budget: 90000, risk: "Критичний" },
+                        trustText: "-20% (55%)",
+                        trustClass: "text-rose-700",
+                        costText: "$10,000 (Залишок: $90,000)",
+                        riskClass: "text-rose-700",
+                        takeaway: "❌ Ілюзія економії та свободи. Організація отримала повну фрагментацію стандартів. Перша ж перевірка регулятора або інцидент у постачальника знищить довіру бізнесу та викличе мільйонні збитки."
+                    }
+                ]
+            }
+        },
+        2: {
+            badge: "Лекція 2",
+            title: "СУІБ та ISO/IEC 27001:2022",
+            subtitle: "Система управління інформаційною безпекою, структура стандарту та Statement of Applicability",
+            practiceBadge: "Практика 2",
+            practiceTitle: "Перевірка знань: СУІБ та ISO/IEC 27001",
+            lectureHTML: `
+                <div class="border-b border-slate-200 pb-5">
+                    <span class="text-xs font-semibold uppercase tracking-wider text-blue-700 bg-blue-50 px-3 py-1 rounded">Лекція 2</span>
+                    <h1 class="text-2xl font-bold text-slate-900 mt-2">СУІБ та ISO/IEC 27001</h1>
+                    <p class="text-sm text-slate-500 mt-1">Вимоги до системи управління інформаційною безпекою, структура стандарту та оцінка ризиків</p>
+                </div>
+
+                <!-- 1. СУІБ та ISO 27001 -->
+                <section class="space-y-4">
+                    <h2 class="text-lg font-bold text-slate-900">1. СУІБ (ISMS) та стандарт ISO/IEC 27001:2022</h2>
+                    <div class="grid md:grid-cols-2 gap-5">
+                        <div class="bg-slate-50 p-5 rounded-lg border border-slate-200 space-y-2">
+                            <div class="text-xs font-bold uppercase tracking-wider text-[#122d55]">Що об'єднує СУІБ (ISMS)</div>
+                            <p class="text-xs text-slate-700">Система управління інформаційною безпекою об'єднує: <strong>управління, політики й цілі, управління ризиками, заходи безпеки, людей і ресурси, оцінювання та поліпшення</strong>.</p>
+                        </div>
+                        <div class="bg-amber-50/70 p-5 rounded-lg border border-amber-200 space-y-2">
+                            <div class="text-xs font-bold uppercase tracking-wider text-amber-900">Чим ISO/IEC 27001:2022 НЕ Є</div>
+                            <p class="text-xs text-amber-950">Міжнародний стандарт встановлює вимоги до СУІБ, але <strong>не є</strong> технічною архітектурою, посібником із кібербезпеки чи переліком конкретних технологій.</p>
+                        </div>
+                    </div>
+
+                    <div class="pt-2 space-y-2">
+                        <div class="text-sm font-bold text-slate-900">Чому компанії впроваджують ISO 27001:</div>
+                        <div class="grid md:grid-cols-3 gap-4 text-xs">
+                            <div class="p-4 rounded-lg border border-slate-200 bg-white">
+                                <span class="font-bold text-[#122d55]">01. Клієнти і продажі:</span> вимога тендера, великого клієнта або перевірки постачальника.
+                            </div>
+                            <div class="p-4 rounded-lg border border-slate-200 bg-white">
+                                <span class="font-bold text-[#122d55]">02. Нові ринки та партнерства:</span> сертифікат спрощує роботу з міжнародними компаніями, банками та корпоративним сектором.
+                            </div>
+                            <div class="p-4 rounded-lg border border-slate-200 bg-white">
+                                <span class="font-bold text-[#122d55]">03. Регуляторні та договірні вимоги:</span> формалізована СУІБ для управління вимогами та надання доказів.
+                            </div>
+                            <div class="p-4 rounded-lg border border-slate-200 bg-white">
+                                <span class="font-bold text-[#122d55]">04. Масштабування бізнесу:</span> «ручне» управління перестає працювати — потрібні формалізовані ролі та правила.
+                            </div>
+                            <div class="p-4 rounded-lg border border-slate-200 bg-white">
+                                <span class="font-bold text-[#122d55]">05. Єдина модель для групи компаній:</span> спільні підходи до ризиків, політик і контролю виконання.
+                            </div>
+                            <div class="p-4 rounded-lg border border-slate-200 bg-white">
+                                <span class="font-bold text-[#122d55]">06. Незалежне підтвердження:</span> зовнішня сертифікація підтверджує клієнтам і партнерам зрілість СУІБ.
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 2. Структура ISO 27001 vs ISO 27002 -->
+                <section class="space-y-4 pt-2">
+                    <h2 class="text-lg font-bold text-slate-900">2. Структура ISO 27001 та різниця з ISO 27002</h2>
+                    <div class="grid md:grid-cols-2 gap-5">
+                        <div class="bg-slate-50 p-5 rounded-lg border border-slate-200 space-y-2">
+                            <div class="text-xs font-bold uppercase tracking-wider text-[#122d55]">Основна частина (Розділи 4–10) + Додаток А</div>
+                            <ul class="text-xs text-slate-700 space-y-1">
+                                <li><strong>4. Контекст</strong> — що для нас важливо?</li>
+                                <li><strong>5. Лідерство</strong> — хто робить систему реальною?</li>
+                                <li><strong>6. Планування</strong> — що хочемо досягти і що може завадити?</li>
+                                <li><strong>7. Забезпечення</strong> — що потрібно для виконання?</li>
+                                <li><strong>8. Функціонування</strong> — як це працює на практиці?</li>
+                                <li><strong>9. Оцінювання</strong> — звідки знаємо, що працює?</li>
+                                <li><strong>10. Поліпшення</strong> — що змінюємо?</li>
+                                <li class="pt-1 text-[#122d55] font-semibold">+ Додаток А: 93 заходи інформаційної безпеки</li>
+                            </ul>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="p-4 rounded-lg border border-blue-200 bg-blue-50/40">
+                                <div class="font-bold text-sm text-[#122d55]">Вимоги ISO/IEC 27001</div>
+                                <p class="text-xs text-slate-700 mt-1">Встановлює вимоги до СУІБ; є стандартом для сертифікації.</p>
+                            </div>
+                            <div class="p-4 rounded-lg border border-slate-200 bg-white">
+                                <div class="font-bold text-sm text-slate-900">Настанови ISO/IEC 27002</div>
+                                <p class="text-xs text-slate-700 mt-1">Настанови щодо заходів безпеки; пояснює їх призначення та можливі підходи до впровадження.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 3. Розділи 4-6: Контекст, Лідерство, Планування і SoA -->
+                <section class="space-y-4 pt-2">
+                    <h2 class="text-lg font-bold text-slate-900">3. Контекст, Лідерство та Планування (SoA)</h2>
+                    <div class="grid md:grid-cols-3 gap-5 text-xs">
+                        <div class="p-5 rounded-lg border border-slate-200 bg-slate-50 space-y-2">
+                            <div class="font-bold text-sm text-[#122d55]">Розділ 4. Контекст</div>
+                            <p><strong>Внутрішні чинники:</strong> структура, стратегія, процеси, технології, ресурси, компетентність, культура, наявні засоби захисту.</p>
+                            <p><strong>Зовнішні чинники:</strong> законодавство, регулювання, ринок, клієнти, постачальники, технологічні зміни, загрози, геополітика.</p>
+                        </div>
+                        <div class="p-5 rounded-lg border border-slate-200 bg-slate-50 space-y-2">
+                            <div class="font-bold text-sm text-[#122d55]">Розділ 5. Лідерство</div>
+                            <ul class="list-disc pl-4 space-y-1 text-slate-700">
+                                <li>Ролі мають бути визначені;</li>
+                                <li>Відповідальність призначена;</li>
+                                <li>Повноваження мають бути достатніми;</li>
+                                <li>Це доведено до відповідних людей.</li>
+                            </ul>
+                            <p class="font-semibold text-slate-900 pt-1">! ISO не вимагає конкретної оргструктури.</p>
+                        </div>
+                        <div class="p-5 rounded-lg border border-slate-200 bg-slate-50 space-y-2">
+                            <div class="font-bold text-sm text-[#122d55]">Розділ 6. Оцінка ризиків та SoA</div>
+                            <p>Оцінка ризику визначає: що може статися, наслідки, суттєвість, порівняння та що потребує обробки (<strong>Пом’якшити / Уникнути / Передати / Прийняти</strong>). <em>! ISO не встановлює матрицю 5&times;5 чи одну формулу.</em></p>
+                            <p class="pt-1"><strong>SoA (Statement of Applicability)</strong> фіксує: необхідні та застосовні заходи з Додатка А, стан упровадження та обґрунтування виключень.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 4. Розділи 7-10: Забезпечення, Функціонування, Оцінювання, Поліпшення -->
+                <section class="space-y-4 pt-2">
+                    <h2 class="text-lg font-bold text-slate-900">4. Забезпечення, Функціонування, Оцінювання та Поліпшення</h2>
+                    <div class="grid md:grid-cols-2 gap-5 text-xs">
+                        <div class="p-5 rounded-lg border border-slate-200 bg-white space-y-2">
+                            <div class="font-bold text-sm text-slate-900">Розділ 7. Забезпечення</div>
+                            <p class="text-slate-700">Потрібні: <strong>ресурси, компетентність, обізнаність, комунікація, документована інформація</strong> (система GRC, заявка, журнал, робочий процес, електронне погодження).</p>
+                            <div class="p-3 bg-slate-50 rounded border border-slate-200">
+                                <strong>Обізнаність</strong> — знаю, що від мене очікується.<br>
+                                <strong>Компетентність</strong> — умію це правильно виконати.
+                            </div>
+                        </div>
+                        <div class="p-5 rounded-lg border border-slate-200 bg-white space-y-2">
+                            <div class="font-bold text-sm text-slate-900">Розділи 8–10. Функціонування, Оцінювання та Поліпшення</div>
+                            <p class="text-slate-700"><strong>Функціонування (8):</strong> процеси виконуються, ризики оцінюються, плани реалізуються, зміни управляються.</p>
+                            <p class="text-slate-700"><strong>Оцінювання (9):</strong> 9.1 Моніторинг і вимірювання; 9.2 Внутрішній аудит; 9.3 Аналіз з боку керівництва.</p>
+                            <p class="text-slate-700"><strong>Поліпшення (10):</strong> автоматизація, спрощення, зміна ролей чи показників, відмова від неефективного заходу. <em>Зріліша СУІБ інколи стає простішою, а не більшою.</em></p>
+                        </div>
+                    </div>
+                </section>
+            `,
+            quizzes: [
+                {
+                    question: "1. Чим за своєю суттю є міжнародний стандарт ISO/IEC 27001:2022?",
+                    options: [
+                        "А) Готовим технічним посібником із налаштування мережевої безпеки",
+                        "Б) Стандартом, який встановлює вимоги до системи управління інформаційною безпекою.",
+                        "В) Міжнародно визнаним набором пріоритетних і рекомендованих найкращих практик з кібербезпеки, розробленим некомерційною організацією",
+                        "Г) Framework, який допомагає організаціям управляти ризиками кібербезпеки за допомогою функцій ідентифікації, захисту, виявлення, реагування та відновлення."
+                    ],
+                    correct: 1,
+                    takeaway: "ISO 27001 визначає саме вимоги до побудови СУІБ, а не технічні інструкції чи списки технологій."
+                },
+                {
+                    question: "2. У чому полягає ключова відмінність між стандартами ISO/IEC 27001 та ISO/IEC 27002?",
+                    options: [
+                        "А) 27001 є обов'язковим для сертифікації вимог до СУІБ, а 27002 містить настанови щодо заходів безпеки та їх впровадження.",
+                        "Б) 27001 містить обов'язкові контролі для впровадження, а з 27002 можна обирати будь-які, фіксуючи обрані в SoA (Statement of Applicability)",
+                        "В) Між ними немає різниці, це один і той самий документ у двох частинах",
+                        "Г) 27002 — це сертифікаційний стандарт, а 27001 — набір найдієвіших заходів кібербезпеки з пріоритетами."
+                    ],
+                    correct: 0,
+                    takeaway: "ISO 27001 встановлює вимоги (для сертифікації), тоді як ISO 27002 надає настанови та пояснює підходи до впровадження заходів."
+                },
+                {
+                    question: "3. Якої вимоги щодо оргструктури дотримується ISO/IEC 27001 (Розділ 5 — Лідерство)?",
+                    options: [
+                        "А) Стандарт вимагає впровадження виключно трирівневої ієрархії безпеки",
+                        "Б) ISO не вимагає конкретної оргструктури.",
+                        "В) Усі повноваження мають бути зосереджені виключно в руках засновника компанії",
+                        "Г) Управління безпекою обов'язково передається зовнішньому провайдеру для мінімізації ризиків"
+                    ],
+                    correct: 1,
+                    takeaway: "Стандарт гнучкий до оргструктури компанії, але вимагає чіткого розподілу ролей, відповідальності та надання достатніх повноважень."
+                },
+                {
+                    question: "4. Що з наведеного не встановлює стандарт ISO під час проведення оцінки ризиків?",
+                    options: [
+                        "А) Що може статися та які будуть наслідки",
+                        "Б) Наскільки це суттєво для організації",
+                        "В) Матрицю 5×5",
+                        "Г) Які ризики потребують обов'язкового оброблення"
+                    ],
+                    correct: 2,
+                    takeaway: "ISO вимагає послідовного та відтворюваного підходу до оцінки ризиків, але не нав'язує конкретні математичні формули чи таблиці (наприклад, матрицю 5×5)."
+                },
+                {
+                    question: "5. Які стратегічні варіанти дій існують для оброблення ризику?",
+                    options: [
+                        "А) Прийняти, Заборонити, Застрахувати, Перевірити",
+                        "Б) Пом’якшити, Уникнути, Передати, Прийняти",
+                        "В) Автоматизувати, Делегувати, Ігнорувати, Задокументувати",
+                        "Г) Заблокувати, Розподілити, Спростити, Передати"
+                    ],
+                    correct: 1,
+                    takeaway: "Управлінські рішення щодо ризику передбачають його пом'якшення, уникнення, передачу або прийняття."
+                }
+            ],
+            simulator: {
+                badge: "Симулятор 2",
+                title: "Підготовка логістичної компанії до сертифікації ISO/IEC 27001:2022",
+                contextHTML: `
+                    <p class="text-sm text-slate-700">
+                        Ви — CISO у великій логістичній технологічній компанії, яка через 3 місяці проходить зовнішній сертифікаційний аудит за стандартом <strong>ISO/IEC 27001:2022</strong>, щоб виграти державний тендер. Під час попереднього перегляду внутрішніх процесів ви виявили низку деталей:
+                    </p>
+                    <ul class="list-disc pl-5 text-sm text-slate-700 space-y-1">
+                        <li>Компанія не має формалізованого списку зовнішніх та внутрішніх факторів, оскільки керівництво вважає, що для IT-бізнесу достатньо лише технічного захисту серверів.</li>
+                        <li>У компанії немає окремого «Департаменту інформаційної безпеки» — за безпеку відповідають тімліди розробки, але їм не надали повноважень зупиняти релізи або вимагати бюджет на захист.</li>
+                        <li>Для оцінки ризиків команда використовує 3-рівневу шкалу (Низький/Середній/Високий) замість класичної матриці 5&times;5, а всі 93 заходи з Додатка А зафіксовані в системі Jira як задачі, хоча частина з них (наприклад, фізична безпека власних дата-центрів) виключена без письмового пояснення, бо сервери повністю у хмарі AWS.</li>
+                        <li>Документована інформація ведеться не у файлах Word, а у вигляді електронних заявок та робочих процесів у системі GRC, проте в компанії жодного разу не проводився внутрішній аудит перед зовнішньою перевіркою.</li>
+                    </ul>
+                    <p class="text-sm font-medium text-slate-900 pt-1">Оберіть варіант аналізу, який точно визначає три реальні невідповідності стандарту ISO/IEC 27001:</p>
+                `,
+                options: [
+                    {
+                        id: "A",
+                        label: "Варіант A: Помилкова шкала ризиків, формат GRC та відсутність департаменту ІБ",
+                        desc: "Компанія використовує 3-рівневу шкалу замість обов'язкової матриці 5×5; документована інформація ведеться в системі GRC замість паперових або Word-документів; відсутній виділений «Департамент інформаційної безпеки».",
+                        style: "bg-blue-50 border-blue-300",
+                        titleColor: "text-slate-900",
+                        metrics: { security: 55, trust: 60, budget: 5000, risk: "Високий" },
+                        trustText: "-15% (60%)",
+                        trustClass: "text-rose-600",
+                        costText: "$95,000 (Залишок: $5,000)",
+                        riskClass: "text-rose-600",
+                        takeaway: "❌ Помилковий аналіз. Усі три пункти — це поширені міфи. ISO 27001 не вимагає конкретної матриці 5×5, дозволяє будь-який формат документованої інформації (включно з GRC і заявками) та не диктує конкретну оргструктуру."
+                    },
+                    {
+                        id: "B",
+                        label: "Варіант B: Делегування на тімлідів, неповні 93 заходи та відсутність аудиту",
+                        desc: "Відповідальність покладена на тімлідів без створення окремого департаменту (порушення Розділу 5); виключено частину заходів Додатка А, хоча потрібно впровадити всі 93 без винятків; внутрішній аудит не проводився (Розділ 9).",
+                        style: "bg-rose-50 border-rose-300",
+                        titleColor: "text-rose-950",
+                        metrics: { security: 60, trust: 60, budget: 25000, risk: "Високий" },
+                        trustText: "-15% (60%)",
+                        trustClass: "text-rose-700",
+                        costText: "$75,000 (Залишок: $25,000)",
+                        riskClass: "text-rose-700",
+                        takeaway: "❌ Частково хибний аналіз. Ви правильно помітили відсутність внутрішнього аудиту, але припустилися двох грубих помилок: стандарт дозволяє гнучку оргструктуру (можна розподіляти ролі між тімлідами, якщо є повноваження) і дозволяє виключати заходи з Додатка А, якщо це належним чином обґрунтовано в Заяві про застосовність (SoA)."
+                    },
+                    {
+                        id: "C",
+                        label: "Варіант C: Відсутній контекст, брак повноважень та необґрунтовані виключення у SoA + відсутній аудит",
+                        desc: "Не визначені внутрішні та зовнішні чинники контексту організації (Розділ 4); тімлідам не надали достатніх повноважень (Розділ 5), а виключення заходів Додатка А у SoA не мають письмового обґрунтування (Розділ 6); жодного разу не проводився внутрішній аудит (Розділ 9.2).",
+                        style: "bg-emerald-50 border-emerald-300",
+                        titleColor: "text-emerald-950",
+                        metrics: { security: 88, trust: 95, budget: 55000, risk: "Низький" },
+                        trustText: "+20% (95%)",
+                        trustClass: "text-emerald-700",
+                        costText: "$45,000 (Залишок: $55,000)",
+                        riskClass: "text-emerald-700",
+                        takeaway: "✅ Влучні зауваження CISO. Ви безпомилково відділили реальні вимоги стандарту від міфів. Визначивши контекст, надавши повноваження відповідальним особам, обґрунтувавши виключення у SoA та провівши внутрішній аудит, ви захистили компанію від критичних зауважень (Major Non-conformities)."
+                    }
+                ]
+            }
+        }
+    };
+
+    let currentModuleId = 1;
+    let answeredQuestions = { 1: {}, 2: {} };
+    let selectedDecisions = { 1: null, 2: null };
+
+    function switchModule(modId) {
+        currentModuleId = modId;
+
+        [1, 2].forEach(id => {
+            const btn = document.getElementById('mod-btn-' + id);
+            if (id === modId) {
+                btn.className = "px-3.5 py-1.5 rounded-lg text-xs font-semibold transition bg-[#122d55] text-white shadow-sm";
+            } else {
+                btn.className = "px-3.5 py-1.5 rounded-lg text-xs font-semibold transition bg-slate-100 text-slate-700 hover:bg-slate-200";
+            }
+        });
+
+        renderModuleContent();
+    }
+
+    function renderModuleContent() {
+        const mod = modulesData[currentModuleId];
+
+        // 1. Render Lecture
+        document.getElementById('lecture-container').innerHTML = mod.lectureHTML;
+
+        // 2. Render Practice
+        document.getElementById('practice-badge').innerText = mod.practiceBadge;
+        document.getElementById('practice-title').innerText = mod.practiceTitle;
+        renderQuiz();
+
+        // 3. Render Simulator
+        const sim = mod.simulator;
+        const simContainer = document.getElementById('simulator-container');
+        const optionsHtml = sim.options.map(opt => `
+            <button onclick="makeDecision('${opt.id}')" id="sim-btn-${opt.id}" class="w-full p-5 border border-slate-300 rounded-xl hover:border-blue-600 hover:bg-blue-50/30 transition text-left space-y-2">
+                <div class="font-bold text-slate-900">${opt.label}</div>
+                <p class="text-xs text-slate-600">${opt.desc}</p>
+            </button>
+        `).join('');
+
+        simContainer.innerHTML = `
+            <div class="border-b border-slate-200 pb-4 flex flex-wrap justify-between items-center gap-4">
+                <div>
+                    <span class="text-xs font-bold text-blue-700 bg-blue-50 px-3 py-1 rounded uppercase">${sim.badge}</span>
+                    <h2 class="text-xl font-bold text-slate-900 mt-2">${sim.title}</h2>
+                </div>
+                <button onclick="resetSimulator()" class="text-xs font-medium text-slate-500 hover:text-slate-800 underline">
+                    Скинути симуляцію
+                </button>
+            </div>
+            <div class="bg-slate-50 p-6 rounded-xl border border-slate-200 space-y-2">
+                <div class="text-xs font-bold uppercase tracking-wider text-[#122d55]">Опис дилеми</div>
+                ${sim.contextHTML}
+            </div>
+            <div class="space-y-4">${optionsHtml}</div>
+            <div id="sim-feedback" class="hidden p-6 rounded-xl text-sm border space-y-3"></div>
+        `;
+
+        if (selectedDecisions[currentModuleId]) {
+            makeDecision(selectedDecisions[currentModuleId]);
+        } else {
+            updateDashboardMetrics({ security: 65, trust: 75, budget: 100000, risk: 'Високий' });
+        }
+    }
+
+    function renderQuiz() {
+        const mod = modulesData[currentModuleId];
+        const container = document.getElementById('quiz-container');
+        const currentAnswers = answeredQuestions[currentModuleId];
+        container.innerHTML = '';
+
+        mod.quizzes.forEach((q, qIndex) => {
+            const qBlock = document.createElement('div');
+            qBlock.className = "p-6 bg-slate-50 rounded-xl border border-slate-200 space-y-4";
+
+            let optionsHtml = q.options.map((opt, oIndex) => {
+                let btnStyle = "border-slate-300 bg-white hover:border-blue-500 hover:bg-blue-50/40 text-slate-800";
+                if (currentAnswers[qIndex] !== undefined) {
+                    if (oIndex === q.correct) {
+                        btnStyle = "border-emerald-500 bg-emerald-50 text-emerald-900 font-semibold";
+                    } else if (oIndex === currentAnswers[qIndex]) {
+                        btnStyle = "border-rose-400 bg-rose-50 text-rose-900";
+                    } else {
+                        btnStyle = "border-slate-200 bg-white text-slate-400";
+                    }
+                }
+                return `
+                    <button onclick="selectAnswer(${qIndex}, ${oIndex})" class="w-full p-3.5 text-left border rounded-lg transition text-sm ${btnStyle}">
+                        ${opt}
+                    </button>
+                `;
+            }).join('');
+
+            let takeawayHtml = '';
+            if (currentAnswers[qIndex] !== undefined) {
+                const isCorrect = currentAnswers[qIndex] === q.correct;
+                takeawayHtml = `
+                    <div class="p-4 rounded-lg text-xs border ${isCorrect ? 'bg-emerald-50/80 border-emerald-200 text-emerald-900' : 'bg-amber-50 border-amber-200 text-amber-900'}">
+                        <strong>${isCorrect ? '✅ Правильно!' : '❌ Невірно.'} Takeaway:</strong> ${q.takeaway}
+                    </div>
+                `;
+            }
+
+            qBlock.innerHTML = `
+                <div class="font-semibold text-slate-900 text-sm">${q.question}</div>
+                <div class="space-y-2.5">${optionsHtml}</div>
+                ${takeawayHtml}
+            `;
+            container.appendChild(qBlock);
+        });
+
+        document.getElementById('quiz-progress').innerText = `${Object.keys(currentAnswers).length} / ${mod.quizzes.length}`;
+    }
+
+    function selectAnswer(qIndex, oIndex) {
+        answeredQuestions[currentModuleId][qIndex] = oIndex;
+        renderQuiz();
+    }
+
+    function resetQuiz() {
+        answeredQuestions[currentModuleId] = {};
+        renderQuiz();
+    }
+
+    function switchTab(tabId) {
+        document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+        document.getElementById('tab-' + tabId).classList.add('active');
+
+        ['lectures', 'tests', 'simulator'].forEach(id => {
+            const btn = document.getElementById('tab-btn-' + id);
+            if (id === tabId) {
+                btn.className = "px-5 py-2 rounded-md text-xs font-semibold tracking-wide transition-all text-white bg-blue-600 shadow";
+            } else {
+                btn.className = "px-5 py-2 rounded-md text-xs font-semibold tracking-wide transition-all text-slate-300 hover:text-white";
+            }
+        });
+    }
+
+    function makeDecision(optionId) {
+        selectedDecisions[currentModuleId] = optionId;
+        const sim = modulesData[currentModuleId].simulator;
+        const opt = sim.options.find(o => o.id === optionId);
+        if (!opt) return;
+
+        sim.options.forEach(o => {
+            const btn = document.getElementById('sim-btn-' + o.id);
+            if (btn) btn.classList.remove('ring-2', 'ring-blue-600', 'bg-blue-50/40');
+        });
+        const activeBtn = document.getElementById('sim-btn-' + optionId);
+        if (activeBtn) activeBtn.classList.add('ring-2', 'ring-blue-600', 'bg-blue-50/40');
+
+        const fb = document.getElementById('sim-feedback');
+        fb.className = `p-6 rounded-xl text-sm border space-y-3 ${opt.style}`;
+        fb.innerHTML = `
+            <div class="font-bold ${opt.titleColor}">${opt.label}</div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 py-2 text-xs font-semibold">
+                <div class="bg-white p-2.5 rounded border border-slate-200">🤝 Business Trust: <span class="${opt.trustClass}">${opt.trustText}</span></div>
+                <div class="bg-white p-2.5 rounded border border-slate-200">💰 Витрати: <span class="text-slate-900">${opt.costText}</span></div>
+                <div class="bg-white p-2.5 rounded border border-slate-200">⚠️ Risk Level: <span class="${opt.riskClass}">${opt.metrics.risk}</span></div>
+            </div>
+            <p class="text-slate-800"><strong>💡 CISO Takeaway:</strong> ${opt.takeaway}</p>
+        `;
+
+        updateDashboardMetrics(opt.metrics);
+    }
+
+    function updateDashboardMetrics(m) {
+        document.getElementById('metric-security').innerText = m.security + '%';
+        document.getElementById('metric-trust').innerText = m.trust + '%';
+        document.getElementById('metric-budget').innerText = '$' + m.budget.toLocaleString();
+        document.getElementById('metric-risk').innerText = m.risk;
+    }
+
+    function resetSimulator() {
+        selectedDecisions[currentModuleId] = null;
+        renderModuleContent();
+    }
+
+    // Ініціалізація при завантаженні
+    renderModuleContent();
+</script>
+</body>
+</html>
