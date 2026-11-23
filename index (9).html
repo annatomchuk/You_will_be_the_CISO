@@ -1,0 +1,3077 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>You will be the CISO — Інтерактивна навчальна платформа</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-800 font-sans antialiased">
+
+<!-- TOP HEADER -->
+<header class="bg-[#122d55] text-white sticky top-0 z-40 shadow-md border-b border-slate-700">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
+        <div class="flex items-center space-x-3">
+            <button onclick="toggleMobileSidebar()" class="lg:hidden p-2 rounded-lg text-slate-200 hover:bg-blue-900/60">
+                <i class="fa-solid fa-bars text-lg"></i>
+            </button>
+            <div class="w-9 h-9 rounded-lg bg-blue-500/20 border border-blue-400/40 flex items-center justify-center text-amber-400 shrink-0">
+                <i class="fa-solid fa-shield-halved text-lg"></i>
+            </div>
+            <span class="text-xl sm:text-2xl font-bold tracking-tight text-white">You will be the CISO</span>
+        </div>
+
+        <nav id="standard-nav-tabs" class="hidden md:flex items-center bg-[#0b1b36] p-1 rounded-lg border border-slate-700/80 space-x-1">
+            <button id="tab-btn-lectures" onclick="switchTab('lectures')" class="px-5 py-2 rounded-md text-xs font-semibold tracking-wide transition-all text-white bg-blue-600 shadow">
+                Лекції
+            </button>
+            <button id="tab-btn-tests" onclick="switchTab('tests')" class="px-5 py-2 rounded-md text-xs font-semibold tracking-wide transition-all text-slate-300 hover:text-white">
+                Практика (Тести)
+            </button>
+            <button id="tab-btn-simulator" onclick="switchTab('simulator')" class="px-5 py-2 rounded-md text-xs font-semibold tracking-wide transition-all text-slate-300 hover:text-white">
+                Симулятор CISO
+            </button>
+        </nav>
+
+        <div id="special-mode-badge" class="hidden items-center space-x-2 bg-[#0b1b36] px-4 py-2 rounded-lg border border-indigo-400/50 text-xs font-semibold text-indigo-300">
+            <i id="special-badge-icon" class="fa-solid fa-magnifying-glass"></i>
+            <span id="special-badge-text">Спеціальний модуль</span>
+        </div>
+
+        <button onclick="openProfileModal()" class="flex items-center space-x-2.5 bg-[#0b1b36] hover:bg-blue-950 px-3 py-1.5 rounded-xl border border-slate-700 transition">
+            <div id="header-avatar" class="w-7 h-7 rounded-full bg-amber-400 text-slate-950 font-bold text-xs flex items-center justify-center">Г</div>
+            <div class="text-left hidden sm:block">
+                <div id="header-ciso-name" class="text-xs font-semibold text-white leading-tight">Гість (CISO)</div>
+                <div id="header-ciso-org" class="text-[10px] text-slate-400 leading-tight">NovaPayTech</div>
+            </div>
+        </button>
+    </div>
+</header>
+
+<!-- EXECUTIVE METRICS BAR -->
+<div class="bg-white border-b border-slate-200 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4 space-y-3">
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+            <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-between">
+                <div>
+                    <div class="text-[11px] font-semibold uppercase tracking-wider text-slate-500">Фонд безпеки (Залишок)</div>
+                    <div id="metric-budget" class="text-lg sm:text-xl font-bold text-slate-900 mt-0.5">$250,000</div>
+                </div>
+                <div class="w-9 h-9 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center">
+                    <i class="fa-solid fa-vault"></i>
+                </div>
+            </div>
+
+            <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-between">
+                <div>
+                    <div class="text-[11px] font-semibold uppercase tracking-wider text-slate-500">Рейтинг CISO</div>
+                    <div id="metric-score" class="text-lg sm:text-xl font-bold text-[#122d55] mt-0.5">0 балів</div>
+                </div>
+                <div class="w-9 h-9 rounded-lg bg-blue-100 text-[#122d55] flex items-center justify-center">
+                    <i class="fa-solid fa-trophy"></i>
+                </div>
+            </div>
+
+            <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-between">
+                <div>
+                    <div class="text-[11px] font-semibold uppercase tracking-wider text-slate-500">Пройдено симуляцій</div>
+                    <div id="metric-completed" class="text-lg sm:text-xl font-bold text-slate-900 mt-0.5">0 / 9</div>
+                </div>
+                <div class="w-9 h-9 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center">
+                    <i class="fa-solid fa-diagram-project"></i>
+                </div>
+            </div>
+
+            <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-between">
+                <div>
+                    <div class="text-[11px] font-semibold uppercase tracking-wider text-slate-500">Залишковий ризик</div>
+                    <div id="metric-risk" class="text-lg sm:text-xl font-bold text-amber-700 mt-0.5">Високий</div>
+                </div>
+                <div class="w-9 h-9 rounded-lg bg-amber-100 text-amber-700 flex items-center justify-center">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Visual Budget Allocation Bar -->
+        <div class="space-y-1.5">
+            <div class="flex flex-wrap justify-between items-center text-[11px] text-slate-600 gap-2">
+                <span class="font-semibold text-slate-800">Візуалізація розподілу фонду CISO ($250,000 базовий бюджет):</span>
+                <span id="budget-breakdown-label">Витрачено: $0 • Вільно: $250,000</span>
+            </div>
+            <div id="budget-visual-bar" class="w-full h-3 bg-slate-200 rounded-full overflow-hidden flex"></div>
+            <div class="flex flex-wrap items-center gap-4 text-[10px] text-slate-500">
+                <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-sm bg-[#122d55] inline-block"></span> Симулятори 1–7</span>
+                <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-sm bg-indigo-500 inline-block"></span> Детектив (Модуль 11)</span>
+                <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-sm bg-amber-500 inline-block"></span> Фінальний портфель (Модуль 12)</span>
+                <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-sm bg-emerald-500/30 inline-block"></span> Вільний залишок</span>
+            </div>
+        </div>
+
+        <div id="emergency-loan-box" class="hidden p-3 rounded-xl bg-rose-50 border border-rose-200 flex flex-wrap items-center justify-between gap-3 text-xs text-rose-900">
+            <div>
+                <strong>⚠️ Критично низький залишок фонду!</strong> Ви можете запросити екстрений транш у Ради директорів (+$50,000), але це коштуватиме <strong>-25 балів рейтингу CISO</strong>.
+            </div>
+            <button onclick="takeEmergencyBailout()" class="px-3.5 py-1.5 bg-rose-600 hover:bg-rose-700 text-white font-semibold rounded-lg transition">
+                Запросити транш (+$50,000 / -25 балів)
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- MAIN LAYOUT -->
+<div class="max-w-7xl mx-auto px-4 sm:px-6 py-6 flex flex-col lg:flex-row gap-6 relative">
+
+    <!-- Mobile Backdrop -->
+    <div id="sidebar-backdrop" onclick="toggleMobileSidebar()" class="fixed inset-0 bg-slate-900/50 z-30 hidden lg:hidden"></div>
+
+    <!-- SIDEBAR -->
+    <aside id="course-sidebar" class="fixed lg:static inset-y-0 left-0 z-40 w-72 bg-white border-r lg:border border-slate-200 lg:rounded-2xl p-4 shadow-lg lg:shadow-sm transform -translate-x-full lg:translate-x-0 transition-transform duration-200 flex flex-col justify-between shrink-0 overflow-y-auto">
+        <div class="space-y-4">
+            <div class="flex items-center justify-between lg:hidden pb-2 border-b border-slate-200">
+                <span class="font-bold text-sm text-[#122d55]">Навігація курсу</span>
+                <button onclick="toggleMobileSidebar()" class="text-slate-500 hover:text-slate-800"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5">
+                <div class="flex justify-between text-xs font-semibold text-slate-700">
+                    <span>Загальний прогрес</span>
+                    <span id="sidebar-total-progress">0%</span>
+                </div>
+                <div class="w-full h-2 bg-slate-200 rounded-full overflow-hidden">
+                    <div id="sidebar-total-bar" class="h-full bg-emerald-500 transition-all duration-300" style="width: 0%"></div>
+                </div>
+                <div id="progress-indicator-box" class="text-[11px] text-slate-500 pt-0.5">Прогрес модуля: 0 / 5</div>
+            </div>
+
+            <div class="space-y-1">
+                <div class="text-[11px] font-bold uppercase tracking-wider text-slate-400 px-2 pb-1">Базові модулі (1–7)</div>
+                <div id="sidebar-modules-list" class="space-y-1"></div>
+            </div>
+
+            <div class="space-y-1.5 pt-2 border-t border-slate-200">
+                <div class="text-[11px] font-bold uppercase tracking-wider text-slate-400 px-2">Спеціальні практикуми</div>
+                <button id="side-btn-11" onclick="switchModule(11); closeMobileSidebarIfOpen();" class="w-full text-left px-3 py-2.5 rounded-xl text-xs font-semibold transition flex items-center justify-between bg-indigo-50 text-indigo-950 border border-indigo-200 hover:bg-indigo-100">
+                    <span class="truncate pr-2"><i class="fa-solid fa-magnifying-glass mr-1.5"></i>11. ШІ-Детектив</span>
+                    <span id="side-status-11" class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-white text-indigo-700">0/3</span>
+                </button>
+                <button id="side-btn-12" onclick="switchModule(12); closeMobileSidebarIfOpen();" class="w-full text-left px-3 py-2.5 rounded-xl text-xs font-semibold transition flex items-center justify-between bg-amber-50 text-amber-950 border border-amber-200 hover:bg-amber-100">
+                    <span class="truncate pr-2"><i class="fa-solid fa-chess-king mr-1.5"></i>12. Фінальний захист</span>
+                    <span id="side-status-12" class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-white text-amber-800">0/12</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="pt-4 mt-4 border-t border-slate-200">
+            <button onclick="resetAllProgress()" class="w-full py-2 px-3 rounded-lg text-xs font-medium text-rose-600 hover:bg-rose-50 transition flex items-center justify-center gap-1.5">
+                <i class="fa-solid fa-rotate-left"></i> Скинути весь прогрес курсу
+            </button>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT AREA -->
+    <main class="flex-1 min-w-0 space-y-6">
+
+        <!-- Standard Module Wrapper (Modules 1-7) -->
+        <div id="standard-module-wrapper" class="space-y-6">
+            <!-- Mobile Tab Switcher -->
+            <div class="flex md:hidden bg-[#122d55] p-1 rounded-xl space-x-1">
+                <button onclick="switchTab('lectures')" class="flex-1 py-2 rounded-lg text-xs font-semibold text-white bg-blue-600">Лекції</button>
+                <button onclick="switchTab('tests')" class="flex-1 py-2 rounded-lg text-xs font-semibold text-slate-200">Тести</button>
+                <button onclick="switchTab('simulator')" class="flex-1 py-2 rounded-lg text-xs font-semibold text-slate-200">Симулятор</button>
+            </div>
+
+            <!-- Tab 1: Lectures -->
+            <div id="tab-lectures" class="tab-content active bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/80 shadow-sm space-y-6">
+                <div id="lecture-container" class="space-y-6"></div>
+            </div>
+
+            <!-- Tab 2: Quizzes -->
+            <div id="tab-tests" class="tab-content bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/80 shadow-sm space-y-6">
+                <div class="border-b border-slate-200 pb-4 flex flex-wrap justify-between items-center gap-4">
+                    <div>
+                        <span id="practice-badge" class="text-xs font-bold text-blue-700 bg-blue-50 px-3 py-1 rounded uppercase">Практика</span>
+                        <h2 id="practice-title" class="text-xl font-bold text-slate-900 mt-2">Перевірка знань</h2>
+                    </div>
+                    <button onclick="resetQuiz()" class="text-xs font-medium text-slate-500 hover:text-slate-800 underline">
+                        Очистити відповіді тесту
+                    </button>
+                </div>
+                <div id="quiz-container" class="space-y-5"></div>
+            </div>
+
+            <!-- Tab 3: Simulator -->
+            <div id="tab-simulator" class="tab-content bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/80 shadow-sm space-y-6">
+                <div id="simulator-container" class="space-y-6"></div>
+            </div>
+        </div>
+
+        <!-- Module 11 Wrapper -->
+        <div id="detective-module-wrapper" class="hidden space-y-6"></div>
+
+        <!-- Module 12 Wrapper -->
+        <div id="final-module-wrapper" class="hidden space-y-6"></div>
+    </main>
+</div>
+
+<!-- PROFILE MODAL -->
+<div id="profile-modal" class="fixed inset-0 bg-slate-900/60 z-50 hidden items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 space-y-4 shadow-xl">
+        <div class="flex justify-between items-center border-b border-slate-200 pb-3">
+            <h3 class="font-bold text-lg text-slate-900">Профіль CISO</h3>
+            <button onclick="closeProfileModal()" class="text-slate-400 hover:text-slate-700"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="space-y-3 text-xs">
+            <div>
+                <label class="block font-semibold text-slate-700 mb-1">Ваше ім'я та посада</label>
+                <input id="input-ciso-name" type="text" class="w-full p-2.5 border border-slate-300 rounded-lg focus:outline-none focus:border-blue-600">
+            </div>
+            <div>
+                <label class="block font-semibold text-slate-700 mb-1">Назва компанії</label>
+                <input id="input-ciso-org" type="text" class="w-full p-2.5 border border-slate-300 rounded-lg focus:outline-none focus:border-blue-600">
+            </div>
+        </div>
+        <div class="flex justify-end gap-2 pt-2">
+            <button onclick="closeProfileModal()" class="px-4 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-100 rounded-lg">Скасувати</button>
+            <button onclick="saveProfile()" class="px-4 py-2 text-xs font-semibold bg-[#122d55] text-white rounded-lg hover:bg-blue-900">Зберегти</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    const moduleTitlesShort = {
+        1: "1. Основи управління ІБ",
+        2: "2. Security Governance",
+        3: "3. Framework ISO/IEC 27001",
+        4: "4. Security Controls & FAIR",
+        5: "5. Risk-Based Decisions",
+        6: "6. Security Strategy",
+        7: "7. Implementation & Execution"
+    };
+
+    const modulesData = {
+        1: {
+            practiceBadge: "Практика 1",
+            practiceTitle: "Перевірка знань: Основи управління інформаційною безпекою",
+            lectureHTML: `
+                <div class="border-b border-slate-200 pb-5">
+                    <span class="text-xs font-semibold uppercase tracking-wider text-blue-700 bg-blue-50 px-3 py-1 rounded">Лекція 1</span>
+                    <h1 class="text-2xl font-bold text-slate-900 mt-2">Основи управління інформаційною безпекою (ISM)</h1>
+                    <p class="text-sm text-slate-500 mt-1">Від технічного захисту до бізнес-орієнтованого управління ризиками та стійкості</p>
+                </div>
+
+                <section class="space-y-4">
+                    <h2 class="text-lg font-bold text-slate-900">1. Тріада CIA та розширені властивості інформації</h2>
+                    <div class="grid md:grid-cols-3 gap-4 text-xs">
+                        <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-1">
+                            <div class="font-bold text-sm text-[#122d55]">Confidentiality (Конфіденційність)</div>
+                            <p class="text-slate-700">Захист інформації від несанкціонованого доступу та розкриття.</p>
+                        </div>
+                        <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-1">
+                            <div class="font-bold text-sm text-[#122d55]">Integrity (Цілісність)</div>
+                            <p class="text-slate-700">Забезпечення точності, повноти та захисту даних від несанкціонованих змін.</p>
+                        </div>
+                        <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-1">
+                            <div class="font-bold text-sm text-[#122d55]">Availability (Доступність)</div>
+                            <p class="text-slate-700">Своєчасний та безперебійний доступ авторизованих користувачів до систем і даних.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="space-y-4 pt-2">
+                    <h2 class="text-lg font-bold text-slate-900">2. Роль CISO та бізнес-орієнтований підхід</h2>
+                    <div class="grid md:grid-cols-2 gap-4 text-xs">
+                        <div class="p-5 rounded-xl border border-slate-200 bg-white space-y-1.5">
+                            <div class="font-bold text-sm text-slate-900">Технічний фахівець vs CISO</div>
+                            <p class="text-slate-700">Інженер фокусується на налаштуванні фаєрволів та патчингу. <strong>CISO</strong> перекладає технічні загрози на мову бізнес-ризиків, фінансових втрат, регуляторної відповідності та довіри клієнтів.</p>
+                        </div>
+                        <div class="p-5 rounded-xl border border-blue-200 bg-blue-50/40 space-y-1.5">
+                            <div class="font-bold text-sm text-[#122d55]">Принцип Proportionality (Пропорційності)</div>
+                            <p class="text-slate-700">Вартість заходів захисту не повинна перевищувати цінність активу та потенційні збитки від інциденту. Безпека має підтримувати розвиток бізнесу, а не блокувати його.</p>
+                        </div>
+                    </div>
+                </section>
+            `,
+            quizzes: [
+                {
+                    type: "single",
+                    question: "1. Що є головною метою управління інформаційною безпекою (ISM) з точки зору сучасного бізнесу?",
+                    options: [
+                        "А) Повна заборона будь-яких нових технологій для досягнення 100% захищеності.",
+                        "Б) Забезпечення безперервності бізнесу, мінімізація збитків та підтримка стратегічних цілей організації через кероване зниження ризиків.",
+                        "В) Закупівля найдорожчих засобів захисту на ринку.",
+                        "Г) Перекладання всієї відповідальності за інциденти на зовнішніх підрядників."
+                    ],
+                    correct: 1,
+                    takeaway: "Абсолютної безпеки не існує; завдання CISO — утримувати ризики в межах прийнятного для бізнесу рівня."
+                },
+                {
+                    type: "single",
+                    question: "2. Яку властивість інформації порушено, якщо зловмисник непомітно змінив реквізити рахунку в платіжній базі даних?",
+                    options: [
+                        "А) Confidentiality (Конфіденційність)",
+                        "Б) Integrity (Цілісність)",
+                        "В) Availability (Доступність)",
+                        "Г) Scalability (Масштабованість)"
+                    ],
+                    correct: 1,
+                    takeaway: "Integrity (цілісність) відповідає за точність і незмінність даних від несанкціонованих модифікацій."
+                },
+                {
+                    type: "single",
+                    question: "3. Який підхід найкраще описує принцип пропорційності витрат на безпеку?",
+                    options: [
+                        "А) На захист кожного сервера потрібно витрачати однаковий бюджет.",
+                        "Б) Інвестиції у захист активу мають відповідати його критичності для бізнесу та рівню ризику.",
+                        "В) Бюджет безпеки має дорівнювати 50% обороту компанії.",
+                        "Г) Захищати потрібно лише ті активи, які вже були атаковані."
+                    ],
+                    correct: 1,
+                    takeaway: "Ресурси обмежені, тому пріоритет завжди надається критичним бізнес-активам (Crown Jewels)."
+                },
+                {
+                    type: "single",
+                    question: "4. Чим відрізняється поняття загрози (Threat) від вразливості (Vulnerability)?",
+                    options: [
+                        "А) Це синоніми.",
+                        "Б) Вразливість — це слабке місце в системі або процесі, а загроза — потенційна подія чи актор, який може використати цю вразливість.",
+                        "В) Загроза існує лише всередині компанії, а вразливість — ззовні.",
+                        "Г) Вразливість стосується лише апаратного забезпечення."
+                    ],
+                    correct: 1,
+                    takeaway: "Ризик виникає на перетині загрози, вразливості та цінності активу."
+                },
+                {
+                    type: "single",
+                    question: "5. Як CISO має комунікувати необхідність інвестицій у кібербезпеку Раді директорів?",
+                    options: [
+                        "А) Через перелік технічних CVE та логів мережевого трафіку.",
+                        "Б) Через фінансовий вплив простою, регуляторні штрафи, захист репутації та підтримку виходу на нові ринки.",
+                        "В) Через залякування неминучим банкрутством без пояснення деталей.",
+                        "Г) Через вимогу підписати бюджет без обговорення."
+                    ],
+                    correct: 1,
+                    takeaway: "Правління ухвалює рішення на основі бізнес-цінності, ризиків та окупності (ROI/ROSI)."
+                }
+            ],
+            simulator: {
+                type: "single",
+                badge: "Симулятор 1",
+                title: "Перший тиждень CISO: Розподіл стартового фокусу та бюджету",
+                contextHTML: `<p class="text-sm text-slate-700">Ви щойно очолили напрям інформаційної безпеки у платіжній компанії. Інвестори вимагають показати прогрес у захисті клієнтських даних перед новим раундом фінансування. Оберіть першочерговий пакет дій:</p>`,
+                options: [
+                    {
+                        id: "A",
+                        label: "Варіант A: Закупівля дорогих периметрових рішень без інвентаризації",
+                        desc: "Витрачаєте значну суму на найновіші апаратні фаєрволи та антивіруси, не провівши попередню інвентаризацію критичних активів і процесів.",
+                        style: "bg-rose-50 border-rose-300",
+                        titleColor: "text-rose-950",
+                        cost: 50000,
+                        scoreDelta: -15,
+                        risk: "Високий",
+                        costText: "$50,000 з фонду",
+                        scoreText: "-15 балів рейтингу",
+                        riskClass: "text-rose-700",
+                        takeaway: "❌ Неможливо ефективно захистити те, що не інвентаризовано та не оцінено за критичністю."
+                    },
+                    {
+                        id: "B",
+                        label: "Варіант B: Інвентаризація критичних активів, аналіз розривів та базовий захист",
+                        desc: "Визначаєте критичні бізнес-сервіси (Crown Jewels), проводите базовий аудит доступів та закриваєте найгостріші вразливості автентифікації.",
+                        style: "bg-emerald-50 border-emerald-300",
+                        titleColor: "text-emerald-950",
+                        cost: 20000,
+                        scoreDelta: 30,
+                        risk: "Помірний",
+                        costText: "$20,000 з фонду",
+                        scoreText: "+30 балів рейтингу",
+                        riskClass: "text-emerald-700",
+                        takeaway: "✅ Правильний фундамент CISO: спочатку видимість активів і бізнес-контекст, потім точкові інвестиції."
+                    },
+                    {
+                        id: "C",
+                        label: "Варіант C: Повна заморозка змін у продукті на 3 місяці",
+                        desc: "Зупиняєте всі релізи розробників для написання 200 сторінок регламентів безпеки.",
+                        style: "bg-blue-50 border-blue-300",
+                        titleColor: "text-slate-900",
+                        cost: 10000,
+                        scoreDelta: -10,
+                        risk: "Високий",
+                        costText: "$10,000 з фонду",
+                        scoreText: "-10 балів рейтингу",
+                        riskClass: "text-rose-600",
+                        takeaway: "❌ Конфлікт із бізнесом на старті: блокування розвитку продукту без швидкого зниження реальних технічних ризиків."
+                    }
+                ]
+            }
+        },
+        2: {
+            practiceBadge: "Практика 2",
+            practiceTitle: "Перевірка знань: Information Security Governance",
+            lectureHTML: `
+                <div class="border-b border-slate-200 pb-5">
+                    <span class="text-xs font-semibold uppercase tracking-wider text-blue-700 bg-blue-50 px-3 py-1 rounded">Лекція 2</span>
+                    <h1 class="text-2xl font-bold text-slate-900 mt-2">Information Security Governance</h1>
+                    <p class="text-sm text-slate-500 mt-1">Корпоративне врядування, модель трьох ліній захисту, ролі, відповідальність та ієрархія документів</p>
+                </div>
+
+                <section class="space-y-4">
+                    <h2 class="text-lg font-bold text-slate-900">1. Governance vs Management та Модель трьох ліній</h2>
+                    <div class="grid md:grid-cols-2 gap-4 text-xs">
+                        <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-1">
+                            <div class="font-bold text-sm text-[#122d55]">Governance (Врядування)</div>
+                            <p class="text-slate-700">Встановлення стратегічного напряму, ризик-апетиту, політик, розподіл повноважень та контроль підзвітності (Board / Executive level).</p>
+                        </div>
+                        <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-1">
+                            <div class="font-bold text-sm text-[#122d55]">Management (Управління)</div>
+                            <p class="text-slate-700">Планування, організація, впровадження та щоденне виконання заходів для досягнення цілей, заданих Governance.</p>
+                        </div>
+                    </div>
+
+                    <div class="grid md:grid-cols-3 gap-4 text-xs">
+                        <div class="p-4 rounded-xl border border-slate-200 bg-white">
+                            <div class="font-bold text-[#122d55]">1-ша лінія: Операційний менеджмент</div>
+                            <p class="text-slate-700 mt-1">Власники процесів та ІТ-команди, які безпосередньо створюють ризики та виконують контролі.</p>
+                        </div>
+                        <div class="p-4 rounded-xl border border-slate-200 bg-white">
+                            <div class="font-bold text-[#122d55]">2-га лінія: Risk &amp; Security (CISO)</div>
+                            <p class="text-slate-700 mt-1">Розробка політик, методології оцінки ризиків, моніторинг та консультаційна підтримка 1-ї лінії.</p>
+                        </div>
+                        <div class="p-4 rounded-xl border border-slate-200 bg-white">
+                            <div class="font-bold text-[#122d55]">3-тя лінія: Внутрішній аудит</div>
+                            <p class="text-slate-700 mt-1">Незалежна та об'єктивна перевірка ефективності Governance, ризик-менеджменту та внутрішніх контролів.</p>
+                        </div>
+                    </div>
+                </section>
+            `,
+            quizzes: [
+                {
+                    type: "single",
+                    question: "1. У чому полягає принципова різниця між Governance та Management у сфері інформаційної безпеки?",
+                    options: [
+                        "А) Governance визначає напрям, політики, ризик-апетит і підзвітність, а Management забезпечує операційне виконання цих рішень.",
+                        "Б) Governance стосується лише технічних налаштувань, а Management — фінансів.",
+                        "В) Governance виконують системні адміністратори, а Management — зовнішні клієнти.",
+                        "Г) Між ними немає жодної різниці."
+                    ],
+                    correct: 0,
+                    takeaway: "Governance — це «куди і за якими правилами ми рухаємося», Management — «як ми це реалізуємо щодня»."
+                },
+                {
+                    type: "single",
+                    question: "2. Яка роль належить 3-й лінії захисту (Internal Audit) у моделі Three Lines Model?",
+                    options: [
+                        "А) Налаштування правил міжмережевого екрана.",
+                        "Б) Незалежна оцінка та надання впевненості (Assurance) Раді директорів щодо ефективності врядування та контролів.",
+                        "В) Закупівля ліцензій антивірусного ПЗ.",
+                        "Г) Одноосібне прийняття бізнес-ризиків."
+                    ],
+                    correct: 1,
+                    takeaway: "Для збереження об'єктивності 3-тя лінія не повинна брати участь в операційному впровадженні контролів."
+                },
+                {
+                    type: "single",
+                    question: "3. Хто несе остаточну підзвітність (Accountability) за прийняття залишкового бізнес-ризику в організації?",
+                    options: [
+                        "А) Молодший інженер безпеки.",
+                        "Б) Вище керівництво / відповідний Risk Owner у межах делегованих повноважень.",
+                        "В) Зовнішній постачальник хмарних послуг.",
+                        "Г) Будь-який співробітник за власним бажанням."
+                    ],
+                    correct: 1,
+                    takeaway: "CISO консультує та оцінює ризик, але приймає бізнес-ризик керівник, який володіє відповідним бізнес-процесом."
+                },
+                {
+                    type: "single",
+                    question: "4. Яка правильна ієрархія нормативних документів безпеки (від загального до детального)?",
+                    options: [
+                        "А) Процедури (SOP) → Стандарти → Політика безпеки",
+                        "Б) Політика безпеки (Policy) → Стандарти (Standards) → Процедури (Procedures / Runbooks)",
+                        "В) Інструкції → Політика → Стратегія",
+                        "Г) Стандарти → Політика → Закони"
+                    ],
+                    correct: 1,
+                    takeaway: "Політика задає обов'язкові принципи («що»), стандарти — конкретні вимоги («скільки/який рівень»), процедури — покрокові дії («як»)."
+                },
+                {
+                    type: "single",
+                    question: "5. Навіщо потрібен Комітет з інформаційної безпеки (Information Security Steering Committee)?",
+                    options: [
+                        "А) Для ручного скидання паролів користувачам.",
+                        "Б) Для узгодження пріоритетів безпеки між бізнес-підрозділами, вирішення конфліктів інтересів та контролю виконання стратегії.",
+                        "В) Для заміни відділу розробки.",
+                        "Г) Лише для формального підпису перед приходом аудитора."
+                    ],
+                    correct: 1,
+                    takeaway: "Керівний комітет перетворює безпеку з ізольованої функції ІТ на спільну відповідальність керівників бізнесу."
+                }
+            ],
+            simulator: {
+                type: "single",
+                badge: "Симулятор 2",
+                title: "Конфлікт повноважень: Хто погоджує винятки з політики безпеки?",
+                contextHTML: `<p class="text-sm text-slate-700">Директор з маркетингу вимагає підключити новий хмарний сервіс аналітики без проходження перевірки безпеки, бо завтра стартує рекламна кампанія. Як ви вибудуєте процес управління винятками?</p>`,
+                options: [
+                    {
+                        id: "A",
+                        label: "Варіант A: Усна домовленість у месенджері",
+                        desc: "Дозволяєте запуск у чаті без фіксації ризиків та строків дії винятку.",
+                        style: "bg-rose-50 border-rose-300",
+                        titleColor: "text-rose-950",
+                        cost: 0,
+                        scoreDelta: -20,
+                        risk: "Критичний",
+                        costText: "$0 з фонду",
+                        scoreText: "-20 балів рейтингу",
+                        riskClass: "text-rose-700",
+                        takeaway: "❌ Тимчасовий виняток без реєстрації та дедлайну перетворюється на постійну неконтрольовану вразливість."
+                    },
+                    {
+                        id: "B",
+                        label: "Варіант B: Формальна процедура Policy Exception з Risk Acceptance",
+                        desc: "Оформлюєте картку винятку на 30 днів із компенсуючими контролями (обмеження вивантаження ПДн) та офіційним підписом директора з маркетингу як Risk Owner.",
+                        style: "bg-emerald-50 border-emerald-300",
+                        titleColor: "text-emerald-950",
+                        cost: 15000,
+                        scoreDelta: 30,
+                        risk: "Помірний",
+                        costText: "$15,000 з фонду",
+                        scoreText: "+30 балів рейтингу",
+                        riskClass: "text-emerald-700",
+                        takeaway: "✅ Зразковий Governance: бізнес встигає запустити кампанію, але ризик обмежено, задокументовано і прийнято відповідальним керівником."
+                    },
+                    {
+                        id: "C",
+                        label: "Варіант C: Повна відмова без альтернатив",
+                        desc: "Блокуєте сервіс на рівні мережі та відмовляєтеся обговорювати компромісні варіанти.",
+                        style: "bg-blue-50 border-blue-300",
+                        titleColor: "text-slate-900",
+                        cost: 5000,
+                        scoreDelta: -10,
+                        risk: "Високий",
+                        costText: "$5,000 з фонду",
+                        scoreText: "-10 балів рейтингу",
+                        riskClass: "text-rose-600",
+                        takeaway: "❌ Жорстке блокування без пропозиції безпечної альтернативи провокує Shadow IT (оплату сервісу з корпоративної картки в обхід ІБ)."
+                    }
+                ]
+            }
+        },
+        3: {
+            practiceBadge: "Практика 3",
+            practiceTitle: "Перевірка знань: Побудова СУІБ за ISO/IEC 27001",
+            lectureHTML: `
+                <div class="border-b border-slate-200 pb-5">
+                    <span class="text-xs font-semibold uppercase tracking-wider text-blue-700 bg-blue-50 px-3 py-1 rounded">Лекція 3</span>
+                    <h1 class="text-2xl font-bold text-slate-900 mt-2">Побудова СУІБ (ISMS) за стандартом ISO/IEC 27001</h1>
+                    <p class="text-sm text-slate-500 mt-1">Контекст організації, Scope СУІБ, Clauses 4–10, Statement of Applicability (SoA) та цикл PDCA</p>
+                </div>
+
+                <section class="space-y-4">
+                    <h2 class="text-lg font-bold text-slate-900">1. Ключові елементи ISO/IEC 27001:2022</h2>
+                    <div class="grid md:grid-cols-3 gap-4 text-xs">
+                        <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-1">
+                            <div class="font-bold text-sm text-[#122d55]">Clause 4: Context &amp; Scope</div>
+                            <p class="text-slate-700">Визначення зовнішніх і внутрішніх факторів, зацікавлених сторін та чітких меж дії СУІБ (Scope).</p>
+                        </div>
+                        <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-1">
+                            <div class="font-bold text-sm text-[#122d55]">Clause 6.1.3: SoA</div>
+                            <p class="text-slate-700">Statement of Applicability — документ, що визначає, які контролі з Annex A застосовуються, чи впроваджені вони та обґрунтування виключень.</p>
+                        </div>
+                        <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-1">
+                            <div class="font-bold text-sm text-[#122d55]">Clauses 9–10: PDCA</div>
+                            <p class="text-slate-700">Моніторинг, внутрішній аудит, Management Review та коригувальні дії для постійного вдосконалення.</p>
+                        </div>
+                    </div>
+                </section>
+            `,
+            quizzes: [
+                {
+                    type: "single",
+                    question: "1. Яке призначення документа Statement of Applicability (SoA) у стандартах серії ISO/IEC 27001?",
+                    options: [
+                        "А) Це список паролів адміністраторів мережі.",
+                        "Б) Це реєстр обраних контролів (із Annex A), обґрунтування їх включення або виключення та статус їх впровадження.",
+                        "В) Це договір оренди офісного приміщення.",
+                        "Г) Це фінансовий звіт про сплату податків."
+                    ],
+                    correct: 1,
+                    takeaway: "SoA є містком між оцінкою ризиків та реальними заходами захисту в СУІБ."
+                },
+                {
+                    type: "single",
+                    question: "2. Чи можна виключити окремий контроль із Annex A при впровадженні ISO/IEC 27001?",
+                    options: [
+                        "А) Ні, усі 93 контролі є суворо обов'язковими для будь-якої компанії.",
+                        "Б) Так, якщо за результатами оцінки ризиків контроль не є релевантним (наприклад, фізична безпека власного дата-центру для 100% хмарної компанії) і це письмово обґрунтовано в SoA.",
+                        "В) Так, можна виключити будь-які контролі без пояснень, щоб зекономити бюджет.",
+                        "Г) Виключати контролі дозволено лише під час кібератаки."
+                    ],
+                    correct: 1,
+                    takeaway: "Виключення в SoA можливі, але вимагають чіткого обґрунтування та не повинні суперечити вимогам ризик-менеджменту."
+                },
+                {
+                    type: "multi",
+                    requiredCount: 3,
+                    question: "3. Оберіть ТРИ обов'язкові вхідні елементи, які мають бути враховані під час визначення меж СУІБ (Scope — Clause 4.3):",
+                    options: [
+                        "Внутрішні та зовнішні чинники організації (Clause 4.1)",
+                        "Вимоги зацікавлених сторін (Clause 4.2)",
+                        "Взаємозв'язки та залежності між діяльністю організації та іншими сторонами",
+                        "Особисті вподобання зовнішнього аудитора щодо кольору логотипа компанії"
+                    ],
+                    correct: [0, 1, 2],
+                    takeaway: "Межі СУІБ формуються на основі контексту, вимог стейкхолдерів та технологічних/бізнес-інтерфейсів."
+                },
+                {
+                    type: "single",
+                    question: "4. Що означає коригувальна дія (Corrective Action — Clause 10.2) у разі виявлення невідповідності під час аудиту?",
+                    options: [
+                        "А) Просто приховати проблему до наступного року.",
+                        "Б) Усунути не лише симптом, а й першопричину (Root Cause) невідповідності, щоб запобігти її повторенню.",
+                        "В) Звільнити внутрішнього аудитора.",
+                        "Г) Переписати дату в журналі перевірок."
+                    ],
+                    correct: 1,
+                    takeaway: "Correction усуває конкретний дефект, а Corrective Action ліквідує системну причину його появи."
+                },
+                {
+                    type: "single",
+                    question: "5. Як часто має проводитися аналіз СУІБ з боку керівництва (Management Review — Clause 9.3)?",
+                    options: [
+                        "А) Лише один раз при створенні компанії.",
+                        "Б) На запланованій регулярній основі (наприклад, раз на пів року або рік, а також після суттєвих змін).",
+                        "В) Лише за вимогою податкової інспекції.",
+                        "Г) Кожні 10 років."
+                    ],
+                    correct: 1,
+                    takeaway: "Management Review забезпечує залученість вищого керівництва та перегляд ресурсів і ефективності СУІБ."
+                }
+            ],
+            simulator: {
+                type: "two-stage",
+                badge: "Симулятор 3",
+                title: "Підготовка до сертифікації ISO/IEC 27001 для виходу на корпоративних клієнтів",
+                part1: {
+                    contextHTML: `<p class="text-sm text-slate-700"><strong>Етап 1 (Визначення Scope):</strong> Великий банк готовий підписати контракт на ваш платіжний API-шлюз, але вимагає сертифікат ISO/IEC 27001 за 6 місяців. У компанії є 4 продукти, але банк купує лише один. Як визначите межі (Scope) СУІБ?</p>`,
+                    options: [
+                        {
+                            id: "S1",
+                            label: "Варіант 1: Охопити всю компанію та всі 4 продукти одразу",
+                            desc: "Максимально широкий Scope на старті, що потребує 14 місяців підготовки.",
+                            style: "bg-amber-50 border-amber-200 text-amber-950",
+                            scoreDelta: -10,
+                            feedback: "⚠️ Надто широкий Scope зірве дедлайн контракту з банком через велику кількість процесів."
+                        },
+                        {
+                            id: "S2",
+                            label: "Варіант 2: Фокусований Scope на платіжний API-шлюз та спільні інфраструктурні сервіси",
+                            desc: "Чітко обмежуєте Scope продуктом для банку, ІТ-інфраструктурою та HR-процесами, що його підтримують.",
+                            style: "bg-emerald-50 border-emerald-200 text-emerald-950",
+                            scoreDelta: 15,
+                            feedback: "✅ Оптимальне бізнес-рішення: фокусований Scope дозволяє пройти сертифікацію вчасно і чесно відображає межі."
+                        }
+                    ]
+                },
+                part2: {
+                    contextHTML: `<p class="text-sm text-slate-700"><strong>Етап 2 (Підготовка SoA та впровадження контролів):</strong> Оберіть пакет підготовки до сертифікаційного аудиту:</p>`,
+                    options: [
+                        {
+                            id: "P1",
+                            label: "Пакет A: Шаблонні документи без реальних доказів роботи контролів",
+                            desc: "Купуєте пакет готових політик за $15,000, але не налаштовуєте реальні журнали моніторингу та процеси.",
+                            style: "bg-rose-50 border-rose-300",
+                            titleColor: "text-rose-950",
+                            cost: 15000,
+                            scoreDelta: -15,
+                            risk: "Високий",
+                            costText: "$15,000 з фонду",
+                            scoreText: "-15 балів рейтингу",
+                            riskClass: "text-rose-700",
+                            takeaway: "❌ На етапі Stage 2 аудиту перевіряються реальні докази виконання контролів, а не лише наявність паперів."
+                        },
+                        {
+                            id: "P2",
+                            label: "Пакет B: Побудова робочих процесів, реальний SoA та внутрішній передсертифікаційний аудит",
+                            desc: "Прив'язуєте кожен контроль у SoA до результатів оцінки ризиків, збираєте докази виконання та проводите внутрішній аудит.",
+                            style: "bg-emerald-50 border-emerald-300",
+                            titleColor: "text-emerald-950",
+                            cost: 30000,
+                            scoreDelta: 25,
+                            risk: "Низький",
+                            costText: "$30,000 з фонду",
+                            scoreText: "+25 балів рейтингу",
+                            riskClass: "text-emerald-700",
+                            takeaway: "✅ Успішна сертифікація та підписання контракту з банком завдяки реальним доказам ефективності СУІБ."
+                        }
+                    ]
+                }
+            }
+        },
+        4: {
+            practiceBadge: "Практика 4",
+            practiceTitle: "Перевірка знань: Security Controls & FAIR-CAM",
+            lectureHTML: `
+                <div class="border-b border-slate-200 pb-5">
+                    <span class="text-xs font-semibold uppercase tracking-wider text-blue-700 bg-blue-50 px-3 py-1 rounded">Лекція 4</span>
+                    <h1 class="text-2xl font-bold text-slate-900 mt-2">Security Controls &amp; FAIR-CAM</h1>
+                    <p class="text-sm text-slate-500 mt-1">Архітектура контролів, модель FAIR Controls Analytics Model, Design vs Operating Effectiveness (NIST SP 800-53A) та життєвий цикл</p>
+                </div>
+
+                <section class="space-y-4">
+                    <h2 class="text-lg font-bold text-slate-900">1. Вимоги безпеки та архітектура контролів</h2>
+                    <div class="grid md:grid-cols-2 gap-4 text-xs">
+                        <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-1">
+                            <div class="font-bold text-sm text-[#122d55]">Зв'язок «Багато-до-багатьох»</div>
+                            <p class="text-slate-700">Одна вимога безпеки може реалізовуватися декількома контролями, а один технічний чи організаційний механізм може підтримувати декілька вимог одночасно.</p>
+                        </div>
+                        <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-1">
+                            <div class="font-bold text-sm text-[#122d55]">Типи контролів за часом дії</div>
+                            <p class="text-slate-700"><strong>Preventive</strong> (запобігають події) &bull; <strong>Detective</strong> (виявляють подію) &bull; <strong>Corrective</strong> (усувають наслідки та відновлюють стан).</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="space-y-4 pt-2">
+                    <h2 class="text-lg font-bold text-slate-900">2. Модель FAIR-CAM (Controls Analytics Model)</h2>
+                    <div class="grid md:grid-cols-3 gap-5 text-xs">
+                        <div class="p-5 rounded-lg border border-slate-200 bg-slate-50 space-y-1.5">
+                            <div class="font-bold text-sm text-[#122d55]">Loss Event Controls</div>
+                            <p class="text-slate-700">Спрямовано безпосередньо на виникнення подій втрат або їхні наслідки.</p>
+                            <p class="font-semibold text-slate-900">Функції: Prevention, Detection, Response.</p>
+                        </div>
+                        <div class="p-5 rounded-lg border border-slate-200 bg-slate-50 space-y-1.5">
+                            <div class="font-bold text-sm text-[#122d55]">Variance Management Controls</div>
+                            <p class="text-slate-700">Спрямовано на стабільну роботу контролів: запобігти відхиленням, виявити й усунути їх.</p>
+                            <p class="font-semibold text-slate-900">Функції: Prevention, Identification, Correction.</p>
+                        </div>
+                        <div class="p-5 rounded-lg border border-slate-200 bg-slate-50 space-y-1.5">
+                            <div class="font-bold text-sm text-[#122d55]">Decision Support Controls</div>
+                            <p class="text-slate-700">Спрямовано на якість рішень щодо контролів: запобігти помилковим рішенням, виявити й скоригувати їх.</p>
+                        </div>
+                    </div>
+
+                    <div class="p-4 rounded-lg border border-amber-200 bg-amber-50/60 text-xs text-amber-950 space-y-1">
+                        <div class="font-bold uppercase">Три характеристики FAIR-CAM:</div>
+                        <p><strong>Capability</strong> (наскільки добре контроль здатний виконувати функцію) &bull; <strong>Coverage</strong> (яку частину релевантного середовища охоплює) &bull; <strong>Reliability</strong> (наскільки стабільно працює, коли необхідно).</p>
+                        <p class="font-semibold pt-1">⚠️ Важливо: їх не можна автоматично перемножувати, щоб отримати єдиний універсальний відсоток ефективності.</p>
+                    </div>
+                </section>
+
+                <section class="space-y-4 pt-2">
+                    <h2 class="text-lg font-bold text-slate-900">3. Оцінка ефективності (NIST SP 800-53A) та методи перевірки</h2>
+                    <div class="grid md:grid-cols-3 gap-4 text-xs">
+                        <div class="p-4 rounded-lg border border-slate-200 bg-white">
+                            <span class="font-bold text-[#122d55]">01. Implemented correctly</span><br>Чи правильно реалізовано контроль?
+                        </div>
+                        <div class="p-4 rounded-lg border border-slate-200 bg-white">
+                            <span class="font-bold text-[#122d55]">02. Operating as intended</span><br>Чи функціонує він відповідно до задуму?
+                        </div>
+                        <div class="p-4 rounded-lg border border-slate-200 bg-white">
+                            <span class="font-bold text-[#122d55]">03. Producing the desired outcome</span><br>Чи забезпечує очікуваний результат щодо вимог безпеки?
+                        </div>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-5 text-xs">
+                        <div class="p-5 rounded-lg border border-blue-200 bg-blue-50/30 space-y-1.5">
+                            <div class="font-bold text-sm text-[#122d55]">Design Effectiveness vs Operating Effectiveness</div>
+                            <p><strong>Design Effectiveness:</strong> чи здатен контроль за своїм дизайном досягти поставленої мети (механізм, обсяг, періодичність, критерії)?</p>
+                            <p><strong>Operating Effectiveness:</strong> чи виконується контроль відповідно до встановленого дизайну (фактичне виконання, своєчасність, повнота, стабільність)?</p>
+                        </div>
+                        <div class="p-5 rounded-lg border border-slate-200 bg-white space-y-1.5">
+                            <div class="font-bold text-sm text-slate-900">Три методи оцінювання [NIST] та Програма тестування</div>
+                            <p><strong>Examine</strong> (аналіз документів, записів, конфігурацій) &bull; <strong>Interview</strong> (пояснення відповідальних осіб) &bull; <strong>Test</strong> (перевірка фактичної поведінки).</p>
+                            <p class="text-slate-600 pt-1"><strong>6 кроків тестування:</strong> 01 Control Objective &rarr; 02 Assessment Criteria &rarr; 03 Scope &amp; Period &rarr; 04 Assessment Methods &rarr; 05 Evidence &amp; Findings &rarr; 06 Assessment Conclusion.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="space-y-4 pt-2">
+                    <h2 class="text-lg font-bold text-slate-900">4. Життєвий цикл, Control Ownership та Управління недоліками</h2>
+                    <div class="grid md:grid-cols-2 gap-5 text-xs">
+                        <div class="p-5 rounded-lg border border-slate-200 bg-slate-50 space-y-2">
+                            <div class="font-bold text-sm text-[#122d55]">Життєвий цикл контролю (6 етапів)</div>
+                            <p><strong>1. Design</strong> (мета, критерії, механізм) &rarr; <strong>2. Implement</strong> (впровадження й налаштування) &rarr; <strong>3. Operate</strong> (регулярне функціонування) &rarr; <strong>4. Monitor</strong> (моніторинг стану та відхилень) &rarr; <strong>5. Assess</strong> (перевірка ефективності) &rarr; <strong>6. Improve</strong> (усунення недоліків і зміни).</p>
+                            <div class="pt-1 border-t border-slate-200">
+                                <strong>Ongoing Monitoring («Чи працює зараз?»):</strong> автоматизовані показники, журнали, сповіщення.<br>
+                                <strong>Periodic Assessment («Чи можна покладатися?»):</strong> аналіз доказів, перевірка вибірки, функціональні випробування.
+                            </div>
+                        </div>
+                        <div class="p-5 rounded-lg border border-slate-200 bg-slate-50 space-y-2">
+                            <div class="font-bold text-sm text-[#122d55]">Control Ownership &amp; Управління недоліками</div>
+                            <ul class="space-y-1 text-slate-700">
+                                <li><strong>Control Owner:</strong> належне функціонування контролю та усунення недоліків.</li>
+                                <li><strong>Control Operator:</strong> безпосереднє виконання або технічна підтримка.</li>
+                                <li><strong>Control Assessor:</strong> перевірка дизайну та ефективності.</li>
+                                <li><strong>Risk Owner:</strong> управління пов'язаним ризиком та рішення щодо прийнятності.</li>
+                            </ul>
+                            <p class="pt-1 border-t border-slate-200 font-medium text-slate-900">Управління недоліками: Identify &rarr; Assess &rarr; Assign &rarr; Remediate &rarr; Monitor &rarr; Validate.</p>
+                        </div>
+                    </div>
+                </section>
+            `,
+            quizzes: [
+                {
+                    type: "single",
+                    question: "1. Який зв'язок існує між вимогами безпеки та конкретними контролями під час їх проєктування?",
+                    options: [
+                        "А) Одна вимога завжди відповідає строго одному контролю",
+                        "Б) Одна вимога може реалізовуватися декількома контролями, а один механізм може підтримувати декілька вимог",
+                        "В) Контролі не пов'язані з вимогами і впроваджуються незалежно",
+                        "Г) Кількість контролів має бути як мінімум вдвічі більшою за кількість вимог, щоб забезпечити їх належне виконання"
+                    ],
+                    correct: 1,
+                    takeaway: "Архітектура контролю є гнучкою: 1 вимога → N контролів, і навпаки (1 механізм → N вимог)."
+                },
+                {
+                    type: "single",
+                    question: "2. До якого функціонального домену FAIR-CAM належить моніторинг працездатності антивірусного агента на робочих станціях (виявлення, що агент вимкнено, та його відновлення)?",
+                    options: [
+                        "А) Loss Event Controls",
+                        "Б) Variance Management Controls",
+                        "В) Decision Support Controls",
+                        "Г) Risk Acceptance Controls"
+                    ],
+                    correct: 1,
+                    takeaway: "Variance Management Controls спрямовані на стабільну роботу інших контролів: запобігання відхиленням, їх виявлення (Identification) та усунення (Correction)."
+                },
+                {
+                    type: "single",
+                    question: "3. У чому полягає різниця між Design Effectiveness та Operating Effectiveness?",
+                    options: [
+                        "А) Design Effectiveness перевіряє, чи здатен контроль за своїм задумом досягти мети, а Operating Effectiveness — чи виконується він фактично відповідно до цього дизайну",
+                        "Б) Design Effectiveness стосується бізнес-цілей, а Operating — технічних засобів",
+                        "В) Design Effectiveness оцінює вартість контролю, а Operating — його швидкість",
+                        "Г) Між цими поняттями немає різниці, це синоніми"
+                    ],
+                    correct: 0,
+                    takeaway: "Навіть ідеально спроєктований контроль (Design) не дасть результату, якщо він не виконується регулярно та вчасно на практиці (Operating)."
+                },
+                {
+                    type: "single",
+                    question: "4. Яке застереження встановлює модель FAIR-CAM щодо характеристик Capability, Coverage та Reliability?",
+                    options: [
+                        "А) Їх можна оцінювати лише раз на рік",
+                        "Б) Їх не можна автоматично перемножувати, щоб отримати єдиний універсальний відсоток ефективності",
+                        "В) Показник Capability завжди важливіший за Coverage",
+                        "Г) Reliability вимірюється виключно в грошовому еквіваленті"
+                    ],
+                    correct: 1,
+                    takeaway: "Capability, Coverage та Reliability — це взаємодоповнювальні характеристики, які не можна механічно перемножити в одну цифру."
+                },
+                {
+                    type: "single",
+                    question: "5. Який метод оцінювання NIST застосовується, коли аудитор проводить контрольону спробу входу в систему без використання MFA для перевірки фактичної поведінки?",
+                    options: [
+                        "А) Examine",
+                        "Б) Interview",
+                        "В) Test",
+                        "Г) Monitor"
+                    ],
+                    correct: 2,
+                    takeaway: "Метод Test передбачає активну перевірку фактичної поведінки контролю в реальних або наближених до реальних умовах."
+                }
+            ],
+            simulator: {
+                type: "single",
+                badge: "Симулятор 4",
+                title: "Розбір інциденту з EDR та переглядом привілейованих доступів",
+                contextHTML: `
+                    <p class="text-sm text-slate-700">
+                        Ви — CISO у фінтех-компанії. Попри значні інвестиції в безпеку, компанія ледь уникнула шифрування інфраструктури через компрометацію облікового запису адміністратора. Під час розбору польотів ви проаналізували два ключові контролі:
+                    </p>
+                    <ul class="list-disc pl-5 text-sm text-slate-700 space-y-1">
+                        <li>EDR-агент із високим <strong>Capability</strong> встановлено лише на <strong>60%</strong> корпоративних ноутбуків, а на половині з них службу захисту вимкнено без сповіщення команди ІБ.</li>
+                        <li>Регламент перегляду привілейованих доступів добре прописаний на папері (чіткий <strong>Control Design</strong>), але на практиці керівники натискають «Підтвердити все» раз на рік без перевірки.</li>
+                        <li>Один із менеджерів запропонував перемножити відсотки <em>Capability, Coverage та Reliability</em> EDR, щоб вивести «єдиний точний індекс захищеності» для інвесторів.</li>
+                    </ul>
+                    <p class="text-sm font-medium text-slate-900 pt-1">Оберіть варіант аналізу, який точно визначає причини провалу контролів згідно з NIST SP 800-53A та FAIR-CAM:</p>
+                `,
+                options: [
+                    {
+                        id: "A",
+                        label: "Варіант A: Заміна вендора EDR, переписування регламенту та розрахунок індексу ефективності",
+                        desc: "Головна проблема полягає в низькому показнику Capability самого EDR-рішення; регламент перегляду доступів має дефект у Design Effectiveness; для звіту інвесторам необхідно перемножити Capability, Coverage та Reliability EDR.",
+                        style: "bg-blue-50 border-blue-300",
+                        titleColor: "text-slate-900",
+                        cost: 45000,
+                        scoreDelta: -15,
+                        risk: "Високий",
+                        costText: "$45,000 з фонду",
+                        scoreText: "-15 балів рейтингу",
+                        riskClass: "text-rose-600",
+                        takeaway: "❌ Помилковий аналіз. Характеристики Capability, Coverage та Reliability не можна механічно перемножувати в один універсальний відсоток."
+                    },
+                    {
+                        id: "B",
+                        label: "Варіант B: Дефект Decision Support, відсутність Scope та перехід на ручний щорічний аудит",
+                        desc: "Проблема криється у виборі класу продукту (Decision Support Controls); низька ефективність перегляду доступів викликана відсутністю Scope; замість автоматизації моніторингу варто проводити ручне Periodic Assessment раз на рік.",
+                        style: "bg-rose-50 border-rose-300",
+                        titleColor: "text-rose-950",
+                        cost: 35000,
+                        scoreDelta: -10,
+                        risk: "Високий",
+                        costText: "$35,000 з фонду",
+                        scoreText: "-10 балів рейтингу",
+                        riskClass: "text-rose-700",
+                        takeaway: "❌ Хибний діагноз. Проблема з вимкненими агентами — це збій у Variance Management Controls та відсутність Ongoing Monitoring."
+                    },
+                    {
+                        id: "C",
+                        label: "Варіант C: Провал Coverage і Variance Management, низька Operating Effectiveness та відмова від множення метрик",
+                        desc: "EDR провалився через низьке охоплення (Coverage 60%) та відсутність контролю в домені Variance Management Controls (без Ongoing Monitoring вимкнених агентів); перегляд доступів має належний Design Effectiveness, але провалює Operating Effectiveness; перемноження Capability, Coverage та Reliability є методологічно хибним за FAIR-CAM.",
+                        style: "bg-emerald-50 border-emerald-300",
+                        titleColor: "text-emerald-950",
+                        cost: 15000,
+                        scoreDelta: 30,
+                        risk: "Низький",
+                        costText: "$15,000 з фонду",
+                        scoreText: "+30 балів рейтингу",
+                        riskClass: "text-emerald-700",
+                        takeaway: "✅ Точне влучання CISO. Ви правильно застосували принципи FAIR-CAM та NIST SP 800-53A."
+                    }
+                ]
+            }
+        },
+        5: {
+            practiceBadge: "Практика 5",
+            practiceTitle: "Перевірка знань: Risk-Based Security Decision Making",
+            lectureHTML: `
+                <div class="border-b border-slate-200 pb-5">
+                    <span class="text-xs font-semibold uppercase tracking-wider text-blue-700 bg-blue-50 px-3 py-1 rounded">Лекція 5</span>
+                    <h1 class="text-2xl font-bold text-slate-900 mt-2">Risk-Based Security Decision Making</h1>
+                    <p class="text-sm text-slate-500 mt-1">Управління ризиками за ISO 31000:2018, ідентифікація та оцінка ризиків, стратегії реагування та Risk Register</p>
+                </div>
+
+                <section class="space-y-4">
+                    <h2 class="text-lg font-bold text-slate-900">1. Визначення ризику за ISO 31000:2018</h2>
+                    <div class="bg-blue-50/40 p-5 rounded-lg border border-blue-200 space-y-3">
+                        <div class="text-sm font-bold text-[#122d55]">Ризик — це вплив невизначеності на цілі організації</div>
+                        <div class="grid md:grid-cols-3 gap-4 text-xs">
+                            <div class="bg-white p-4 rounded-lg border border-slate-200 space-y-1">
+                                <div class="font-bold text-[#122d55]">Objective | Ціль</div>
+                                <p class="text-slate-700">Результат, якого організація прагне досягти або підтримувати.</p>
+                            </div>
+                            <div class="bg-white p-4 rounded-lg border border-slate-200 space-y-1">
+                                <div class="font-bold text-[#122d55]">Uncertainty | Невизначеність</div>
+                                <p class="text-slate-700">Невизначеність щодо майбутніх подій, умов або результатів.</p>
+                            </div>
+                            <div class="bg-white p-4 rounded-lg border border-slate-200 space-y-1">
+                                <div class="font-bold text-[#122d55]">Effect | Вплив</div>
+                                <p class="text-slate-700">Можливе відхилення від очікуваного результату (фінансове, операційне, репутаційне).</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="space-y-4 pt-2">
+                    <h2 class="text-lg font-bold text-slate-900">2. Матриця оцінки ризиків (Likelihood &times; Impact)</h2>
+                    <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-2">
+                        <div class="text-[11px] font-bold uppercase tracking-wider text-slate-500">Теплова матриця ризиків 5&times;5</div>
+                        <div class="grid grid-cols-5 gap-1 text-center text-[10px] font-bold text-white">
+                            <div class="bg-amber-500 p-1.5 rounded">5&times;1 Середній</div>
+                            <div class="bg-orange-500 p-1.5 rounded">5&times;2 Високий</div>
+                            <div class="bg-rose-600 p-1.5 rounded">5&times;3 Критичний</div>
+                            <div class="bg-rose-700 p-1.5 rounded">5&times;4 Критичний</div>
+                            <div class="bg-rose-800 p-1.5 rounded">5&times;5 Критичний</div>
+                            <div class="bg-emerald-500 p-1.5 rounded">3&times;1 Низький</div>
+                            <div class="bg-amber-500 p-1.5 rounded">3&times;2 Середній</div>
+                            <div class="bg-amber-600 p-1.5 rounded">3&times;3 Середній</div>
+                            <div class="bg-orange-600 p-1.5 rounded">3&times;4 Високий</div>
+                            <div class="bg-rose-600 p-1.5 rounded">3&times;5 Критичний</div>
+                            <div class="bg-emerald-600 p-1.5 rounded">1&times;1 Низький</div>
+                            <div class="bg-emerald-500 p-1.5 rounded">1&times;2 Низький</div>
+                            <div class="bg-emerald-500 p-1.5 rounded">1&times;3 Низький</div>
+                            <div class="bg-amber-500 p-1.5 rounded">1&times;4 Середній</div>
+                            <div class="bg-orange-500 p-1.5 rounded">1&times;5 Високий</div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="space-y-4 pt-2">
+                    <h2 class="text-lg font-bold text-slate-900">3. Стратегії Risk Treatment (4T)</h2>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs">
+                        <div class="p-4 rounded-lg border border-slate-200 bg-white">
+                            <div class="font-bold text-[#122d55]">Avoid (Уникнення)</div>
+                            <p class="text-slate-700 mt-1">Відмова від діяльності або її зміна, щоб повністю усунути джерело ризику.</p>
+                        </div>
+                        <div class="p-4 rounded-lg border border-slate-200 bg-white">
+                            <div class="font-bold text-[#122d55]">Modify / Mitigate (Зниження)</div>
+                            <p class="text-slate-700 mt-1">Зменшення likelihood або наслідків шляхом впровадження контролів.</p>
+                        </div>
+                        <div class="p-4 rounded-lg border border-slate-200 bg-white">
+                            <div class="font-bold text-[#122d55]">Share (Розподіл / Передача)</div>
+                            <p class="text-slate-700 mt-1">Передача частини фінансових наслідків або відповідальності третім сторонам (страхування, SLA).</p>
+                        </div>
+                        <div class="p-4 rounded-lg border border-slate-200 bg-white">
+                            <div class="font-bold text-[#122d55]">Retain / Accept (Прийняття)</div>
+                            <p class="text-slate-700 mt-1">Усвідомлене утримання ризику без додаткових заходів (коли захист дорожчий за збитки).</p>
+                        </div>
+                    </div>
+                </section>
+            `,
+            quizzes: [
+                {
+                    type: "single",
+                    question: "1. З яких трьох ключових елементів складається визначення ризику за стандартом ISO 31000:2018?",
+                    options: [
+                        "А) Загроза, вразливість, контрзахід.",
+                        "Б) Ціль (Objective), невизначеність (Uncertainty), вплив (Effect).",
+                        "В) Імовірність (Likelihood), наслідки (Impact), ризик-рейтинг (Risk Score).",
+                        "Г) Актив, власник активу, залишковий ризик."
+                    ],
+                    correct: 1,
+                    takeaway: "За ISO 31000:2018 ризик — це вплив невизначеності на досягнення бізнес-цілей організації."
+                },
+                {
+                    type: "single",
+                    question: "2. Які виміри (параметри) використовуються для базового якісного аналізу ризиків (Qualitative Assessment)?",
+                    options: [
+                        "А) Бюджет безпеки та кількість співробітників.",
+                        "Б) Likelihood (Ймовірність) та Impact (Вплив).",
+                        "В) Frequency (Частота) та Recovery Time Objective (RTO).",
+                        "Г) Threat Level та Compliance Status."
+                    ],
+                    correct: 1,
+                    takeaway: "Рівень ризику визначається через поєднання ймовірності настання події (Likelihood) та тяжкості її наслідків (Impact)."
+                },
+                {
+                    type: "single",
+                    question: "3. Який результат та обмеження притаманні напівкількісному (Semi-Quantitative) підходу до оцінки ризиків?",
+                    options: [
+                        "А) Результат — бальні шкали та Risk Score; обмеження — отриманий score не дорівнює реальній абсолютній величині ризику.",
+                        "Б) Результат — точний фінансовий збиток у доларах; обмеження — відсутність будь-яких шкал.",
+                        "В) Результат — лише описові категорії; обмеження — неможливість пріоритетизації.",
+                        "Г) Результат — сертифікат відповідності ISO; обмеження — висока вартість даних."
+                    ],
+                    correct: 0,
+                    takeaway: "Бали зручні для пріоритетизації ризиків між собою, але вони не відображають точні фінансові втрати у грошовому еквіваленті."
+                },
+                {
+                    type: "single",
+                    question: "4. Що з наведеного найкраще описує поняття «Risk Owner» (Власник ризику) у Реєстрі Ризиків?",
+                    options: [
+                        "А) Зовнішній аудитор, який проводить щорічну перевірку комплаєнсу.",
+                        "Б) Зловмисник або хакерське угруповання, що створює загрозу для інфраструктури.",
+                        "В) Особа або керівник, яка має повноваження та відповідальність за управління конкретним ризиком.",
+                        "Г) Розробник програмного забезпечення, який написав код із вразливістю."
+                    ],
+                    correct: 2,
+                    takeaway: "Risk Owner — це менеджер або посадова особа, відповідальна за моніторинг ризику, виділення ресурсів та впровадження обраної стратегії реагування."
+                },
+                {
+                    type: "single",
+                    question: "5. У чому полягає сутність стратегії «Retain / Accept»?",
+                    options: [
+                        "А) Часткова передача операційного контролю за ризиком підрозділам IT для мінімізації його наслідків.",
+                        "Б) Переведення ризику в категорію низького пріоритету в Реєстрі Ризиків без затвердження керівництвом.",
+                        "В) Усвідомлене залишення ризику без додаткових заходів.",
+                        "Г) Відстрочення реалізації заходів із захисту до моменту настання першого інциденту або запиту аудитора."
+                    ],
+                    correct: 2,
+                    takeaway: "Accept/Retain застосовують тоді, коли організація свідомо погоджується з наявним залишковим ризиком."
+                }
+            ],
+            simulator: {
+                type: "single",
+                badge: "Симулятор 5",
+                title: "Криза інфраструктури та атака на ланцюжок постачальників",
+                contextHTML: `<p class="text-sm text-slate-700">Ви — CISO у платіжному сервісі. Виявлено legacy-сервери з критичними CVE, відсутність MFA на адмін-панелях та неперевіреного стороннього API-постачальника. Оберіть стратегічний шлях управління ризиками:</p>`,
+                options: [
+                    {
+                        id: "A",
+                        label: "Варіант A: Avoid & Over-Engineering",
+                        desc: "Негайно відключаєте стороннє API та legacy-сервери, зупиняючи всі продуктові релізи компанії до повного переписування коду.",
+                        style: "bg-blue-50 border-blue-300",
+                        titleColor: "text-slate-900",
+                        cost: 40000,
+                        scoreDelta: -5,
+                        risk: "Помірний",
+                        costText: "$40,000 з фонду",
+                        scoreText: "-5 балів рейтингу",
+                        riskClass: "text-amber-700",
+                        takeaway: "Ви захистили компанію від вразливостей, але створили операційний колапс для бізнесу."
+                    },
+                    {
+                        id: "B",
+                        label: "Варіант B: Mitigate & Share",
+                        desc: "Впроваджуєте обов'язкове MFA для адмін-панелей, ізолюєте legacy-сервери через мікросегментацію, а для стороннього API укладаєте SLA з вимогами ІБ та купуєте кіберстрахування (Share).",
+                        style: "bg-emerald-50 border-emerald-300",
+                        titleColor: "text-emerald-950",
+                        cost: 20000,
+                        scoreDelta: 30,
+                        risk: "Помірний",
+                        costText: "$20,000 з фонду",
+                        scoreText: "+30 балів рейтингу",
+                        riskClass: "text-emerald-700",
+                        takeaway: "✅ Ідеальний баланс між Risk Management та швидкістю бізнесу."
+                    },
+                    {
+                        id: "C",
+                        label: "Варіант C: Laissez-Faire & Retain",
+                        desc: "Залишаєте все без змін і заносите ризики в реєстр зі статусом Low на наступний рік без затвердження керівництвом.",
+                        style: "bg-rose-50 border-rose-300",
+                        titleColor: "text-rose-950",
+                        cost: 5000,
+                        scoreDelta: -20,
+                        risk: "Критичний",
+                        costText: "$5,000 з фонду",
+                        scoreText: "-20 балів рейтингу",
+                        riskClass: "text-rose-700",
+                        takeaway: "❌ Підміна усвідомленого прийняття ризику простим ігноруванням проблем."
+                    }
+                ]
+            }
+        },
+        6: {
+            practiceBadge: "Практика 6",
+            practiceTitle: "Перевірка знань: Information Security Strategy Development",
+            lectureHTML: `
+                <div class="border-b border-slate-200 pb-5">
+                    <span class="text-xs font-semibold uppercase tracking-wider text-blue-700 bg-blue-50 px-3 py-1 rounded">Лекція 6</span>
+                    <h1 class="text-2xl font-bold text-slate-900 mt-2">Information Security Strategy Development</h1>
+                    <p class="text-sm text-slate-500 mt-1">Стратегічні драйвери, оцінка поточного й цільового стану (CMMI / NIST CSF Tiers), пріоритизація портфеля та когнітивні викривлення</p>
+                </div>
+
+                <section class="space-y-4">
+                    <h2 class="text-lg font-bold text-slate-900">1. Чотири ключові питання стратегії ІБ</h2>
+                    <div class="grid md:grid-cols-4 gap-4 text-xs">
+                        <div class="p-4 rounded-lg border border-slate-200 bg-slate-50 space-y-1">
+                            <div class="font-bold text-[#122d55]">01 Why?</div>
+                            <p class="text-slate-700">Які бізнес-цілі та ризики визначають потребу в розвитку ІБ?</p>
+                        </div>
+                        <div class="p-4 rounded-lg border border-slate-200 bg-slate-50 space-y-1">
+                            <div class="font-bold text-[#122d55]">02 Where are we?</div>
+                            <p class="text-slate-700">Який поточний стан безпеки та її спроможностей?</p>
+                        </div>
+                        <div class="p-4 rounded-lg border border-slate-200 bg-slate-50 space-y-1">
+                            <div class="font-bold text-[#122d55]">03 Where do we want to be?</div>
+                            <p class="text-slate-700">Які результати й цільові спроможності необхідні?</p>
+                        </div>
+                        <div class="p-4 rounded-lg border border-slate-200 bg-slate-50 space-y-1">
+                            <div class="font-bold text-[#122d55]">04 What will we prioritize?</div>
+                            <p class="text-slate-700">Які стратегічні напрями оберемо в умовах обмежених ресурсів?</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="space-y-4 pt-2">
+                    <h2 class="text-lg font-bold text-slate-900">2. Вимірювання зрілості процесів (CMMI Levels 1 &rarr; 5)</h2>
+                    <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-2">
+                        <div class="text-[11px] font-bold uppercase tracking-wider text-slate-500">Сходи зрілості процесів (CMMI Levels 1 &rarr; 5)</div>
+                        <div class="grid grid-cols-5 gap-2 items-end h-20 text-center text-[11px] font-semibold">
+                            <div class="bg-slate-300 text-slate-800 rounded-t p-1 h-8 flex items-center justify-center">1. Initial</div>
+                            <div class="bg-blue-200 text-blue-950 rounded-t p-1 h-11 flex items-center justify-center">2. Managed</div>
+                            <div class="bg-blue-400 text-white rounded-t p-1 h-14 flex items-center justify-center">3. Defined</div>
+                            <div class="bg-blue-600 text-white rounded-t p-1 h-16 flex items-center justify-center">4. Quant.</div>
+                            <div class="bg-[#122d55] text-white rounded-t p-1 h-20 flex items-center justify-center">5. Optimizing</div>
+                        </div>
+                    </div>
+                </section>
+            `,
+            quizzes: [
+                {
+                    type: "single",
+                    question: "1. До якої категорії стратегічних драйверів (Strategic Drivers) належать технологічний борг, рівень компетенцій команди та корпоративна культура?",
+                    options: [
+                        "А) Critical Business Dependencies",
+                        "Б) Risk Landscape",
+                        "В) Stakeholder Expectations",
+                        "Г) Internal Constraints"
+                    ],
+                    correct: 3,
+                    takeaway: "Internal Constraints охоплюють внутрішні обмеження організації (бюджет, компетенції, культуру, технологічний борг)."
+                },
+                {
+                    type: "single",
+                    question: "2. Який підхід до оцінювання поточного стану варто обрати, якщо CISO потрібно зрозуміти, які саме цільові результати безпеки (outcomes) вже досягаються в компанії?",
+                    options: [
+                        "А) NIST CSF Current Profile",
+                        "Б) Audit & Control Assessment",
+                        "В) Security Metrics & Incident Data",
+                        "Г) SWOT Analysis"
+                    ],
+                    correct: 0,
+                    takeaway: "NIST CSF Current Profile показує, які cybersecurity outcomes досягаються зараз."
+                },
+                {
+                    type: "single",
+                    question: "3. За CMMI-подібною шкалою зрілості процес має чіткий опис, але в різних командах виконується за різними правилами. Якому рівню зрілості це відповідає?",
+                    options: [
+                        "А) Level 1 - Initial",
+                        "Б) Level 2 - Managed",
+                        "В) Level 3 - Defined",
+                        "Г) Level 4 - Quantitatively Managed"
+                    ],
+                    correct: 1,
+                    takeaway: "Єдиним стандартизованим для всієї організації процес стає лише на рівні Defined (3)."
+                },
+                {
+                    type: "single",
+                    question: "4. Який із перелічених артефактів не є обов'язковим вихідним результатом етапу Current State Assessment?",
+                    options: [
+                        "А) Capability Baseline",
+                        "Б) Key Risks & Weaknesses",
+                        "В) Documentation & Expenses (плани всіх майбутніх витрат)",
+                        "Г) Constraints"
+                    ],
+                    correct: 2,
+                    takeaway: "Чотири результати Current State Assessment — Capability Baseline, Key Risks & Weaknesses, Strengths & Opportunities та Constraints."
+                },
+                {
+                    type: "single",
+                    question: "5. У процесі пріоритизації (Prioritization in Four Steps) навіщо виділяють перший крок Non-Negotiables?",
+                    options: [
+                        "А) Щоб відразу відкинути найдорожчі технічні проєкти",
+                        "Б) Щоб визначити обов'язковий мінімальний baseline (регуляторні, договірні вимоги та ризики поза risk appetite)",
+                        "В) Щоб зафіксувати список відкладених ініціатив",
+                        "Г) Щоб провести голосування серед розробників"
+                    ],
+                    correct: 1,
+                    takeaway: "Non-Negotiables — це обов'язковий мінімум перед бальним оцінюванням варіантів."
+                }
+            ],
+            simulator: {
+                type: "single",
+                badge: "Симулятор 6",
+                title: "Вихід e-commerce сервісу на ринок ЄС",
+                contextHTML: `<p class="text-sm text-slate-700">Бізнес-ціль на 2 роки: вихід на ринок ЄС (вимога GDPR та клієнтських аудитів). Штат ІБ — лише 3 інженери, є застарілий монолітний модуль авторизації. Оберіть стратегію ІБ:</p>`,
+                options: [
+                    {
+                        id: "A",
+                        label: "Варіант A: Стратегія «Технологічне лідерство (Next-Gen AI SOC)»",
+                        desc: "Ціль на 18 місяців — CMMI Level 5 у всіх доменах, власний SOC 24/7 та AI-аналітика; комплаєнс GDPR та рефакторинг авторизації переносяться на 2-й рік.",
+                        style: "bg-blue-50 border-blue-300",
+                        titleColor: "text-slate-900",
+                        cost: 60000,
+                        scoreDelta: -15,
+                        risk: "Високий",
+                        costText: "$60,000 з фонду",
+                        scoreText: "-15 балів рейтингу",
+                        riskClass: "text-rose-600",
+                        takeaway: "❌ Порушено Non-Negotiables (GDPR) та проігноровано обмеження штату у 3 інженери."
+                    },
+                    {
+                        id: "B",
+                        label: "Варіант B: Стратегія «Швидкий паперовий комплаєнс»",
+                        desc: "Пишемо пакет політик для клієнтів ЄС, але не чіпаємо старий вразливий модуль авторизації.",
+                        style: "bg-rose-50 border-rose-300",
+                        titleColor: "text-rose-950",
+                        cost: 20000,
+                        scoreDelta: -10,
+                        risk: "Критичний",
+                        costText: "$20,000 з фонду",
+                        scoreText: "-10 балів рейтингу",
+                        riskClass: "text-rose-700",
+                        takeaway: "❌ Підміна стратегії паперовим комплаєнсом із відкритим ризиком витоку даних."
+                    },
+                    {
+                        id: "C",
+                        label: "Варіант C: Стратегія «Фокусоване масштабування (Secure European Expansion)»",
+                        desc: "Ціль — рівень Defined (CMMI Level 3). Закриваємо Non-Negotiables (GDPR, перебудова IAM та заміна старого модуля авторизації), моніторинг 24/7 передаємо MSSP, а власний AI SOC відкладаємо на 2-й рік.",
+                        style: "bg-emerald-50 border-emerald-300",
+                        titleColor: "text-emerald-950",
+                        cost: 30000,
+                        scoreDelta: 35,
+                        risk: "Низький",
+                        costText: "$30,000 з фонду",
+                        scoreText: "+35 балів рейтингу",
+                        riskClass: "text-emerald-700",
+                        takeaway: "✅ Збалансована та реалістична стратегія CISO із чіткими компромісами."
+                    }
+                ]
+            }
+        },
+        7: {
+            practiceBadge: "Практика 7",
+            practiceTitle: "Перевірка знань: Security Implementation & Execution",
+            lectureHTML: `
+                <div class="border-b border-slate-200 pb-5">
+                    <span class="text-xs font-semibold uppercase tracking-wider text-blue-700 bg-blue-50 px-3 py-1 rounded">Лекція 7</span>
+                    <h1 class="text-2xl font-bold text-slate-900 mt-2">Security Implementation &amp; Execution</h1>
+                    <p class="text-sm text-slate-500 mt-1">Хвильове планування (Sequencing), TCO (CAPEX/OPEX), моделі постачання, операційний перехід у BAU та пастки виконання</p>
+                </div>
+
+                <section class="space-y-4">
+                    <h2 class="text-lg font-bold text-slate-900">1. Хвильове планування реалізації (Sequencing)</h2>
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                        <div class="grid md:grid-cols-3 gap-3 text-xs">
+                            <div class="p-3 rounded-lg bg-[#122d55] text-white">
+                                <div class="font-bold">Wave 1 (Q1–Q2): Foundation</div>
+                                <div class="text-blue-200 mt-0.5">Non-Negotiables, базовий IAM/MFA, швидкі перемоги</div>
+                            </div>
+                            <div class="p-3 rounded-lg bg-blue-600 text-white">
+                                <div class="font-bold">Wave 2 (Q2–Q3): Core Capabilities</div>
+                                <div class="text-blue-100 mt-0.5">Класифікація даних, 24/7 моніторинг, процеси BAU</div>
+                            </div>
+                            <div class="p-3 rounded-lg bg-indigo-600 text-white">
+                                <div class="font-bold">Wave 3 (Q4+): Optimization</div>
+                                <div class="text-indigo-100 mt-0.5">Залежні системи (DLP, IDM), автоматизація</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="space-y-4 pt-2">
+                    <h2 class="text-lg font-bold text-slate-900">2. Operational Handover (BAU) та Execution Pitfalls</h2>
+                    <div class="grid md:grid-cols-2 gap-5 text-xs">
+                        <div class="p-5 rounded-lg border border-slate-200 bg-slate-50 space-y-2">
+                            <div class="font-bold text-sm text-[#122d55]">Operational Handover (Передача у BAU)</div>
+                            <ul class="list-disc pl-4 space-y-1 text-slate-700">
+                                <li>Призначений <strong>Control Owner</strong> та <strong>Control Operator</strong>;</li>
+                                <li>Документовані операційні процедури (<strong>Runbooks / SOP</strong>);</li>
+                                <li>Інтеграція у моніторинг (<strong>Ongoing Monitoring</strong>) та KPI/KRI;</li>
+                                <li>Передача знань операційній команді (<strong>Knowledge Transfer</strong>).</li>
+                            </ul>
+                        </div>
+
+                        <div class="p-5 rounded-lg border border-rose-200 bg-rose-50/40 space-y-2 text-rose-950">
+                            <div class="font-bold text-sm">Типові пастки виконання (Execution Pitfalls)</div>
+                            <ul class="space-y-1.5">
+                                <li><strong>1. Shelfware:</strong> закупівля інструменту без ресурсів на інтеграцію та підтримку (OPEX).</li>
+                                <li><strong>2. Big Bang Rollout:</strong> запуск жорстких правил одразу на всіх без пілотної групи.</li>
+                                <li><strong>3. Ignoring Dependencies:</strong> впровадження DLP без попередньої класифікації даних.</li>
+                                <li><strong>4. Missing Operational Handover:</strong> відсутність власника й регламенту після запуску.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+            `,
+            quizzes: [
+                {
+                    type: "single",
+                    question: "1. Чому в процесі реалізації стратегії ІБ критично розрізняти CAPEX та OPEX у бізнес-кейсі?",
+                    options: [
+                        "А) Оскільки регулятори вимагають витрачати понад 50% IT-бюджету на безпеку.",
+                        "Б) Оскільки закупівля технології (CAPEX) без закладеного бюджету та годин персоналу на її підтримку й моніторинг (OPEX) призводить до деградації контролю після запуску.",
+                        "В) Оскільки OPEX покриває лише закупівлю серверів.",
+                        "Г) Оскільки ISO 27001 забороняє OPEX."
+                    ],
+                    correct: 1,
+                    takeaway: "Total Cost of Ownership (TCO) включає як початкове впровадження (CAPEX), так і постійну підтримку в режимі BAU (OPEX)."
+                },
+                {
+                    type: "single",
+                    question: "2. Яка з наведених дій є головною ознакою коректно виконаного етапу Operational Handover?",
+                    options: [
+                        "А) Підписання акту приймання-передачі ПЗ з вендором.",
+                        "Б) Призначення Control Owner і Control Operator, створення runbooks, налаштування моніторингу та передача знань команді підтримки.",
+                        "В) Проведення одноразового пентесту перед закупівлею.",
+                        "Г) Відключення локальних прав адміністратора всім користувачам в один день без попередження."
+                    ],
+                    correct: 1,
+                    takeaway: "Проєкт стає реальною спроможністю безпеки лише після повноцінного переходу в BAU."
+                },
+                {
+                    type: "single",
+                    question: "3. У компанії запустили DLP у режимі жорсткого блокування для всіх 800 співробітників одночасно без пілоту та без класифікації даних. Які дві пастки поєднано?",
+                    options: [
+                        "А) Shelfware та Overconfidence Bias.",
+                        "Б) Big Bang Rollout та Ignoring Dependencies.",
+                        "В) Groupthink та Compliance-Based Approach.",
+                        "Г) Co-Managed Delivery та Risk Acceptance."
+                    ],
+                    correct: 1,
+                    takeaway: "Жорсткий запуск без пілоту — Big Bang Rollout; DLP без класифікації даних — Ignoring Dependencies."
+                },
+                {
+                    type: "single",
+                    question: "4. Коли найбільш виправданою є модель Co-Managed / MSSP порівняно з повністю In-House моделлю?",
+                    options: [
+                        "А) Коли потрібно затвердити рівень ризик-апетиту Ради директорів.",
+                        "Б) Коли необхідно забезпечити цілодобовий моніторинг 24/7 SOC, але утримання власної цілодобової зміни аналітиків є економічно та кадрово недоцільним.",
+                        "В) Коли компанія хоче зняти з себе відповідальність перед регулятором.",
+                        "Г) Коли бюджет безпеки дорівнює нулю."
+                    ],
+                    correct: 1,
+                    takeaway: "Co-Managed / MSSP оптимальний для цілодобових операційних функцій, тоді як стратегічне управління залишається всередині компанії."
+                },
+                {
+                    type: "single",
+                    question: "5. Що найкраще описує принцип Sequencing у Security Implementation Roadmap?",
+                    options: [
+                        "А) Виконання ініціатив в алфавітному порядку.",
+                        "Б) Розподіл ініціатив на послідовні хвилі від базових вимог і швидких перемог до складних залежних спроможностей з урахуванням залежностей і ресурсів.",
+                        "В) Відкладення регуляторних вимог на останній квартал.",
+                        "Г) Одночасний запуск усіх проєктів у перший місяць."
+                    ],
+                    correct: 1,
+                    takeaway: "Sequencing дозволяє спочатку закласти фундамент і закрити критичні ризики, а потім масштабувати зрілість."
+                }
+            ],
+            simulator: {
+                type: "single",
+                badge: "Симулятор 7",
+                title: "Запуск програми трансформації безпеки після затвердження стратегії",
+                contextHTML: `<p class="text-sm text-slate-700">У вашому підпорядкуванні 2 інженери безпеки (450 співробітників у компанії). Заплановано: (1) обов'язковий SSO/MFA, (2) моніторинг 24/7, (3) DLP на робочих станціях (класифікації даних ще немає). Оберіть план реалізації:</p>`,
+                options: [
+                    {
+                        id: "A",
+                        label: "Варіант A: «Усе й одразу (Big Bang & In-House Everything)»",
+                        desc: "Запускаєте всі три проєкти в Q1, вмикаєте жорстке блокування DLP і MFA для всіх 450 осіб у понеділок вранці, а чергування 24/7 розподіляєте між двома інженерами.",
+                        style: "bg-rose-50 border-rose-300",
+                        titleColor: "text-rose-950",
+                        cost: 55000,
+                        scoreDelta: -20,
+                        risk: "Критичний",
+                        costText: "$55,000 з фонду",
+                        scoreText: "-20 балів рейтингу",
+                        riskClass: "text-rose-700",
+                        takeaway: "❌ Катастрофа виконання: Big Bang Rollout, Ignoring Dependencies та вигорання команди."
+                    },
+                    {
+                        id: "B",
+                        label: "Варіант B: «Фокус на закупівлях без зміни процесів (Tool-First)»",
+                        desc: "Купуєте дорогий DLP-комплекс і паперові політики, а обов'язковий MFA відкладаєте на Q4 без визначення Control Owners.",
+                        style: "bg-blue-50 border-blue-300",
+                        titleColor: "text-slate-900",
+                        cost: 40000,
+                        scoreDelta: -10,
+                        risk: "Високий",
+                        costText: "$40,000 з фонду",
+                        scoreText: "-10 балів рейтингу",
+                        riskClass: "text-rose-600",
+                        takeaway: "❌ Створення Shelfware та ігнорування пріоритетів."
+                    },
+                    {
+                        id: "C",
+                        label: "Варіант C: «Хвильове впровадження, Co-Managed 24/7 та керований перехід у BAU»",
+                        desc: "Wave 1: поетапний SSO/MFA (пілот &rarr; вся компанія) + SOP. Wave 2: підключення Co-Managed MSSP 24/7 + класифікація даних. Wave 3: пілотний DLP у режимі моніторингу.",
+                        style: "bg-emerald-50 border-emerald-300",
+                        titleColor: "text-emerald-950",
+                        cost: 25000,
+                        scoreDelta: 35,
+                        risk: "Низький",
+                        costText: "$25,000 з фонду",
+                        scoreText: "+35 балів рейтингу",
+                        riskClass: "text-emerald-700",
+                        takeaway: "✅ Еталонне виконання стратегії CISO!"
+                    }
+                ]
+            }
+        }
+    };
+
+    const detectiveModuleData = {
+        step1: {
+            title: "Крок 1. Адаптація Governance (Як впустити нову технологію в процеси?)",
+            prompt: "CEO та продакт-менеджер чекають у Slack: «Як ми будемо погоджувати запуск NovaAI, щоб встигнути за 3 тижні?»",
+            options: [
+                {
+                    id: "A",
+                    label: "Гілка А: «Залізний бар'єр»",
+                    desc: "Вимагаєте зупинити розробку, поки команда не пройде повний 6-тижневий цикл узгоджень і написання AI-політики.",
+                    shortTag: "Залізний бар'єр (6 тижнів бюрократії)",
+                    cost: 5000,
+                    scoreDelta: -10,
+                    risk: "Високий",
+                    isOptimal: false
+                },
+                {
+                    id: "B",
+                    label: "Гілка Б: «Керований фаст-трек»",
+                    desc: "Дозволяєте розробку в ізольованій пісочниці на синтетичних даних, доки паралельно за 1 тиждень закриваєте критичні вимоги (Trigger-Based Assessment).",
+                    shortTag: "Керований фаст-трек (пісочниця + Trigger-Based)",
+                    cost: 10000,
+                    scoreDelta: 20,
+                    risk: "Помірний",
+                    isOptimal: true
+                },
+                {
+                    id: "C",
+                    label: "Гілка В: «Зелене світло без правил»",
+                    desc: "Кажете розробникам: «Запускайте зараз як є, а безпеку докрутимо після релізу в наступному кварталі».",
+                    shortTag: "Зелене світло без правил",
+                    cost: 0,
+                    scoreDelta: -20,
+                    risk: "Критичний",
+                    isOptimal: false
+                }
+            ]
+        },
+        step2Branches: {
+            A: {
+                consequenceBadge: "Наслідок Гілки А • Shadow IT у команді",
+                consequenceText: "Розробники злякалися зриву дедлайну, завели корпоративну картку на власний акаунт OpenAI і підняли сервіс «підпільно» (Shadow IT) на тестовому сервері з реальними даними клієнтів.",
+                question: "Крок 2. Як гасити пожежу з підпільним сервером?",
+                options: [
+                    {
+                        id: "A1",
+                        label: "Варіант 1: Терміново легалізувати через API-проксі з фільтрацією ПДн",
+                        desc: "Переводите прототип на контрольований корпоративний шлюз із маскуванням персональних даних та видаляєте реальну базу з тесту.",
+                        shortTag: "Легалізація через API-проксі + очищення даних",
+                        cost: 15000,
+                        scoreDelta: 15,
+                        risk: "Помірний",
+                        isOptimal: true,
+                        feedback: "✅ Вдала дипломатія: ви вивели тіньовий проєкт у кероване русло без зриву дедлайну."
+                    },
+                    {
+                        id: "A2",
+                        label: "Варіант 2: Зі скандалом вимкнути сервер і піти скаржитися CEO",
+                        desc: "Блокуєте сервер прямо під час демо і вимагаєте дисциплінарного покарання для продакт-менеджера.",
+                        shortTag: "Публічний скандал і блокування",
+                        cost: 0,
+                        scoreDelta: -15,
+                        risk: "Високий",
+                        isOptimal: false,
+                        feedback: "❌ Ви остаточно зруйнували довіру між ІБ та розробкою."
+                    }
+                ]
+            },
+            B: {
+                consequenceBadge: "Наслідок Гілки Б • Вимога корпоративного клієнта",
+                consequenceText: "Команда встигає в дедлайн на синтетичних даних. Але за 4 дні до релізу великий корпоративний клієнт вимагає гарантій, що його дані не використовуються для навчання зовнішньої AI-моделі і доступ до API суворо контролюється.",
+                question: "Крок 2. Куди кинути пріоритет та сили перед запуском?",
+                options: [
+                    {
+                        id: "B1",
+                        label: "Варіант 1: Zero-Data-Retention договір + контроль доступів і логування API",
+                        desc: "Оформлюєте угоду з AI-провайдером про заборону навчання на даних клієнтів (DPA/ZDR), обмежуєте права доступу до API-ключів і вмикаєте аудит запитів.",
+                        shortTag: "DPA/ZDR контракт + контроль API та логування",
+                        cost: 10000,
+                        scoreDelta: 20,
+                        risk: "Низький",
+                        isOptimal: true,
+                        feedback: "✅ Точне попадання в Non-Negotiables: закрито і договірну вимогу, і ризик витоку."
+                    },
+                    {
+                        id: "B2",
+                        label: "Варіант 2: Купити дорогий сканер вразливостей коду",
+                        desc: "Витрачаєте $25,000 на статичний аналізатор коду, але не змінюєте умови контракту з AI-провайдером.",
+                        shortTag: "Закупівля сканера замість роботи з AI-провайдером",
+                        cost: 25000,
+                        scoreDelta: -10,
+                        risk: "Високий",
+                        isOptimal: false,
+                        feedback: "❌ Сканер коду не вирішує проблему передачі даних на сторону AI-провайдера."
+                    }
+                ]
+            },
+            C: {
+                consequenceBadge: "Наслідок Гілки В • Публічний інцидент (Prompt Injection)",
+                consequenceText: "Сервіс запустили вчасно, але через два дні користувач через промпт-ін'єкцію змусив NovaAI видати фрагмент внутрішньої бази транзакцій іншого клієнта.",
+                question: "Крок 2. Твої дії в першу годину після інциденту?",
+                options: [
+                    {
+                        id: "C1",
+                        label: "Варіант 1: Containment — відключити доступ AI до бази даних і закрити вразливість",
+                        desc: "Негайно ізолюєте AI-модуль від внутрішньої БД, відкликаєте скомпрометовані токени та вводите жорстку фільтрацію запитів.",
+                        shortTag: "Ізоляція БД + усунення вектора атаки",
+                        cost: 15000,
+                        scoreDelta: 15,
+                        risk: "Помірний",
+                        isOptimal: true,
+                        feedback: "✅ Єдино правильна реакція в першу годину: спочатку локалізація (Containment), потім комунікації."
+                    },
+                    {
+                        id: "C2",
+                        label: "Варіант 2: Найняти PR-агентство, не чіпаючи технічну частину",
+                        desc: "Витрачаєте $20,000 на антикризовий піар у медіа, сподіваючись, що команда колись сама пофіксить баг.",
+                        shortTag: "PR замість локалізації витоку",
+                        cost: 20000,
+                        scoreDelta: -25,
+                        risk: "Критичний",
+                        isOptimal: false,
+                        feedback: "❌ Катастрофа: доки витік не зупинено технічно, PR-заяви лише погіршують ситуацію."
+                    }
+                ]
+            }
+        },
+        step3: {
+            title: "Крок 3. Адаптація Roadmap та Ресурсів",
+            prompt: "Криза показала, що стара дорожня карта більше не актуальна, а попереду — фінальна звітність перед керівництвом. Оберіть пакет перерозподілу залишку бюджету та часу двох інженерів:",
+            options: [
+                {
+                    id: "P1",
+                    label: "Пакет «Баланс і Передача в BAU»",
+                    desc: "Заморозити другорядний проєкт, залучити зовнішнього експерта на разовий аудит AI-інтеграції, а для внутрішньої команди прописати Runbooks і оновити реєстр ризиків.",
+                    shortTag: "Баланс: перепріоритизація + аудит + Runbooks у BAU",
+                    cost: 10000,
+                    scoreDelta: 20,
+                    risk: "Низький",
+                    isOptimal: true
+                },
+                {
+                    id: "P2",
+                    label: "Пакет «Технологічний шопінг»",
+                    desc: "Витратити кошти на покупку дорогої платформи AI-безпеки, не змінюючи процеси та не навчаючи розробників.",
+                    shortTag: "Технологічний шопінг (Shelfware)",
+                    cost: 30000,
+                    scoreDelta: -15,
+                    risk: "Високий",
+                    isOptimal: false
+                },
+                {
+                    id: "P3",
+                    label: "Пакет «Паперовий щит»",
+                    desc: "Написати 50 сторінок регламентів про безпечне використання ШІ, але залишити конфігурацію серверів без змін.",
+                    shortTag: "Паперовий щит (формальні регламенти)",
+                    cost: 5000,
+                    scoreDelta: -10,
+                    risk: "Високий",
+                    isOptimal: false
+                }
+            ]
+        }
+    };
+
+    const finalModuleData = {
+        stage1: [
+            {
+                id: "art1",
+                title: "Артефакт №1: Журнал відкликання доступів (Offboarding Log)",
+                evidenceHTML: `
+                    <p>Вивантаження з HR-таблиці та Active Directory:</p>
+                    <ul class="list-disc pl-5 mt-1.5 space-y-0.5 text-slate-700">
+                        <li><strong>Працівник:</strong> Олександр К. (Senior Backend Developer)</li>
+                        <li><strong>Дата звільнення (HR):</strong> 12.05.2026 | <strong>Дата блокування (AD):</strong> 12.05.2026</li>
+                        <li><strong>Примітка:</strong> Точний час операцій у звіті відсутній.</li>
+                    </ul>
+                `,
+                question: "Який висновок ви зафіксуєте у звіті оцінки СУІБ?",
+                options: [
+                    "А) Контроль виконується повністю, оскільки дати звільнення та блокування збігаються.",
+                    "Б) Порядок подій непідтверджений: через відсутність міток часу неможливо довести, що доступ закрили вчасно, а не наприкінці дня. Потрібен системний лог із точним часом.",
+                    "В) Контроль не застосовний, оскільки розробники не мають доступу до фінансових даних."
+                ],
+                correct: 1
+            },
+            {
+                id: "art2",
+                title: "Артефакт №2: Фізична безпека серверів (Annex A / SoA)",
+                evidenceHTML: `<p>Інфраструктура компанії на 100% розгорнута у хмарному середовищі AWS. Власних серверних кімнат або дата-центрів компанія не має.</p>`,
+                question: "Як ви відобразите вимоги фізичної безпеки серверних у Statement of Applicability (SoA)?",
+                options: [
+                    "А) Залишимо контроль як «Частково виконаний» і закупимо камери відеоспостереження для офісу.",
+                    "Б) Виключимо цей контроль у SoA та надамо письмове обґрунтування: компанія використовує виключно хмарну інфраструктуру AWS без власних фізичних дата-центрів.",
+                    "В) Видалимо пункт із реєстру без пояснень."
+                ],
+                correct: 1
+            },
+            {
+                id: "art3",
+                title: "Артефакт №3: Управління постачальниками (Third-Party Security)",
+                evidenceHTML: `<p>Із 12 зовнішніх хмарних сервісів для 8 проведено оцінку безпеки, а 4 критичні сервіси (включно з платіжним шлюзом) підключено напряму без перевірки та без вимог ІБ у договорах (SLA).</p>`,
+                question: "Який статус ви присвоїте цьому контролю?",
+                options: [
+                    "А) Виконується повністю (більшість постачальників перевірено).",
+                    "Б) Часткове виконання — зафіксовано суттєву прогалину: критичні постачальники підключаються в обхід процедури оцінки ризиків та без договірних зобов'язань щодо ІБ.",
+                    "В) Повністю відсутній, оскільки немає окремого відділу закупівель."
+                ],
+                correct: 1
+            }
+        ],
+        stage2Initiatives: [
+            { id: "I01", name: "Наведення ладу в процесі прийому/звільнення (JML) та впровадження чеклістів доступу", cost: 15000, hours: 150, condition: "Базова передумова для автоматизації доступів", recommended: true },
+            { id: "I02", name: "Контроль критичних релізів та тестування відкату перед деплоєм", cost: 20000, hours: 200, condition: "Закриває ризик збоїв критичних сервісів", recommended: true },
+            { id: "I03", name: "Оцінка критичних постачальників та оновлення вимог безпеки в контрактах", cost: 25000, hours: 200, condition: "Обов'язкова вимога для клієнтських аудитів", recommended: true },
+            { id: "I04", name: "Закупівля та впровадження автоматизованої IDM-системи управління доступами", cost: 75000, hours: 450, condition: "Залежить від I01; без налагодженого процесу не дасть результату", recommended: false },
+            { id: "I05", name: "Програма навчання персоналу (Security Awareness) та фішинг-симуляції", cost: 15000, hours: 100, condition: "Знижує ризик компрометації через людський фактор", recommended: true },
+            { id: "I06", name: "Розгортання складної SIEM/SOAR-платформи з AI-аналітикою загроз", cost: 85000, hours: 500, condition: "Вимагає значних ресурсів на підтримку", recommended: false }
+        ],
+        stage3Cards: [
+            {
+                id: "chg14",
+                title: "Картка 1: Заявка CHG-014 (Версія 2.4.1)",
+                input: "Планове оновлення платіжного модуля. До заявки прикріплено протокол тесту відкату RT-014 для версії 2.4.1 — тест пройшов успішно.",
+                options: [
+                    "А) Заблокувати реліз та запросити додатковий аудит коду.",
+                    "Б) Дозволити запуск: протокол відповідає критерію та поточній версії релізу.",
+                    "В) Ескалувати заявку на Раду директорів."
+                ],
+                correct: 1
+            },
+            {
+                id: "chg15",
+                title: "Картка 2: Заявка CHG-015 (Версія 2.4.2)",
+                input: "Оновлення модуля авторизації. Розробник прикріпив протокол успішного тесту відкату RT-014, але в документі зазначено попередню версію 2.4.1. Для версії 2.4.2 тест не проводився.",
+                options: [
+                    "А) Дозволити запуск, адже зміни у версії 2.4.2 незначні.",
+                    "Б) Заблокувати запуск і повернути заявку команді на тестування: доказ для поточної версії відсутній.",
+                    "В) Самостійно виправити номер версії у протоколі."
+                ],
+                correct: 1
+            },
+            {
+                id: "chg16",
+                title: "Картка 3: Заявка CHG-016 (П'ятниця, 18:45 — Аварійний патч)",
+                input: "Виявлено критичну помилку в обробці платежів, компанія втрачає транзакції. Часу на повний тест відкату немає, продакт-менеджер вимагає негайний деплой.",
+                options: [
+                    "А) Дозволити запуск під чесне слово менеджера без запису в журналі.",
+                    "Б) Повністю заблокувати запуск до понеділка, попри фінансові втрати.",
+                    "В) Ініціювати процедуру аварійного винятку — запросити формальне погодження керівника ІТ та керівника ІБ перед деплоєм."
+                ],
+                correct: 2
+            }
+        ],
+        stage4Questions: [
+            {
+                role: "CFO — Фінансовий директор",
+                question: "1. «У розрахунку базової метрики ефективності контролів за минулий рік бракує даних за два літні місяці через зміну системи обліку. Як ви сформували базу для порівняння?»",
+                options: [
+                    "А) Підставили середні показники за сусідні місяці.",
+                    "Б) Виключили два місяці без даних із розрахунку, явно зафіксували пропуск у примітках та розрахували базу за 10 підтвердженими місяцями.",
+                    "В) Позначили ці два місяці як 100% виконання."
+                ],
+                correct: 1,
+                takeaway: "Пропуски в даних не можна маскувати припущеннями — потрібно прозоро зафіксувати межі вибірки."
+            },
+            {
+                role: "CEO — Генеральний директор",
+                question: "2. «Якщо керівник розробки просить зробити виняток із правил безпеки заради релізу, хто за вашою Політикою ІБ має право це погодити, а хто несе відповідальність за ризик?»",
+                options: [
+                    "А) CISO одноосібно погоджує виняток і бере на себе всі фінансові збитки.",
+                    "Б) Виняток погоджується за визначеною процедурою (з оцінкою ризику від ІБ), а залишковий ризик офіційно приймає відповідний бізнес-власник (Risk Owner).",
+                    "В) Будь-який тімлід розробки може самостійно затвердити виняток у чаті."
+                ],
+                correct: 1,
+                takeaway: "Політика ІБ розмежовує оцінку ризику (ІБ) та прийняття бізнес-ризику (Risk Owner)."
+            },
+            {
+                role: "Зовнішній аудитор",
+                question: "3. «Як ви через місяць після запуску переконаєтесь, що контроль перевірки релізів реально працює, а не перетворився на формальність?»",
+                options: [
+                    "А) Проведемо анонімне опитування серед розробників.",
+                    "Б) Фахівець ІБ перевірить усі критичні розгортання за перший місяць, звіривши журнал реальних релізів із картками допуску, протоколами тестів і часом їх затвердження.",
+                    "В) Перевіримо, чи не зменшилася загальна кількість релізів."
+                ],
+                correct: 1,
+                takeaway: "Assurance вимагає звірки незалежних системних логів із документальними доказами контролю."
+            },
+            {
+                role: "Бізнес-лідер",
+                question: "4. «Ви перенесли впровадження автоматизованої IDM-системи на другий рік, обравши на перший рік лише наведення ладу в HR-процесах і чеклісти. Чому?»",
+                options: [
+                    "А) Просто не вистачило грошей.",
+                    "Б) Автоматизація хаосу лише масштабує помилки. Спочатку вибудовуємо стабільний процес JML та закриваємо базові ризики, готуючи фундамент для автоматизації у 2-му році.",
+                    "В) Сподіваємося, що проблема вирішиться сама собою."
+                ],
+                correct: 1,
+                takeaway: "Sequencing вимагає спочатку побудувати керований процес, а вже потім інвестувати в дорогу автоматизацію."
+            },
+            {
+                role: "Голова Правління",
+                question: "5. «Який головний запит на рішення ви виносите на затвердження Правління за підсумками вашої доповіді?»",
+                options: [
+                    "А) Затвердити безлімітний бюджет на всі сучасні рішення.",
+                    "Б) Затвердити трирічні цілі ІБ, пріоритети та бюджет програми першого року ($75,000), повноваження щодо управління ризиками й винятками, а також прийняти залишковий ризик відкладених ініціатив.",
+                    "В) Передати всю відповідальність зовнішньому підряднику."
+                ],
+                correct: 1,
+                takeaway: "Захист перед Правлінням має завершуватися конкретним управлінським запитом на затвердження пріоритетів, бюджету, повноважень та прийняття залишкових ризиків."
+            }
+        ]
+    };
+
+    // ==========================================
+    // STATE MANAGEMENT (LOCKED ANSWERS + BUDGET)
+    // ==========================================
+    const STORAGE_KEY = 'ciso_platform_state_v4';
+    const BASE_FUND = 250000;
+
+    let appState = {
+        profile: { name: "Гість (CISO)", org: "NovaPayTech / PayPulse" },
+        currentModuleId: 1,
+        bailoutCount: 0,
+        answeredQuestions: { 1: {}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}, 7: {} },
+        multiSelections: { 3: {} },
+        selectedDecisions: { 1: null, 2: null, 3: { part1: null, part2: null }, 4: null, 5: null, 6: null, 7: null },
+        detectiveState: { step1Choice: null, step2Choice: null, step3Choice: null },
+        finalState: {
+            stage1: {},
+            stage2Selected: [],
+            stage2Submitted: false,
+            stage3: {},
+            stage4: {},
+            writtenJustification: ""
+        }
+    };
+
+    function loadState() {
+        try {
+            const raw = localStorage.getItem(STORAGE_KEY);
+            if (raw) {
+                const parsed = JSON.parse(raw);
+                appState = { ...appState, ...parsed };
+            }
+        } catch (e) {}
+    }
+
+    function saveState() {
+        try {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
+        } catch (e) {}
+        renderSidebar();
+        updateExecutiveDashboard();
+    }
+
+    function getFinanceAndScoreSummary() {
+        let spentSims = 0;
+        let spentDetective = 0;
+        let spentFinal = 0;
+        let ratingScore = 0;
+        let completedSims = 0;
+        let currentRisk = "Високий";
+
+        [1, 2, 4, 5, 6, 7].forEach(modId => {
+            const choiceId = appState.selectedDecisions[modId];
+            if (choiceId && modulesData[modId]) {
+                const opt = modulesData[modId].simulator.options.find(o => o.id === choiceId);
+                if (opt) {
+                    spentSims += opt.cost || 0;
+                    ratingScore += opt.scoreDelta || 0;
+                    completedSims++;
+                    if (appState.currentModuleId === modId) currentRisk = opt.risk;
+                }
+            }
+        });
+
+        if (appState.selectedDecisions[3]) {
+            if (appState.selectedDecisions[3].part1) {
+                const o1 = modulesData[3].simulator.part1.options.find(o => o.id === appState.selectedDecisions[3].part1);
+                if (o1) ratingScore += o1.scoreDelta || 0;
+            }
+            if (appState.selectedDecisions[3].part2) {
+                const o2 = modulesData[3].simulator.part2.options.find(o => o.id === appState.selectedDecisions[3].part2);
+                if (o2) {
+                    spentSims += o2.cost || 0;
+                    ratingScore += o2.scoreDelta || 0;
+                    completedSims++;
+                    if (appState.currentModuleId === 3) currentRisk = o2.risk;
+                }
+            }
+        }
+
+        const d = detectiveModuleData;
+        if (appState.detectiveState.step1Choice) {
+            const o1 = d.step1.options.find(o => o.id === appState.detectiveState.step1Choice);
+            if (o1) {
+                spentDetective += o1.cost;
+                ratingScore += o1.scoreDelta;
+                if (appState.currentModuleId === 11) currentRisk = o1.risk;
+            }
+        }
+        if (appState.detectiveState.step1Choice && appState.detectiveState.step2Choice) {
+            const br = d.step2Branches[appState.detectiveState.step1Choice];
+            const o2 = br && br.options.find(o => o.id === appState.detectiveState.step2Choice);
+            if (o2) {
+                spentDetective += o2.cost;
+                ratingScore += o2.scoreDelta;
+                if (appState.currentModuleId === 11) currentRisk = o2.risk;
+            }
+        }
+        if (appState.detectiveState.step3Choice) {
+            const o3 = d.step3.options.find(o => o.id === appState.detectiveState.step3Choice);
+            if (o3) {
+                spentDetective += o3.cost;
+                ratingScore += o3.scoreDelta;
+                completedSims++;
+                if (appState.currentModuleId === 11) currentRisk = o3.risk;
+            }
+        }
+
+        if (appState.finalState.stage2Submitted) {
+            appState.finalState.stage2Selected.forEach(id => {
+                const init = finalModuleData.stage2Initiatives.find(i => i.id === id);
+                if (init) spentFinal += init.cost;
+            });
+            completedSims++;
+        }
+
+        [1, 2, 3, 4, 5, 6, 7].forEach(modId => {
+            const ans = appState.answeredQuestions[modId] || {};
+            modulesData[modId].quizzes.forEach((q, idx) => {
+                if (ans[idx] !== undefined) {
+                    if (q.type === "multi") {
+                        const ok = Array.isArray(ans[idx]) && ans[idx].length === q.correct.length && q.correct.every(v => ans[idx].includes(v));
+                        if (ok) ratingScore += 2;
+                    } else if (ans[idx] === q.correct) {
+                        ratingScore += 2;
+                    }
+                }
+            });
+        });
+
+        ratingScore -= (appState.bailoutCount || 0) * 25;
+
+        const totalFund = BASE_FUND + ((appState.bailoutCount || 0) * 50000);
+        const totalSpent = spentSims + spentDetective + spentFinal;
+        const remaining = Math.max(0, totalFund - totalSpent);
+
+        return {
+            totalFund,
+            spentSims,
+            spentDetective,
+            spentFinal,
+            totalSpent,
+            remaining,
+            ratingScore,
+            completedSims,
+            currentRisk
+        };
+    }
+
+    function updateExecutiveDashboard() {
+        const s = getFinanceAndScoreSummary();
+        document.getElementById('metric-budget').innerText = '$' + s.remaining.toLocaleString();
+        document.getElementById('metric-budget').className = s.remaining === 0
+            ? "text-lg sm:text-xl font-bold text-rose-600 mt-0.5"
+            : "text-lg sm:text-xl font-bold text-slate-900 mt-0.5";
+
+        document.getElementById('metric-score').innerText = `${s.ratingScore} балів`;
+        document.getElementById('metric-completed').innerText = `${s.completedSims} / 9`;
+        document.getElementById('metric-risk').innerText = s.currentRisk;
+
+        document.getElementById('budget-breakdown-label').innerText =
+            `Витрачено: $${s.totalSpent.toLocaleString()} (Симулятори: $${s.spentSims.toLocaleString()} | Детектив: $${s.spentDetective.toLocaleString()} | Фінал: $${s.spentFinal.toLocaleString()}) • Вільно: $${s.remaining.toLocaleString()}`;
+
+        const pSims = (s.spentSims / s.totalFund) * 100;
+        const pDet = (s.spentDetective / s.totalFund) * 100;
+        const pFin = (s.spentFinal / s.totalFund) * 100;
+        const pRem = Math.max(0, 100 - pSims - pDet - pFin);
+
+        document.getElementById('budget-visual-bar').innerHTML = `
+            <div style="width: ${pSims}%" class="bg-[#122d55] h-full" title="Симулятори 1-7: $${s.spentSims.toLocaleString()}"></div>
+            <div style="width: ${pDet}%" class="bg-indigo-500 h-full" title="Детектив 11: $${s.spentDetective.toLocaleString()}"></div>
+            <div style="width: ${pFin}%" class="bg-amber-500 h-full" title="Фінальний портфель 12: $${s.spentFinal.toLocaleString()}"></div>
+            <div style="width: ${pRem}%" class="bg-emerald-500/25 h-full" title="Вільний залишок: $${s.remaining.toLocaleString()}"></div>
+        `;
+
+        const loanBox = document.getElementById('emergency-loan-box');
+        if (s.remaining < 15000) {
+            loanBox.classList.remove('hidden');
+        } else {
+            loanBox.classList.add('hidden');
+        }
+    }
+
+    function takeEmergencyBailout() {
+        appState.bailoutCount = (appState.bailoutCount || 0) + 1;
+        saveState();
+        if (appState.currentModuleId === 11) renderModule11();
+        else if (appState.currentModuleId === 12) renderModule12();
+        else renderSimulator();
+    }
+
+    function applyProfileUI() {
+        const name = appState.profile.name || "Гість (CISO)";
+        const org = appState.profile.org || "NovaPayTech / PayPulse";
+        document.getElementById('header-ciso-name').innerText = name;
+        document.getElementById('header-ciso-org').innerText = org;
+        document.getElementById('header-avatar').innerText = name.trim().charAt(0).toUpperCase();
+    }
+
+    function openProfileModal() {
+        document.getElementById('input-ciso-name').value = appState.profile.name;
+        document.getElementById('input-ciso-org').value = appState.profile.org;
+        const modal = document.getElementById('profile-modal');
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+    }
+
+    function closeProfileModal() {
+        const modal = document.getElementById('profile-modal');
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+    }
+
+    function saveProfile() {
+        const n = document.getElementById('input-ciso-name').value.trim();
+        const o = document.getElementById('input-ciso-org').value.trim();
+        appState.profile.name = n || "Гість (CISO)";
+        appState.profile.org = o || "NovaPayTech / PayPulse";
+        saveState();
+        applyProfileUI();
+        closeProfileModal();
+        if (appState.currentModuleId === 11) renderModule11();
+        if (appState.currentModuleId === 12) renderModule12();
+    }
+
+    function resetAllProgress() {
+        localStorage.removeItem(STORAGE_KEY);
+        location.reload();
+    }
+
+    function toggleMobileSidebar() {
+        const sb = document.getElementById('course-sidebar');
+        const bd = document.getElementById('sidebar-backdrop');
+        sb.classList.toggle('-translate-x-full');
+        bd.classList.toggle('hidden');
+    }
+
+    function closeMobileSidebarIfOpen() {
+        const sb = document.getElementById('course-sidebar');
+        const bd = document.getElementById('sidebar-backdrop');
+        if (!sb.classList.contains('-translate-x-full')) {
+            sb.classList.add('-translate-x-full');
+            bd.classList.add('hidden');
+        }
+    }
+
+    function renderSidebar() {
+        const listEl = document.getElementById('sidebar-modules-list');
+        let totalCompleted = 0;
+        let totalItems = 35 + 3 + 12;
+
+        listEl.innerHTML = [1, 2, 3, 4, 5, 6, 7].map(id => {
+            const qDone = Object.keys(appState.answeredQuestions[id] || {}).length;
+            totalCompleted += qDone;
+            const isComplete = qDone === 5;
+            const isActive = appState.currentModuleId === id;
+
+            const btnClass = isActive
+                ? "bg-[#122d55] text-white shadow-sm"
+                : "text-slate-700 hover:bg-slate-100";
+
+            const badgeClass = isComplete
+                ? "bg-emerald-500 text-white"
+                : (isActive ? "bg-blue-800 text-blue-100" : "bg-slate-100 text-slate-500");
+
+            return `
+                <button onclick="switchModule(${id}); closeMobileSidebarIfOpen();" class="w-full text-left px-3 py-2.5 rounded-xl text-xs font-medium transition flex items-center justify-between ${btnClass}">
+                    <span class="truncate pr-2">${moduleTitlesShort[id]}</span>
+                    <span class="text-[10px] font-bold px-2 py-0.5 rounded-full shrink-0 ${badgeClass}">
+                        ${isComplete ? '✓ 5/5' : qDone + '/5'}
+                    </span>
+                </button>
+            `;
+        }).join('');
+
+        const dSteps = (appState.detectiveState.step1Choice ? 1 : 0) +
+            (appState.detectiveState.step2Choice ? 1 : 0) +
+            (appState.detectiveState.step3Choice ? 1 : 0);
+        totalCompleted += dSteps;
+        const s11 = document.getElementById('side-status-11');
+        if (s11) s11.innerText = dSteps === 3 ? '✓ 3/3' : `${dSteps}/3`;
+
+        const fSteps = Object.keys(appState.finalState.stage1).length +
+            (appState.finalState.stage2Submitted ? 1 : 0) +
+            Object.keys(appState.finalState.stage3).length +
+            Object.keys(appState.finalState.stage4).length;
+        totalCompleted += fSteps;
+        const s12 = document.getElementById('side-status-12');
+        if (s12) s12.innerText = fSteps === 12 ? '✓ 12/12' : `${fSteps}/12`;
+
+        const pct = Math.round((totalCompleted / totalItems) * 100);
+        document.getElementById('sidebar-total-progress').innerText = pct + '%';
+        document.getElementById('sidebar-total-bar').style.width = pct + '%';
+    }
+
+    function switchModule(modId) {
+        appState.currentModuleId = modId;
+        saveState();
+
+        const btn11 = document.getElementById('side-btn-11');
+        if (modId === 11) {
+            btn11.className = "w-full text-left px-3 py-2.5 rounded-xl text-xs font-semibold transition flex items-center justify-between bg-indigo-600 text-white shadow-sm border border-indigo-700";
+        } else {
+            btn11.className = "w-full text-left px-3 py-2.5 rounded-xl text-xs font-semibold transition flex items-center justify-between bg-indigo-50 text-indigo-950 border border-indigo-200 hover:bg-indigo-100";
+        }
+
+        const btn12 = document.getElementById('side-btn-12');
+        if (modId === 12) {
+            btn12.className = "w-full text-left px-3 py-2.5 rounded-xl text-xs font-semibold transition flex items-center justify-between bg-amber-500 text-slate-950 shadow-sm border border-amber-600";
+        } else {
+            btn12.className = "w-full text-left px-3 py-2.5 rounded-xl text-xs font-semibold transition flex items-center justify-between bg-amber-50 text-amber-950 border border-amber-200 hover:bg-amber-100";
+        }
+
+        const stdNav = document.getElementById('standard-nav-tabs');
+        const specialBadge = document.getElementById('special-mode-badge');
+        const specialIcon = document.getElementById('special-badge-icon');
+        const specialText = document.getElementById('special-badge-text');
+
+        const stdWrap = document.getElementById('standard-module-wrapper');
+        const detWrap = document.getElementById('detective-module-wrapper');
+        const finalWrap = document.getElementById('final-module-wrapper');
+
+        stdWrap.classList.add('hidden');
+        detWrap.classList.add('hidden');
+        finalWrap.classList.add('hidden');
+
+        if (modId === 11) {
+            stdNav.classList.add('hidden');
+            specialBadge.classList.remove('hidden');
+            specialBadge.classList.add('flex');
+            specialBadge.className = "flex items-center space-x-2 bg-[#0b1b36] px-4 py-2 rounded-lg border border-indigo-400/50 text-xs font-semibold text-indigo-300";
+            specialIcon.className = "fa-solid fa-magnifying-glass";
+            specialText.innerText = "Практика 11: Інтерактивний детектив із розгалуженням";
+            detWrap.classList.remove('hidden');
+            renderModule11();
+        } else if (modId === 12) {
+            stdNav.classList.add('hidden');
+            specialBadge.classList.remove('hidden');
+            specialBadge.classList.add('flex');
+            specialBadge.className = "flex items-center space-x-2 bg-[#0b1b36] px-4 py-2 rounded-lg border border-amber-400/50 text-xs font-semibold text-amber-300";
+            specialIcon.className = "fa-solid fa-chess-king";
+            specialText.innerText = "Фінальний захист CISO: Комплексна симуляція";
+            finalWrap.classList.remove('hidden');
+            renderModule12();
+        } else {
+            stdNav.classList.remove('hidden');
+            specialBadge.classList.add('hidden');
+            specialBadge.classList.remove('flex');
+            stdWrap.classList.remove('hidden');
+            renderModuleContent();
+        }
+    }
+
+    function renderModuleContent() {
+        const mod = modulesData[appState.currentModuleId];
+        document.getElementById('lecture-container').innerHTML = mod.lectureHTML;
+        document.getElementById('practice-badge').innerText = mod.practiceBadge;
+        document.getElementById('practice-title').innerText = mod.practiceTitle;
+        renderQuiz();
+        renderSimulator();
+    }
+
+    function renderQuiz() {
+        const modId = appState.currentModuleId;
+        const mod = modulesData[modId];
+        const container = document.getElementById('quiz-container');
+        const currentAnswers = appState.answeredQuestions[modId];
+        container.innerHTML = '';
+
+        mod.quizzes.forEach((q, qIndex) => {
+            const qBlock = document.createElement('div');
+            qBlock.className = "p-6 bg-slate-50 rounded-xl border border-slate-200 space-y-4";
+
+            if (q.type === "multi") {
+                if (!appState.multiSelections[modId]) appState.multiSelections[modId] = {};
+                if (!appState.multiSelections[modId][qIndex]) appState.multiSelections[modId][qIndex] = [];
+
+                const selectedArr = appState.multiSelections[modId][qIndex];
+                const isSubmitted = currentAnswers[qIndex] !== undefined;
+
+                let optionsHtml = q.options.map((opt, oIndex) => {
+                    const isChecked = selectedArr.includes(oIndex);
+                    let btnStyle = isChecked
+                        ? "border-blue-600 bg-blue-50/70 text-slate-900 font-medium"
+                        : "border-slate-300 bg-white hover:border-blue-400 text-slate-800";
+
+                    if (isSubmitted) {
+                        const isActuallyCorrect = q.correct.includes(oIndex);
+                        if (isActuallyCorrect) {
+                            btnStyle = "border-emerald-500 bg-emerald-50 text-emerald-900 font-semibold cursor-not-allowed";
+                        } else if (isChecked && !isActuallyCorrect) {
+                            btnStyle = "border-rose-400 bg-rose-50 text-rose-900 cursor-not-allowed";
+                        } else {
+                            btnStyle = "border-slate-200 bg-white text-slate-400 cursor-not-allowed";
+                        }
+                    }
+
+                    return `
+                        <button onclick="toggleMultiOption(${qIndex}, ${oIndex})" ${isSubmitted ? 'disabled' : ''} class="w-full p-3.5 text-left border rounded-lg transition text-sm flex items-center space-x-3 ${btnStyle}">
+                            <span class="w-4 h-4 rounded border flex items-center justify-center text-xs ${isChecked ? 'bg-blue-600 border-blue-600 text-white' : 'border-slate-400 bg-white'}">
+                                ${isChecked ? '✓' : ''}
+                            </span>
+                            <span>${opt}</span>
+                        </button>
+                    `;
+                }).join('');
+
+                let actionOrFeedback = '';
+                if (!isSubmitted) {
+                    actionOrFeedback = `
+                        <button onclick="submitMultiAnswer(${qIndex})" class="px-4 py-2 bg-[#122d55] text-white text-xs font-semibold rounded-lg hover:bg-blue-900 transition">
+                            Зафіксувати відповідь (обрано ${selectedArr.length} з ${q.requiredCount})
+                        </button>
+                    `;
+                } else {
+                    const isAllCorrect = selectedArr.length === q.correct.length && q.correct.every(val => selectedArr.includes(val));
+                    actionOrFeedback = `
+                        <div class="p-4 rounded-lg text-xs border ${isAllCorrect ? 'bg-emerald-50/80 border-emerald-200 text-emerald-900' : 'bg-amber-50 border-amber-200 text-amber-900'}">
+                            <strong>${isAllCorrect ? '✅ Усі 3 варіанти вірні!' : '⚠️ Є неточності.'} Takeaway:</strong> ${q.takeaway}
+                        </div>
+                    `;
+                }
+
+                qBlock.innerHTML = `
+                    <div class="font-semibold text-slate-900 text-sm">${q.question}</div>
+                    <div class="space-y-2.5">${optionsHtml}</div>
+                    <div>${actionOrFeedback}</div>
+                `;
+            } else {
+                const isLocked = currentAnswers[qIndex] !== undefined;
+                let optionsHtml = q.options.map((opt, oIndex) => {
+                    let btnStyle = "border-slate-300 bg-white hover:border-blue-500 hover:bg-blue-50/40 text-slate-800";
+                    if (isLocked) {
+                        if (oIndex === q.correct) {
+                            btnStyle = "border-emerald-500 bg-emerald-50 text-emerald-900 font-semibold cursor-not-allowed";
+                        } else if (oIndex === currentAnswers[qIndex]) {
+                            btnStyle = "border-rose-400 bg-rose-50 text-rose-900 cursor-not-allowed";
+                        } else {
+                            btnStyle = "border-slate-200 bg-white text-slate-400 cursor-not-allowed";
+                        }
+                    }
+                    return `
+                        <button onclick="selectAnswer(${qIndex}, ${oIndex})" ${isLocked ? 'disabled' : ''} class="w-full p-3.5 text-left border rounded-lg transition text-sm ${btnStyle}">
+                            ${opt}
+                        </button>
+                    `;
+                }).join('');
+
+                let takeawayHtml = '';
+                if (isLocked) {
+                    const isCorrect = currentAnswers[qIndex] === q.correct;
+                    takeawayHtml = `
+                        <div class="p-4 rounded-lg text-xs border ${isCorrect ? 'bg-emerald-50/80 border-emerald-200 text-emerald-900' : 'bg-amber-50 border-amber-200 text-amber-900'}">
+                            <strong>${isCorrect ? '✅ Правильно!' : '❌ Невірно.'} Takeaway:</strong> ${q.takeaway}
+                        </div>
+                    `;
+                }
+
+                qBlock.innerHTML = `
+                    <div class="font-semibold text-slate-900 text-sm">${q.question}</div>
+                    <div class="space-y-2.5">${optionsHtml}</div>
+                    ${takeawayHtml}
+                `;
+            }
+
+            container.appendChild(qBlock);
+        });
+
+        document.getElementById('progress-indicator-box').innerHTML = `Прогрес практики модуля: <span id="quiz-progress" class="font-bold text-slate-800">${Object.keys(currentAnswers).length} / ${mod.quizzes.length}</span>`;
+    }
+
+    function selectAnswer(qIndex, oIndex) {
+        const modId = appState.currentModuleId;
+        if (appState.answeredQuestions[modId][qIndex] !== undefined) return;
+        appState.answeredQuestions[modId][qIndex] = oIndex;
+        saveState();
+        renderQuiz();
+    }
+
+    function toggleMultiOption(qIndex, oIndex) {
+        const modId = appState.currentModuleId;
+        if (appState.answeredQuestions[modId][qIndex] !== undefined) return;
+        const arr = appState.multiSelections[modId][qIndex];
+        const idx = arr.indexOf(oIndex);
+        if (idx > -1) arr.splice(idx, 1);
+        else arr.push(oIndex);
+        saveState();
+        renderQuiz();
+    }
+
+    function submitMultiAnswer(qIndex) {
+        const modId = appState.currentModuleId;
+        if (appState.answeredQuestions[modId][qIndex] !== undefined) return;
+        const arr = appState.multiSelections[modId][qIndex];
+        if (arr.length === 0) return;
+        appState.answeredQuestions[modId][qIndex] = [...arr];
+        saveState();
+        renderQuiz();
+    }
+
+    function resetQuiz() {
+        const modId = appState.currentModuleId;
+        appState.answeredQuestions[modId] = {};
+        if (appState.multiSelections[modId]) appState.multiSelections[modId] = {};
+        saveState();
+        renderQuiz();
+    }
+
+    function switchTab(tabId) {
+        document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+        document.getElementById('tab-' + tabId).classList.add('active');
+
+        ['lectures', 'tests', 'simulator'].forEach(id => {
+            const btn = document.getElementById('tab-btn-' + id);
+            if (btn) {
+                if (id === tabId) {
+                    btn.className = "px-5 py-2 rounded-md text-xs font-semibold tracking-wide transition-all text-white bg-blue-600 shadow";
+                } else {
+                    btn.className = "px-5 py-2 rounded-md text-xs font-semibold tracking-wide transition-all text-slate-300 hover:text-white";
+                }
+            }
+        });
+    }
+
+    function renderSimulator() {
+        const modId = appState.currentModuleId;
+        const mod = modulesData[modId];
+        const sim = mod.simulator;
+        const simContainer = document.getElementById('simulator-container');
+        const finance = getFinanceAndScoreSummary();
+
+        if (sim.type === "two-stage") {
+            const saved = appState.selectedDecisions[3] || { part1: null, part2: null };
+            const p1Locked = saved.part1 !== null;
+            const p2Locked = saved.part2 !== null;
+
+            const p1OptionsHtml = sim.part1.options.map(opt => {
+                const isSelected = saved.part1 === opt.id;
+                let btnClass = "border-slate-300 bg-white hover:border-blue-600 hover:bg-blue-50/30";
+                if (p1Locked) {
+                    btnClass = isSelected
+                        ? "border-blue-600 bg-blue-50/60 ring-2 ring-blue-600 cursor-not-allowed"
+                        : "border-slate-200 bg-slate-100/70 opacity-60 cursor-not-allowed";
+                }
+                return `
+                    <button onclick="makeTwoStageDecision(1, '${opt.id}')" ${p1Locked ? 'disabled' : ''} class="w-full p-4 border rounded-xl transition text-left space-y-1.5 ${btnClass}">
+                        <div class="font-bold text-slate-900 text-sm">${opt.label}</div>
+                        <p class="text-xs text-slate-600">${opt.desc}</p>
+                    </button>
+                `;
+            }).join('');
+
+            const p2OptionsHtml = sim.part2.options.map(opt => {
+                const isSelected = saved.part2 === opt.id;
+                const cantAfford = !p2Locked && (opt.cost > finance.remaining);
+                const disabled = p2Locked || cantAfford;
+
+                let btnClass = "border-slate-300 bg-white hover:border-blue-600 hover:bg-blue-50/30";
+                if (p2Locked) {
+                    btnClass = isSelected
+                        ? "border-blue-600 bg-blue-50/60 ring-2 ring-blue-600 cursor-not-allowed"
+                        : "border-slate-200 bg-slate-100/70 opacity-60 cursor-not-allowed";
+                } else if (cantAfford) {
+                    btnClass = "border-rose-200 bg-rose-50/40 opacity-65 cursor-not-allowed";
+                }
+
+                return `
+                    <button onclick="makeTwoStageDecision(2, '${opt.id}')" ${disabled ? 'disabled' : ''} class="w-full p-4 border rounded-xl transition text-left space-y-1.5 ${btnClass}">
+                        <div class="flex flex-wrap justify-between items-center gap-2">
+                            <span class="font-bold text-slate-900 text-sm">${opt.label}</span>
+                            <span class="text-xs font-bold px-2.5 py-0.5 rounded ${cantAfford ? 'bg-rose-100 text-rose-800' : 'bg-slate-100 text-slate-800'}">
+                                ${cantAfford ? `Недостатньо коштів ($${opt.cost.toLocaleString()})` : `Вартість: $${opt.cost.toLocaleString()}`}
+                            </span>
+                        </div>
+                        <p class="text-xs text-slate-600">${opt.desc}</p>
+                    </button>
+                `;
+            }).join('');
+
+            let p1FbHtml = '';
+            if (p1Locked) {
+                const opt1 = sim.part1.options.find(o => o.id === saved.part1);
+                p1FbHtml = `<div class="p-4 rounded-lg text-xs border ${opt1.style}">${opt1.feedback}</div>`;
+            }
+
+            let p2FbHtml = '';
+            if (p2Locked) {
+                const opt2 = sim.part2.options.find(o => o.id === saved.part2);
+                p2FbHtml = `
+                    <div class="p-5 rounded-xl text-sm border space-y-2 ${opt2.style}">
+                        <div class="font-bold ${opt2.titleColor}">${opt2.label}</div>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 py-1.5 text-xs font-semibold">
+                            <div class="bg-white p-2.5 rounded border border-slate-200">💰 Витрати: <span class="text-slate-900">${opt2.costText}</span></div>
+                            <div class="bg-white p-2.5 rounded border border-slate-200">🏆 Рейтинг CISO: <span class="text-[#122d55]">${opt2.scoreText}</span></div>
+                            <div class="bg-white p-2.5 rounded border border-slate-200">⚠️ Статус ризику: <span class="${opt2.riskClass}">${opt2.risk}</span></div>
+                        </div>
+                        <p class="text-slate-800 text-xs"><strong>💡 CISO Takeaway:</strong> ${opt2.takeaway}</p>
+                    </div>
+                `;
+            }
+
+            simContainer.innerHTML = `
+                <div class="border-b border-slate-200 pb-4 flex flex-wrap justify-between items-center gap-4">
+                    <div>
+                        <span class="text-xs font-bold text-blue-700 bg-blue-50 px-3 py-1 rounded uppercase">${sim.badge}</span>
+                        <h2 class="text-xl font-bold text-slate-900 mt-2">${sim.title}</h2>
+                    </div>
+                    <button onclick="resetSimulator()" class="text-xs font-medium text-slate-500 hover:text-slate-800 underline">
+                        Перепройти симуляцію (повернути кошти)
+                    </button>
+                </div>
+
+                <div class="bg-slate-50 p-6 rounded-xl border border-slate-200 space-y-4">
+                    ${sim.part1.contextHTML}
+                    <div class="space-y-3">${p1OptionsHtml}</div>
+                    ${p1FbHtml}
+                </div>
+
+                <div class="bg-slate-50 p-6 rounded-xl border border-slate-200 space-y-4">
+                    ${sim.part2.contextHTML}
+                    <div class="space-y-3">${p2OptionsHtml}</div>
+                    ${p2FbHtml}
+                </div>
+            `;
+            return;
+        }
+
+        const chosenId = appState.selectedDecisions[modId];
+        const isLocked = chosenId !== null;
+
+        const optionsHtml = sim.options.map(opt => {
+            const isSelected = chosenId === opt.id;
+            const cantAfford = !isLocked && (opt.cost > finance.remaining);
+            const disabled = isLocked || cantAfford;
+
+            let btnClass = "border-slate-300 bg-white hover:border-blue-600 hover:bg-blue-50/30";
+            if (isLocked) {
+                btnClass = isSelected
+                    ? "border-blue-600 bg-blue-50/50 ring-2 ring-blue-600 cursor-not-allowed"
+                    : "border-slate-200 bg-slate-100/70 opacity-60 cursor-not-allowed";
+            } else if (cantAfford) {
+                btnClass = "border-rose-200 bg-rose-50/40 opacity-65 cursor-not-allowed";
+            }
+
+            return `
+                <button onclick="makeDecision('${opt.id}')" ${disabled ? 'disabled' : ''} class="w-full p-5 border rounded-xl transition text-left space-y-2 ${btnClass}">
+                    <div class="flex flex-wrap justify-between items-center gap-2">
+                        <span class="font-bold text-slate-900">${opt.label}</span>
+                        <span class="text-xs font-bold px-2.5 py-0.5 rounded ${cantAfford ? 'bg-rose-100 text-rose-800' : 'bg-slate-100 text-slate-800'}">
+                            ${cantAfford ? `Недостатньо коштів ($${opt.cost.toLocaleString()})` : `Вартість: $${opt.cost.toLocaleString()}`}
+                        </span>
+                    </div>
+                    <p class="text-xs text-slate-600">${opt.desc}</p>
+                </button>
+            `;
+        }).join('');
+
+        let feedbackHtml = '';
+        if (isLocked) {
+            const opt = sim.options.find(o => o.id === chosenId);
+            if (opt) {
+                feedbackHtml = `
+                    <div class="p-6 rounded-xl text-sm border space-y-3 ${opt.style}">
+                        <div class="font-bold text-base ${opt.titleColor}">${opt.label}</div>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 py-2 text-xs font-semibold">
+                            <div class="bg-white p-3 rounded border border-slate-200">💰 Витрати з фонду: <span class="text-slate-900">${opt.costText}</span></div>
+                            <div class="bg-white p-3 rounded border border-slate-200">🏆 Рейтинг CISO: <span class="text-[#122d55]">${opt.scoreText}</span></div>
+                            <div class="bg-white p-3 rounded border border-slate-200">⚠️ Статус ризику: <span class="${opt.riskClass}">${opt.risk}</span></div>
+                        </div>
+                        <p class="text-slate-800"><strong>💡 CISO Takeaway:</strong> ${opt.takeaway}</p>
+                    </div>
+                `;
+            }
+        }
+
+        simContainer.innerHTML = `
+            <div class="border-b border-slate-200 pb-4 flex flex-wrap justify-between items-center gap-4">
+                <div>
+                    <span class="text-xs font-bold text-blue-700 bg-blue-50 px-3 py-1 rounded uppercase">${sim.badge}</span>
+                    <h2 class="text-xl font-bold text-slate-900 mt-2">${sim.title}</h2>
+                </div>
+                <button onclick="resetSimulator()" class="text-xs font-medium text-slate-500 hover:text-slate-800 underline">
+                    Перепройти симуляцію (повернути кошти)
+                </button>
+            </div>
+
+            <div class="bg-slate-50 p-6 rounded-xl border border-slate-200 space-y-4">
+                <div class="text-xs font-bold uppercase tracking-wider text-slate-500">Вхідна ситуація</div>
+                ${sim.contextHTML}
+                <div class="space-y-3 pt-2">${optionsHtml}</div>
+            </div>
+
+            ${feedbackHtml}
+        `;
+    }
+
+    function makeDecision(option) {
+        const modId = appState.currentModuleId;
+        if (appState.selectedDecisions[modId] !== null) return;
+        const opt = modulesData[modId].simulator.options.find(o => o.id === option);
+        const finance = getFinanceAndScoreSummary();
+        if (!opt || opt.cost > finance.remaining) return;
+
+        appState.selectedDecisions[modId] = option;
+        saveState();
+        renderSimulator();
+    }
+
+    function makeTwoStageDecision(part, optionId) {
+        const finance = getFinanceAndScoreSummary();
+        if (part === 1) {
+            if (appState.selectedDecisions[3].part1 !== null) return;
+            appState.selectedDecisions[3].part1 = optionId;
+        } else {
+            if (appState.selectedDecisions[3].part2 !== null) return;
+            const opt2 = modulesData[3].simulator.part2.options.find(o => o.id === optionId);
+            if (!opt2 || opt2.cost > finance.remaining) return;
+            appState.selectedDecisions[3].part2 = optionId;
+        }
+        saveState();
+        renderSimulator();
+    }
+
+    function resetSimulator() {
+        const modId = appState.currentModuleId;
+        if (modId === 3) appState.selectedDecisions[3] = { part1: null, part2: null };
+        else appState.selectedDecisions[modId] = null;
+        saveState();
+        renderSimulator();
+    }
+
+    function renderModule11() {
+        const wrap = document.getElementById('detective-module-wrapper');
+        const ds = appState.detectiveState;
+        const d = detectiveModuleData;
+        const orgName = appState.profile.org || "PayPulse";
+        const finance = getFinanceAndScoreSummary();
+
+        const step1Locked = ds.step1Choice !== null;
+        const step1Html = d.step1.options.map(opt => {
+            const isSel = ds.step1Choice === opt.id;
+            const cantAfford = !step1Locked && (opt.cost > finance.remaining);
+            const disabled = step1Locked || cantAfford;
+
+            let cls = "border-slate-300 bg-white hover:border-indigo-500 hover:bg-indigo-50/30";
+            if (step1Locked) {
+                cls = isSel
+                    ? "border-indigo-600 bg-indigo-50/70 ring-2 ring-indigo-600 cursor-not-allowed"
+                    : "border-slate-200 bg-slate-100/70 opacity-60 cursor-not-allowed";
+            } else if (cantAfford) {
+                cls = "border-rose-200 bg-rose-50/40 opacity-65 cursor-not-allowed";
+            }
+
+            return `
+                <button onclick="selectDetectiveStep(1, '${opt.id}')" ${disabled ? 'disabled' : ''} class="w-full p-4 border rounded-xl transition text-left space-y-1.5 ${cls}">
+                    <div class="flex flex-wrap justify-between items-center gap-2">
+                        <span class="font-bold text-slate-900 text-sm">${opt.label}</span>
+                        <span class="text-xs font-bold px-2.5 py-0.5 rounded ${cantAfford ? 'bg-rose-100 text-rose-800' : 'bg-slate-100 text-slate-800'}">
+                            ${cantAfford ? `Недостатньо коштів ($${opt.cost.toLocaleString()})` : (opt.cost === 0 ? 'Безкоштовно ($0)' : `Вартість: $${opt.cost.toLocaleString()}`)}
+                        </span>
+                    </div>
+                    <p class="text-xs text-slate-600">${opt.desc}</p>
+                </button>
+            `;
+        }).join('');
+
+        let step2Section = '';
+        if (ds.step1Choice) {
+            const branch = d.step2Branches[ds.step1Choice];
+            const step2Locked = ds.step2Choice !== null;
+            const step2OptionsHtml = branch.options.map(opt => {
+                const isSel = ds.step2Choice === opt.id;
+                const cantAfford = !step2Locked && (opt.cost > finance.remaining);
+                const disabled = step2Locked || cantAfford;
+
+                let cls = "border-slate-300 bg-white hover:border-indigo-500 hover:bg-indigo-50/30";
+                if (step2Locked) {
+                    cls = isSel
+                        ? "border-indigo-600 bg-indigo-50/70 ring-2 ring-indigo-600 cursor-not-allowed"
+                        : "border-slate-200 bg-slate-100/70 opacity-60 cursor-not-allowed";
+                } else if (cantAfford) {
+                    cls = "border-rose-200 bg-rose-50/40 opacity-65 cursor-not-allowed";
+                }
+
+                return `
+                    <button onclick="selectDetectiveStep(2, '${opt.id}')" ${disabled ? 'disabled' : ''} class="w-full p-4 border rounded-xl transition text-left space-y-1.5 ${cls}">
+                        <div class="flex flex-wrap justify-between items-center gap-2">
+                            <span class="font-bold text-slate-900 text-sm">${opt.label}</span>
+                            <span class="text-xs font-bold px-2.5 py-0.5 rounded ${cantAfford ? 'bg-rose-100 text-rose-800' : 'bg-slate-100 text-slate-800'}">
+                                ${cantAfford ? `Недостатньо коштів ($${opt.cost.toLocaleString()})` : (opt.cost === 0 ? 'Безкоштовно ($0)' : `Вартість: $${opt.cost.toLocaleString()}`)}
+                            </span>
+                        </div>
+                        <p class="text-xs text-slate-600">${opt.desc}</p>
+                    </button>
+                `;
+            }).join('');
+
+            let step2Feedback = '';
+            if (ds.step2Choice) {
+                const chosen2 = branch.options.find(o => o.id === ds.step2Choice);
+                step2Feedback = `
+                    <div class="p-4 rounded-xl text-xs border ${chosen2.isOptimal ? 'bg-emerald-50 border-emerald-200 text-emerald-950' : 'bg-rose-50 border-rose-200 text-rose-950'}">
+                        ${chosen2.feedback}
+                    </div>
+                `;
+            }
+
+            step2Section = `
+                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-indigo-200 shadow-sm space-y-4">
+                    <span class="text-xs font-bold uppercase tracking-wider text-indigo-700 bg-indigo-50 px-3 py-1 rounded">${branch.consequenceBadge}</span>
+                    <div class="p-4 rounded-lg bg-amber-50/70 border border-amber-200 text-sm text-slate-800">
+                        ${branch.consequenceText}
+                    </div>
+                    <h3 class="text-base font-bold text-slate-900">${branch.question}</h3>
+                    <div class="space-y-3">${step2OptionsHtml}</div>
+                    ${step2Feedback}
+                </div>
+            `;
+        }
+
+        let step3Section = '';
+        if (ds.step2Choice) {
+            const step3Locked = ds.step3Choice !== null;
+            const step3OptionsHtml = d.step3.options.map(opt => {
+                const isSel = ds.step3Choice === opt.id;
+                const cantAfford = !step3Locked && (opt.cost > finance.remaining);
+                const disabled = step3Locked || cantAfford;
+
+                let cls = "border-slate-300 bg-white hover:border-indigo-500 hover:bg-indigo-50/30";
+                if (step3Locked) {
+                    cls = isSel
+                        ? "border-indigo-600 bg-indigo-50/70 ring-2 ring-indigo-600 cursor-not-allowed"
+                        : "border-slate-200 bg-slate-100/70 opacity-60 cursor-not-allowed";
+                } else if (cantAfford) {
+                    cls = "border-rose-200 bg-rose-50/40 opacity-65 cursor-not-allowed";
+                }
+
+                return `
+                    <button onclick="selectDetectiveStep(3, '${opt.id}')" ${disabled ? 'disabled' : ''} class="w-full p-4 border rounded-xl transition text-left space-y-1.5 ${cls}">
+                        <div class="flex flex-wrap justify-between items-center gap-2">
+                            <span class="font-bold text-slate-900 text-sm">${opt.label}</span>
+                            <span class="text-xs font-bold px-2.5 py-0.5 rounded ${cantAfford ? 'bg-rose-100 text-rose-800' : 'bg-slate-100 text-slate-800'}">
+                                ${cantAfford ? `Недостатньо коштів ($${opt.cost.toLocaleString()})` : `Вартість: $${opt.cost.toLocaleString()}`}
+                            </span>
+                        </div>
+                        <p class="text-xs text-slate-600">${opt.desc}</p>
+                    </button>
+                `;
+            }).join('');
+
+            step3Section = `
+                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/80 shadow-sm space-y-4">
+                    <h3 class="text-base font-bold text-slate-900">${d.step3.title}</h3>
+                    <p class="text-sm text-slate-700">${d.step3.prompt}</p>
+                    <div class="space-y-3">${step3OptionsHtml}</div>
+                </div>
+            `;
+        }
+
+        let summarySection = '';
+        if (ds.step1Choice && ds.step2Choice && ds.step3Choice) {
+            const c1 = d.step1.options.find(o => o.id === ds.step1Choice);
+            const c2 = d.step2Branches[ds.step1Choice].options.find(o => o.id === ds.step2Choice);
+            const c3 = d.step3.options.find(o => o.id === ds.step3Choice);
+            const totalDetectiveCost = c1.cost + c2.cost + c3.cost;
+
+            summarySection = `
+                <div class="bg-[#122d55] text-white p-6 sm:p-8 rounded-2xl shadow-md space-y-5">
+                    <div class="flex flex-wrap justify-between items-center gap-3 border-b border-slate-700 pb-4">
+                        <div>
+                            <span class="text-xs font-bold uppercase tracking-wider text-amber-300">Підсумок інтерактивного детективу</span>
+                            <h3 class="text-xl font-bold mt-1">Карта твоїх рішень у кризі «ШІ-лихоманка в ${orgName}»</h3>
+                        </div>
+                        <div class="text-xs bg-[#0b1b36] px-3.5 py-2 rounded-lg border border-slate-700">
+                            Витрачено на кризу: <strong>$${totalDetectiveCost.toLocaleString()}</strong>
+                        </div>
+                    </div>
+
+                    <div class="grid md:grid-cols-3 gap-4 text-xs">
+                        <div class="bg-[#0b1b36] p-4 rounded-xl border border-slate-700 space-y-1.5">
+                            <div class="text-indigo-300 font-bold uppercase">1. Погодження технології</div>
+                            <div class="font-semibold text-white">${c1.shortTag}</div>
+                            <div class="text-slate-300">Витрати: $${c1.cost.toLocaleString()} | Ризик: ${c1.risk}</div>
+                        </div>
+                        <div class="bg-[#0b1b36] p-4 rounded-xl border border-slate-700 space-y-1.5">
+                            <div class="text-indigo-300 font-bold uppercase">2. Реакція на виклик</div>
+                            <div class="font-semibold text-white">${c2.shortTag}</div>
+                            <div class="text-slate-300">Витрати: $${c2.cost.toLocaleString()} | Ризик: ${c2.risk}</div>
+                        </div>
+                        <div class="bg-[#0b1b36] p-4 rounded-xl border border-slate-700 space-y-1.5">
+                            <div class="text-indigo-300 font-bold uppercase">3. Адаптація Roadmap</div>
+                            <div class="font-semibold text-white">${c3.shortTag}</div>
+                            <div class="text-slate-300">Витрати: $${c3.cost.toLocaleString()} | Ризик: ${c3.risk}</div>
+                        </div>
+                    </div>
+
+                    <div class="pt-2 flex flex-wrap justify-between items-center gap-4">
+                        <p class="text-xs text-slate-200 max-w-2xl">
+                            Залишок фонду CISO становить <strong>$${finance.remaining.toLocaleString()}</strong>. Ці кошти переходять у фінальний захист бюджету перед Правлінням у Модулі 12.
+                        </p>
+                        <button onclick="switchModule(12)" class="px-5 py-2.5 bg-amber-400 text-slate-950 font-bold text-xs rounded-lg hover:bg-amber-300 transition shadow">
+                            Перейти до Модуля 12 (Фінальний захист) &rarr;
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        const completedDetective = (ds.step1Choice ? 1 : 0) + (ds.step2Choice ? 1 : 0) + (ds.step3Choice ? 1 : 0);
+        document.getElementById('progress-indicator-box').innerHTML = `Етапів детективу: <span class="font-bold text-slate-800">${completedDetective} / 3</span>`;
+
+        wrap.innerHTML = `
+            <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/80 shadow-sm space-y-5">
+                <div class="border-b border-slate-200 pb-4 flex flex-wrap justify-between items-center gap-4">
+                    <div>
+                        <span class="text-xs font-bold uppercase tracking-wider text-indigo-700 bg-indigo-50 px-3 py-1 rounded">Практика 11 &bull; Інтерактивний детектив</span>
+                        <h1 class="text-2xl font-bold text-slate-900 mt-2">«ШІ-лихоманка у фінтех-компанії ${orgName}»</h1>
+                    </div>
+                    <button onclick="resetDetective()" class="text-xs font-medium text-slate-500 hover:text-slate-800 underline">
+                        Почати детектив спочатку (повернути кошти)
+                    </button>
+                </div>
+
+                <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 space-y-2 text-sm text-slate-700">
+                    <div class="text-xs font-bold uppercase tracking-wider text-[#122d55]">Вхідний сценарій</div>
+                    <p>
+                        Ти — <strong>CISO</strong> фінтех-компанії <strong>${orgName}</strong> (250 працівників). У понеділок вранці CEO оголошує на загальних зборах: <em>«Конкуренти запускають ШІ-помічника для клієнтів. Нам потрібен власний сервіс NovaAI за три тижні!»</em>
+                    </p>
+                    <p>
+                        Продуктова команда хоче підключити зовнішнє AI API напряму до бази клієнтських транзакцій, щоб чат-бот відповідав на питання про витрати. Проведи компанію крізь три управлінські розвилки, де кожен крок змінює сюжет і витрачає кошти фонду.
+                    </p>
+                </div>
+
+                <div class="space-y-3 pt-2">
+                    <h3 class="text-base font-bold text-slate-900">${d.step1.title}</h3>
+                    <p class="text-sm text-slate-700">${d.step1.prompt}</p>
+                    <div class="space-y-3">${step1Html}</div>
+                </div>
+            </div>
+
+            ${step2Section}
+            ${step3Section}
+            ${summarySection}
+        `;
+    }
+
+    function selectDetectiveStep(step, choiceId) {
+        const ds = appState.detectiveState;
+        const d = detectiveModuleData;
+        const finance = getFinanceAndScoreSummary();
+
+        if (step === 1) {
+            if (ds.step1Choice !== null) return;
+            const opt = d.step1.options.find(o => o.id === choiceId);
+            if (!opt || opt.cost > finance.remaining) return;
+            ds.step1Choice = choiceId;
+        } else if (step === 2) {
+            if (ds.step2Choice !== null) return;
+            const opt = d.step2Branches[ds.step1Choice].options.find(o => o.id === choiceId);
+            if (!opt || opt.cost > finance.remaining) return;
+            ds.step2Choice = choiceId;
+        } else if (step === 3) {
+            if (ds.step3Choice !== null) return;
+            const opt = d.step3.options.find(o => o.id === choiceId);
+            if (!opt || opt.cost > finance.remaining) return;
+            ds.step3Choice = choiceId;
+        }
+        saveState();
+        renderModule11();
+    }
+
+    function resetDetective() {
+        appState.detectiveState = { step1Choice: null, step2Choice: null, step3Choice: null };
+        saveState();
+        renderModule11();
+    }
+
+    function renderModule12() {
+        const wrap = document.getElementById('final-module-wrapper');
+        const fs = appState.finalState;
+        const fd = finalModuleData;
+        const cisoName = appState.profile.name || "Гість (CISO)";
+        const orgName = appState.profile.org || "NovaPayTech";
+        const finance = getFinanceAndScoreSummary();
+
+        const availableForStage2 = finance.remaining + finance.spentFinal;
+
+        const stage1Html = fd.stage1.map((item) => {
+            const userChoice = fs.stage1[item.id];
+            const isLocked = userChoice !== undefined;
+            const optsHtml = item.options.map((opt, oIdx) => {
+                let cls = "border-slate-300 bg-white hover:border-blue-500 text-slate-800";
+                if (isLocked) {
+                    if (oIdx === item.correct) cls = "border-emerald-500 bg-emerald-50 text-emerald-950 font-semibold cursor-not-allowed";
+                    else if (oIdx === userChoice) cls = "border-rose-400 bg-rose-50 text-rose-950 cursor-not-allowed";
+                    else cls = "border-slate-200 bg-white text-slate-400 cursor-not-allowed";
+                }
+                return `
+                    <button onclick="selectFinalStage1('${item.id}', ${oIdx})" ${isLocked ? 'disabled' : ''} class="w-full p-3 text-left border rounded-lg text-xs transition ${cls}">
+                        ${opt}
+                    </button>
+                `;
+            }).join('');
+
+            return `
+                <div class="p-5 rounded-xl bg-slate-50 border border-slate-200 space-y-3">
+                    <div class="font-bold text-sm text-[#122d55]">${item.title}</div>
+                    <div class="text-xs text-slate-700 bg-white p-3.5 rounded-lg border border-slate-200">${item.evidenceHTML}</div>
+                    <div class="font-semibold text-xs text-slate-900">${item.question}</div>
+                    <div class="space-y-2">${optsHtml}</div>
+                </div>
+            `;
+        }).join('');
+
+        let totalCost = 0;
+        let totalHours = 0;
+        fs.stage2Selected.forEach(id => {
+            const found = fd.stage2Initiatives.find(i => i.id === id);
+            if (found) {
+                totalCost += found.cost;
+                totalHours += found.hours;
+            }
+        });
+
+        const overBudget = totalCost > availableForStage2;
+        const overHours = totalHours > 700;
+        const isStage2Locked = fs.stage2Submitted;
+
+        const stage2RowsHtml = fd.stage2Initiatives.map(init => {
+            const checked = fs.stage2Selected.includes(init.id);
+            return `
+                <tr class="${checked ? 'bg-blue-50/60' : 'bg-white'} hover:bg-slate-50 transition">
+                    <td class="p-3">
+                        <input type="checkbox" ${checked ? 'checked' : ''} ${isStage2Locked ? 'disabled' : ''} onchange="toggleFinalInitiative('${init.id}')" class="w-4 h-4 accent-[#122d55] cursor-pointer">
+                    </td>
+                    <td class="p-3 font-bold text-[#122d55]">${init.id}</td>
+                    <td class="p-3 font-medium text-slate-900">${init.name}</td>
+                    <td class="p-3 font-semibold text-slate-800">$${init.cost.toLocaleString()}</td>
+                    <td class="p-3 text-slate-700">${init.hours} год</td>
+                    <td class="p-3 text-slate-600">${init.condition}</td>
+                </tr>
+            `;
+        }).join('');
+
+        let stage2Feedback = '';
+        if (fs.stage2Submitted) {
+            const hasI01 = fs.stage2Selected.includes("I01");
+            const hasI04 = fs.stage2Selected.includes("I04");
+            const optimalSet = ["I01", "I02", "I03", "I05"].every(id => fs.stage2Selected.includes(id)) && fs.stage2Selected.length === 4;
+
+            if (hasI04 && !hasI01) {
+                stage2Feedback = `<div class="p-4 rounded-xl bg-rose-50 border border-rose-200 text-xs text-rose-950"><strong>❌ Порушено залежність (Ignoring Dependencies):</strong> Ви обрали закупівлю дорогої IDM-системи (I04) без попереднього наведення ладу в HR-процесах та JML (I01).</div>`;
+            } else if (optimalSet) {
+                stage2Feedback = `<div class="p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-xs text-emerald-950"><strong>✅ Ідеальний портфель CISO ($75,000 / 650 год):</strong> Ви вклалися у залишок фонду та людський ресурс, закрили обов'язкові вимоги (I02, I03), заклали фундамент процесів (I01) і посилили захист персоналу (I05).</div>`;
+            } else {
+                stage2Feedback = `<div class="p-4 rounded-xl bg-amber-50 border border-amber-200 text-xs text-amber-950"><strong>⚠️ Портфель зафіксовано в межах ресурсів ($${totalCost.toLocaleString()} / ${totalHours} год):</strong> Перевірте, чи не залишилися незакритими обов'язкові вимоги (релізи I02 та постачальники I03).</div>`;
+            }
+        }
+
+        const stage3Html = fd.stage3Cards.map(card => {
+            const userChoice = fs.stage3[card.id];
+            const isLocked = userChoice !== undefined;
+            const optsHtml = card.options.map((opt, oIdx) => {
+                let cls = "border-slate-300 bg-white hover:border-blue-500 text-slate-800";
+                if (isLocked) {
+                    if (oIdx === card.correct) cls = "border-emerald-500 bg-emerald-50 text-emerald-950 font-semibold cursor-not-allowed";
+                    else if (oIdx === userChoice) cls = "border-rose-400 bg-rose-50 text-rose-950 cursor-not-allowed";
+                    else cls = "border-slate-200 bg-white text-slate-400 cursor-not-allowed";
+                }
+                return `
+                    <button onclick="selectFinalStage3('${card.id}', ${oIdx})" ${isLocked ? 'disabled' : ''} class="w-full p-3 text-left border rounded-lg text-xs transition ${cls}">
+                        ${opt}
+                    </button>
+                `;
+            }).join('');
+
+            return `
+                <div class="p-5 rounded-xl bg-slate-50 border border-slate-200 space-y-3">
+                    <div class="font-bold text-sm text-[#122d55]">${card.title}</div>
+                    <p class="text-xs text-slate-700 bg-white p-3.5 rounded-lg border border-slate-200">${card.input}</p>
+                    <div class="space-y-2">${optsHtml}</div>
+                </div>
+            `;
+        }).join('');
+
+        const stage4Html = fd.stage4Questions.map((q, qIdx) => {
+            const userChoice = fs.stage4[qIdx];
+            const isLocked = userChoice !== undefined;
+            const optsHtml = q.options.map((opt, oIdx) => {
+                let cls = "border-slate-300 bg-white hover:border-blue-500 text-slate-800";
+                if (isLocked) {
+                    if (oIdx === q.correct) cls = "border-emerald-500 bg-emerald-50 text-emerald-950 font-semibold cursor-not-allowed";
+                    else if (oIdx === userChoice) cls = "border-rose-400 bg-rose-50 text-rose-950 cursor-not-allowed";
+                    else cls = "border-slate-200 bg-white text-slate-400 cursor-not-allowed";
+                }
+                return `
+                    <button onclick="selectFinalStage4(${qIdx}, ${oIdx})" ${isLocked ? 'disabled' : ''} class="w-full p-3 text-left border rounded-lg text-xs transition ${cls}">
+                        ${opt}
+                    </button>
+                `;
+            }).join('');
+
+            const fbHtml = isLocked
+                ? `<div class="p-3 rounded-lg text-xs border ${userChoice === q.correct ? 'bg-emerald-50 border-emerald-200 text-emerald-950' : 'bg-amber-50 border-amber-200 text-amber-950'}"><strong>Позиція CISO:</strong> ${q.takeaway}</div>`
+                : '';
+
+            return `
+                <div class="p-5 rounded-xl bg-slate-50 border border-slate-200 space-y-3">
+                    <span class="text-[11px] font-bold uppercase tracking-wider text-amber-900 bg-amber-100 px-2.5 py-0.5 rounded">${q.role}</span>
+                    <div class="font-semibold text-sm text-slate-900">${q.question}</div>
+                    <div class="space-y-2">${optsHtml}</div>
+                    ${fbHtml}
+                </div>
+            `;
+        }).join('');
+
+        let correctCount = 0;
+        fd.stage1.forEach(i => { if (fs.stage1[i.id] === i.correct) correctCount++; });
+        if (fs.stage2Submitted) {
+            const hasI01 = fs.stage2Selected.includes("I01");
+            const hasI04 = fs.stage2Selected.includes("I04");
+            if (!overBudget && !overHours && !(hasI04 && !hasI01) && fs.stage2Selected.includes("I02") && fs.stage2Selected.includes("I03")) {
+                correctCount++;
+            }
+        }
+        fd.stage3Cards.forEach(c => { if (fs.stage3[c.id] === c.correct) correctCount++; });
+        fd.stage4Questions.forEach((q, idx) => { if (fs.stage4[idx] === q.correct) correctCount++; });
+
+        const totalAnsweredFinal = Object.keys(fs.stage1).length + (fs.stage2Submitted ? 1 : 0) + Object.keys(fs.stage3).length + Object.keys(fs.stage4).length;
+        document.getElementById('progress-indicator-box').innerHTML = `Фінальний захист: <span class="font-bold text-slate-800">${totalAnsweredFinal} / 12</span>`;
+
+        const isReadyForCert = totalAnsweredFinal === 12;
+        const passedExam = correctCount >= 9;
+
+        wrap.innerHTML = `
+            <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/80 shadow-sm space-y-4">
+                <div class="border-b border-slate-200 pb-4 flex flex-wrap justify-between items-center gap-4">
+                    <div>
+                        <span class="text-xs font-bold uppercase tracking-wider text-amber-800 bg-amber-100 px-3 py-1 rounded">Модуль 12 &bull; Підсумковий захист CISO</span>
+                        <h1 class="text-2xl font-bold text-slate-900 mt-2">Комплексна симуляція: «Управління ІБ у технологічній компанії ${orgName}»</h1>
+                    </div>
+                    <button onclick="resetFinalModule()" class="text-xs font-medium text-slate-500 hover:text-slate-800 underline">
+                        Скинути фінальний захист (повернути кошти)
+                    </button>
+                </div>
+
+                <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 text-sm text-slate-700 space-y-2">
+                    <p>
+                        Ви обіймаєте посаду <strong>Директора з інформаційної безпеки (CISO)</strong> у фінтех-компанії <strong>${orgName}</strong> (250 працівників, 100% інфраструктури у хмарі AWS).
+                    </p>
+                    <p>
+                        <strong>Доступні ресурси на перший рік програми:</strong> залишок вашого фонду CISO становить <strong class="text-[#122d55]">$${availableForStage2.toLocaleString()}</strong> та <strong>700 годин</strong> фахівців ІБ (2 інженери в команді). Усі рішення після натискання фіксуються остаточно.
+                    </p>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/80 shadow-sm space-y-5">
+                <div class="border-b border-slate-200 pb-3">
+                    <span class="text-xs font-bold uppercase tracking-wider text-blue-700">Етап 1 із 4</span>
+                    <h2 class="text-lg font-bold text-slate-900 mt-1">Оцінка поточного стану та зрілості СУІБ (Артефакти і докази)</h2>
+                </div>
+                <div class="space-y-4">${stage1Html}</div>
+            </div>
+
+            <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/80 shadow-sm space-y-5">
+                <div class="border-b border-slate-200 pb-3">
+                    <span class="text-xs font-bold uppercase tracking-wider text-blue-700">Етап 2 із 4</span>
+                    <h2 class="text-lg font-bold text-slate-900 mt-1">Формування портфеля ініціатив у межах залишку фонду ($${availableForStage2.toLocaleString()}) та часу (700 год)</h2>
+                </div>
+
+                <div class="overflow-x-auto border border-slate-200 rounded-xl">
+                    <table class="w-full text-left text-xs">
+                        <thead class="bg-[#122d55] text-white">
+                            <tr>
+                                <th class="p-3 w-10">Вибір</th>
+                                <th class="p-3">Код</th>
+                                <th class="p-3">Назва ініціативи</th>
+                                <th class="p-3">Вартість</th>
+                                <th class="p-3">Трудовитрати</th>
+                                <th class="p-3">Залежності та умови</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-200">${stage2RowsHtml}</tbody>
+                    </table>
+                </div>
+
+                <div class="flex flex-wrap justify-between items-center gap-4 p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs">
+                    <div class="flex flex-wrap gap-5 font-semibold">
+                        <span class="${overBudget ? 'text-rose-600' : 'text-slate-900'}">Обраний бюджет: $${totalCost.toLocaleString()} / $${availableForStage2.toLocaleString()}</span>
+                        <span class="${overHours ? 'text-rose-600' : 'text-slate-900'}">Витрати часу: ${totalHours} / 700 год</span>
+                    </div>
+                    <button onclick="submitFinalStage2()" ${(overBudget || overHours || fs.stage2Selected.length === 0 || isStage2Locked) ? 'disabled' : ''} class="px-5 py-2.5 rounded-lg font-bold text-white transition ${(overBudget || overHours || fs.stage2Selected.length === 0 || isStage2Locked) ? 'bg-slate-400 cursor-not-allowed' : 'bg-[#122d55] hover:bg-blue-900'}">
+                        ${isStage2Locked ? 'Портфель затверджено ✓' : 'Затвердити портфель першого року'}
+                    </button>
+                </div>
+                ${(overBudget || overHours) ? `<p class="text-xs text-rose-600 font-semibold">⚠️ Перевищено ліміт бюджету або годин команди! Зніміть зайві ініціативи перед затвердженням.</p>` : ''}
+                ${stage2Feedback}
+            </div>
+
+            <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/80 shadow-sm space-y-5">
+                <div class="border-b border-slate-200 pb-3">
+                    <span class="text-xs font-bold uppercase tracking-wider text-blue-700">Етап 3 із 4</span>
+                    <h2 class="text-lg font-bold text-slate-900 mt-1">Операційний контроль та перевірка доказів (Control Assessment)</h2>
+                </div>
+                <div class="space-y-4">${stage3Html}</div>
+            </div>
+
+            <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/80 shadow-sm space-y-5">
+                <div class="border-b border-slate-200 pb-3">
+                    <span class="text-xs font-bold uppercase tracking-wider text-blue-700">Етап 4 із 4</span>
+                    <h2 class="text-lg font-bold text-slate-900 mt-1">Захист позиції CISO перед Радою директорів</h2>
+                </div>
+                <div class="space-y-4">${stage4Html}</div>
+
+                <div class="pt-2 space-y-2">
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider">Управлінське резюме CISO (для фінального протоколу захисту):</label>
+                    <textarea oninput="updateFinalJustification(this.value)" rows="3" placeholder="Коротко обґрунтуйте для Ради директорів, чому ви обрали саме ці пріоритети та як управлятимете залишковими ризиками..." class="w-full p-3.5 border border-slate-300 rounded-xl text-xs focus:outline-none focus:border-blue-600">${fs.writtenJustification || ''}</textarea>
+                </div>
+            </div>
+
+            <div class="bg-[#122d55] text-white p-6 sm:p-8 rounded-2xl shadow-md space-y-4">
+                <div class="flex flex-wrap justify-between items-center gap-4">
+                    <div>
+                        <span class="text-xs font-bold uppercase tracking-wider text-amber-300">Підсумковий результат атестації CISO</span>
+                        <h3 class="text-xl font-bold mt-1">${cisoName} &bull; ${orgName}</h3>
+                    </div>
+                    <div class="bg-[#0b1b36] px-4 py-2.5 rounded-xl border border-slate-700 text-right">
+                        <div class="text-[11px] text-slate-400">Успішних управлінських рішень (Модуль 12)</div>
+                        <div class="text-xl font-extrabold text-amber-400">${correctCount} / 12</div>
+                    </div>
+                </div>
+                <p class="text-xs text-slate-200">
+                    ${isReadyForCert
+                        ? (passedExam
+                            ? '🎉 Вітаємо! Ви успішно пройшли всі 4 етапи комплексного захисту CISO, продемонструвавши системне володіння Governance, ISO/IEC 27001, Risk Management, Control Assessment та реалізацією стратегії ІБ.'
+                            : '⚠️ Ви завершили всі етапи, проте частина рішень містить методологічні помилки (потрібно щонайменше 9/12). Перегляньте підказки та спробуйте захист повторно.')
+                        : `Завершіть усі 12 контрольних рішень у чотирьох етапах вище (виконано ${totalAnsweredFinal} із 12), щоб отримати підсумкову оцінку захисту.`
+                    }
+                </p>
+            </div>
+        `;
+    }
+
+    function selectFinalStage1(artId, oIdx) {
+        if (appState.finalState.stage1[artId] !== undefined) return;
+        appState.finalState.stage1[artId] = oIdx;
+        saveState();
+        renderModule12();
+    }
+
+    function toggleFinalInitiative(id) {
+        if (appState.finalState.stage2Submitted) return;
+        const arr = appState.finalState.stage2Selected;
+        const idx = arr.indexOf(id);
+        if (idx > -1) arr.splice(idx, 1);
+        else arr.push(id);
+        saveState();
+        renderModule12();
+    }
+
+    function submitFinalStage2() {
+        if (appState.finalState.stage2Submitted) return;
+        appState.finalState.stage2Submitted = true;
+        saveState();
+        renderModule12();
+    }
+
+    function selectFinalStage3(cardId, oIdx) {
+        if (appState.finalState.stage3[cardId] !== undefined) return;
+        appState.finalState.stage3[cardId] = oIdx;
+        saveState();
+        renderModule12();
+    }
+
+    function selectFinalStage4(qIdx, oIdx) {
+        if (appState.finalState.stage4[qIdx] !== undefined) return;
+        appState.finalState.stage4[qIdx] = oIdx;
+        saveState();
+        renderModule12();
+    }
+
+    function updateFinalJustification(val) {
+        appState.finalState.writtenJustification = val;
+        saveState();
+    }
+
+    function resetFinalModule() {
+        appState.finalState = {
+            stage1: {},
+            stage2Selected: [],
+            stage2Submitted: false,
+            stage3: {},
+            stage4: {},
+            writtenJustification: ""
+        };
+        saveState();
+        renderModule12();
+    }
+
+    loadState();
+    applyProfileUI();
+    renderSidebar();
+    updateExecutiveDashboard();
+    switchModule(appState.currentModuleId || 1);
+</script>
+</body>
+</html>
