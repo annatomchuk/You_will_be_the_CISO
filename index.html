@@ -80,6 +80,9 @@
                 <button onclick="switchModule(5)" id="mod-btn-5" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold transition bg-slate-100 text-slate-700 hover:bg-slate-200">
                     Модуль 5. Risk-Based Decision Making
                 </button>
+                <button onclick="switchModule(6)" id="mod-btn-6" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold transition bg-slate-100 text-slate-700 hover:bg-slate-200">
+                    Модуль 6. Security Strategy
+                </button>
             </div>
             <div class="text-xs text-slate-500">
                 Прогрес практики модуля: <span id="quiz-progress" class="font-bold text-slate-800">0 / 5</span>
@@ -161,6 +164,7 @@
 <script>
     const modulesData = {
         1: {
+            defaultMetrics: { security: 65, trust: 75, budget: 100000, risk: 'Високий' },
             practiceBadge: "Практика 1",
             practiceTitle: "Перевірка знань: Security Governance",
             lectureHTML: `
@@ -397,6 +401,7 @@
             }
         },
         2: {
+            defaultMetrics: { security: 65, trust: 75, budget: 100000, risk: 'Високий' },
             practiceBadge: "Практика 2",
             practiceTitle: "Перевірка знань: СУІБ та ISO/IEC 27001",
             lectureHTML: `
@@ -641,6 +646,7 @@
             }
         },
         3: {
+            defaultMetrics: { security: 65, trust: 75, budget: 100000, risk: 'Високий' },
             practiceBadge: "Практика 3",
             practiceTitle: "Перевірка знань: Frameworks (ISO, NIST CSF, CIS)",
             lectureHTML: `
@@ -812,7 +818,7 @@
                         "B) Вимоги до розробки обов'язкової системи управління ISMS за стандартними розділами clauses 4–10",
                         "C) Розподіл контролів на 3 рівні гігієни через Implementation Groups (IG1, IG2, IG3)",
                         "D) Обов'язкова наявність профілів Community Profiles та 106 підкатегорій",
-                        "E) Чіткий фокус на практичних діях та наданні пріоритезованого переліку заходів захисту",
+                        "E) Чікий фокус на практичних діях та наданні пріоритезованого переліку заходів захисту",
                         "F) Класифікація контролів за 5 атрибутами, включно з «Властивостями інформаційної безпеки»"
                     ],
                     correct: [0, 2, 4],
@@ -923,6 +929,7 @@
             }
         },
         4: {
+            defaultMetrics: { security: 65, trust: 75, budget: 100000, risk: 'Високий' },
             practiceBadge: "Практика 4",
             practiceTitle: "Перевірка знань: Управління контролями ІБ",
             lectureHTML: `
@@ -1157,6 +1164,7 @@
             }
         },
         5: {
+            defaultMetrics: { security: 65, trust: 75, budget: 100000, risk: 'Високий' },
             practiceBadge: "Практика 5",
             practiceTitle: "Перевірка знань: Risk-Based Security Decision Making",
             lectureHTML: `
@@ -1166,7 +1174,6 @@
                     <p class="text-sm text-slate-500 mt-1">Управління ризиками за ISO 31000:2018, ідентифікація та оцінка ризиків, стратегії реагування та Risk Register</p>
                 </div>
 
-                <!-- 1. Роль Risk Management та ISO 31000:2018 -->
                 <section class="space-y-4">
                     <h2 class="text-lg font-bold text-slate-900">1. Що таке Risk Management та визначення ризику (ISO 31000:2018)</h2>
                     <p class="text-sm text-slate-700"><strong>Risk Management</strong> — це не лише виявлення ризиків, а механізм підтримки управлінських рішень, який дозволяє:</p>
@@ -1200,7 +1207,6 @@
                     </div>
                 </section>
 
-                <!-- 2. Risk-Based vs Compliance-Based -->
                 <section class="space-y-3 pt-2">
                     <h2 class="text-lg font-bold text-slate-900">2. Risk-Based vs Compliance-Based Security Management</h2>
                     <div class="grid md:grid-cols-2 gap-5 text-xs">
@@ -1226,7 +1232,6 @@
                     <p class="text-xs text-slate-600 italic">Note: Compliance визначає обов'язкові обмеження. Risk Management допомагає ухвалювати рішення з урахуванням цих обмежень і фактичних ризиків.</p>
                 </section>
 
-                <!-- 3. Scope, Context and Criteria -->
                 <section class="space-y-4 pt-2">
                     <h2 class="text-lg font-bold text-slate-900">3. Процес управління ризиками: Scope, Context та Criteria</h2>
                     <div class="grid md:grid-cols-3 gap-5 text-xs">
@@ -1258,7 +1263,6 @@
                     </div>
                 </section>
 
-                <!-- 4. Risk Assessment: Identification, Analysis, Evaluation -->
                 <section class="space-y-4 pt-2">
                     <h2 class="text-lg font-bold text-slate-900">4. Risk Assessment: Identification, Analysis та Evaluation</h2>
                     <div class="grid md:grid-cols-2 gap-5 text-xs">
@@ -1286,7 +1290,6 @@
                     </div>
                 </section>
 
-                <!-- 5. Risk Treatment, Risk Register & Approaches -->
                 <section class="space-y-4 pt-2">
                     <h2 class="text-lg font-bold text-slate-900">5. Risk Treatment, Risk Register та Підходи до оцінювання</h2>
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs">
@@ -1454,18 +1457,325 @@
                     }
                 ]
             }
+        },
+        6: {
+            defaultMetrics: { security: 65, trust: 75, budget: 150000, risk: 'Високий' },
+            practiceBadge: "Практика 6",
+            practiceTitle: "Перевірка знань: Information Security Strategy Development",
+            lectureHTML: `
+                <div class="border-b border-slate-200 pb-5">
+                    <span class="text-xs font-semibold uppercase tracking-wider text-blue-700 bg-blue-50 px-3 py-1 rounded">Лекція 6</span>
+                    <h1 class="text-2xl font-bold text-slate-900 mt-2">Information Security Strategy Development</h1>
+                    <p class="text-sm text-slate-500 mt-1">Стратегічні драйвери, оцінка поточного й цільового стану, пріоритизація портфеля та когнітивні викривлення</p>
+                </div>
+
+                <!-- 1. Визначення, 4 питання та ієрархія -->
+                <section class="space-y-4">
+                    <h2 class="text-lg font-bold text-slate-900">1. Що таке Information Security Strategy та 4 ключові питання</h2>
+                    <p class="text-sm text-slate-700"><strong>Information Security Strategy</strong> — довгостроковий підхід організації до управління інформаційною безпекою, який визначає бажані результати, стратегічні цілі, принципи та пріоритети розвитку спроможностей ІБ відповідно до бізнес-цілей, ризиків і доступних ресурсів.</p>
+
+                    <div class="grid md:grid-cols-4 gap-4 text-xs">
+                        <div class="p-4 rounded-lg border border-slate-200 bg-slate-50 space-y-1">
+                            <div class="font-bold text-[#122d55]">01 Why?</div>
+                            <p class="text-slate-700">Які бізнес-цілі та ризики визначають потребу в розвитку ІБ?</p>
+                        </div>
+                        <div class="p-4 rounded-lg border border-slate-200 bg-slate-50 space-y-1">
+                            <div class="font-bold text-[#122d55]">02 Where are we?</div>
+                            <p class="text-slate-700">Який поточний стан безпеки та її спроможностей?</p>
+                        </div>
+                        <div class="p-4 rounded-lg border border-slate-200 bg-slate-50 space-y-1">
+                            <div class="font-bold text-[#122d55]">03 Where do we want to be?</div>
+                            <p class="text-slate-700">Які результати й цільові спроможності необхідні?</p>
+                        </div>
+                        <div class="p-4 rounded-lg border border-slate-200 bg-slate-50 space-y-1">
+                            <div class="font-bold text-[#122d55]">04 What will we prioritize?</div>
+                            <p class="text-slate-700">Які стратегічні напрями оберемо в умовах обмежених ресурсів?</p>
+                        </div>
+                    </div>
+
+                    <div class="p-4 rounded-lg border border-blue-200 bg-blue-50/40 text-xs space-y-2">
+                        <div class="font-bold text-[#122d55]">Strategy vs Policy vs Program vs Plan</div>
+                        <div class="grid md:grid-cols-4 gap-3 text-slate-700">
+                            <div class="bg-white p-3 rounded border border-slate-200"><strong>Strategy | напрям:</strong> яких результатів прагнемо і що пріоритизуємо? <em>(Приклад: Secure Digital Growth)</em></div>
+                            <div class="bg-white p-3 rounded border border-slate-200"><strong>Policy | правила:</strong> яких принципів і правил потрібно дотримуватися? <em>(Приклад: Access Control Policy)</em></div>
+                            <div class="bg-white p-3 rounded border border-slate-200"><strong>Program | ініціативи:</strong> які взаємопов'язані зміни організуємо? <em>(Приклад: Identity Security Program)</em></div>
+                            <div class="bg-white p-3 rounded border border-slate-200"><strong>Plan | виконання:</strong> які конкретні кроки, строки та відповідальні? <em>(Приклад: MFA Rollout Plan)</em></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 2. Strategic Drivers -->
+                <section class="space-y-3 pt-2">
+                    <h2 class="text-lg font-bold text-slate-900">2. Understanding Strategic Drivers (Фактори впливу на стратегію)</h2>
+                    <div class="grid md:grid-cols-3 gap-4 text-xs">
+                        <div class="p-4 rounded-lg border border-slate-200 bg-white">
+                            <div class="font-bold text-[#122d55]">Business Strategy</div>
+                            <p class="text-slate-700 mt-1">Ринки, продукти, клієнти, бізнес-трансформація.</p>
+                        </div>
+                        <div class="p-4 rounded-lg border border-slate-200 bg-white">
+                            <div class="font-bold text-[#122d55]">Critical Business Dependencies</div>
+                            <p class="text-slate-700 mt-1">Дані, критичні сервіси, постачальники, технології.</p>
+                        </div>
+                        <div class="p-4 rounded-lg border border-slate-200 bg-white">
+                            <div class="font-bold text-[#122d55]">Risk Landscape</div>
+                            <p class="text-slate-700 mt-1">Кіберзагрози, суттєві ризики, risk appetite.</p>
+                        </div>
+                        <div class="p-4 rounded-lg border border-slate-200 bg-white">
+                            <div class="font-bold text-[#122d55]">Regulatory &amp; Contractual</div>
+                            <p class="text-slate-700 mt-1">Законодавство, регуляторні вимоги, зобов'язання перед клієнтами.</p>
+                        </div>
+                        <div class="p-4 rounded-lg border border-slate-200 bg-white">
+                            <div class="font-bold text-[#122d55]">Stakeholder Expectations</div>
+                            <p class="text-slate-700 mt-1">CEO, board, CIO, CRO, клієнти, аудитори.</p>
+                        </div>
+                        <div class="p-4 rounded-lg border border-slate-200 bg-white">
+                            <div class="font-bold text-[#122d55]">Internal Constraints</div>
+                            <p class="text-slate-700 mt-1">Компетенції, бюджет, культура, технологічний борг.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 3. Current State Assessment & Maturity -->
+                <section class="space-y-4 pt-2">
+                    <h2 class="text-lg font-bold text-slate-900">3. Current State Assessment та Вимірювання зрілості</h2>
+                    <div class="grid md:grid-cols-3 gap-3 text-xs">
+                        <div class="p-3.5 rounded-lg border border-slate-200 bg-slate-50"><strong>Maturity Assessment:</strong> наскільки розвинені та керовані ключові процеси ІБ.</div>
+                        <div class="p-3.5 rounded-lg border border-slate-200 bg-slate-50"><strong>NIST CSF Current Profile:</strong> які cybersecurity outcomes досягаються зараз.</div>
+                        <div class="p-3.5 rounded-lg border border-slate-200 bg-slate-50"><strong>Risk Assessment:</strong> які суттєві ризики потребують уваги.</div>
+                        <div class="p-3.5 rounded-lg border border-slate-200 bg-slate-50"><strong>Audit &amp; Control Assessment:</strong> які існують прогалини у вимогах і контролях.</div>
+                        <div class="p-3.5 rounded-lg border border-slate-200 bg-slate-50"><strong>Security Metrics &amp; Incident Data:</strong> що демонструють фактичні результати роботи ІБ.</div>
+                        <div class="p-3.5 rounded-lg border border-slate-200 bg-slate-50"><strong>SWOT Analysis:</strong> Strengths (Internal +), Weaknesses (Internal &minus;), Opportunities (External +), Threats (External &minus;).</div>
+                    </div>
+                    <p class="text-xs text-slate-600 italic">Note: Не всі методи одночасно. Підходи обирають відповідно до контексту, доступності даних і мети оцінювання.</p>
+
+                    <div class="grid md:grid-cols-2 gap-5 text-xs">
+                        <div class="p-5 rounded-lg border border-slate-200 bg-white space-y-2">
+                            <div class="font-bold text-sm text-[#122d55]">NIST CSF 2.0 Tiers (рівень організації)</div>
+                            <ul class="space-y-1 text-slate-700">
+                                <li><strong>Partial:</strong> реактивне управління ризиками; практики фрагментарні, рішення ситуативні.</li>
+                                <li><strong>Risk Informed:</strong> ризики враховуються в рішеннях, але єдині практики ще не впроваджені в усій організації.</li>
+                                <li><strong>Repeatable:</strong> формалізовані політики, процеси й ролі; практики регулярно та послідовно застосовуються.</li>
+                                <li><strong>Adaptive:</strong> захист постійно адаптується до змін загроз на основі даних, досвіду та прогнозування.</li>
+                            </ul>
+                        </div>
+                        <div class="p-5 rounded-lg border border-slate-200 bg-white space-y-2">
+                            <div class="font-bold text-sm text-[#122d55]">CMMI-подібна шкала зрілості (1–5, рівень процесу)</div>
+                            <ul class="space-y-1 text-slate-700">
+                                <li><strong>1. Initial:</strong> процес непередбачуваний, залежить від конкретних людей.</li>
+                                <li><strong>2. Managed:</strong> процес планується, виконується й контролюється, але може відрізнятися між командами.</li>
+                                <li><strong>3. Defined:</strong> єдиний стандартизований процес, який застосовується в організації.</li>
+                                <li><strong>4. Quant. Managed:</strong> ефективність вимірюється кількісними показниками й управляється на основі даних.</li>
+                                <li><strong>5. Optimizing:</strong> процес систематично вдосконалюється на основі вимірювань і аналізу причин проблем.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="p-4 rounded-lg border border-slate-200 bg-slate-50 text-xs space-y-1.5">
+                        <div class="font-bold text-slate-900">Current State Assessment — 4 Expected Outputs:</div>
+                        <div class="grid md:grid-cols-4 gap-2 text-slate-700">
+                            <div><strong>Capability Baseline:</strong> поточний рівень спроможностей, підтверджений доказами, з оцінкою впевненості.</div>
+                            <div><strong>Key Risks &amp; Weaknesses:</strong> суттєві ризики та слабкі місця, які заважають бізнес-цілям.</div>
+                            <div><strong>Strengths &amp; Opportunities:</strong> на що можна спертися і які зовнішні можливості використати.</div>
+                            <div><strong>Constraints:</strong> обмеження, які визначають, що реалістично в горизонті стратегії.</div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 4. Target State & Prioritization -->
+                <section class="space-y-4 pt-2">
+                    <h2 class="text-lg font-bold text-slate-900">4. Target State та Критерії і кроки пріоритизації</h2>
+                    <div class="p-5 rounded-lg border border-slate-200 bg-white text-xs space-y-2">
+                        <div class="font-bold text-sm text-[#122d55]">Target State (Бажаний майбутній стан безпеки) — 6 компонентів:</div>
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-2 text-slate-700">
+                            <div><strong>Політики та принципи:</strong> документовані правила та керівні принципи.</div>
+                            <div><strong>Організаційна структура:</strong> чіткі ролі та відповідальність команд безпеки.</div>
+                            <div><strong>Процеси та процедури:</strong> стандартизовані робочі процеси та інструкції.</div>
+                            <div><strong>Культура та поведінка:</strong> свідоме ставлення до безпеки серед усіх співробітників.</div>
+                            <div><strong>Інформаційні активи:</strong> захист критичних даних та бізнес-сервісів.</div>
+                            <div><strong>Компетенції персоналу:</strong> розвиток навичок і знань команд у сфері кіберзахисту.</div>
+                        </div>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-5 text-xs">
+                        <div class="p-5 rounded-lg border border-slate-200 bg-slate-50 space-y-2">
+                            <div class="font-bold text-sm text-[#122d55]">4 критерії вибору стратегічних пріоритетів</div>
+                            <ol class="list-decimal pl-4 space-y-1 text-slate-700">
+                                <li><strong>Business impact:</strong> критично впливає на бізнес-ціль або неприйнятний ризик.</li>
+                                <li><strong>Significant change:</strong> створює нову спроможність або суттєво підвищує її рівень.</li>
+                                <li><strong>Resource concentration:</strong> потребує бюджету, людей і уваги понад звичайну роботу.</li>
+                                <li><strong>Executive decision:</strong> потребує рішення керівництва і свідомих компромісів.</li>
+                            </ol>
+                        </div>
+
+                        <div class="p-5 rounded-lg border border-slate-200 bg-slate-50 space-y-2">
+                            <div class="font-bold text-sm text-[#122d55]">Prioritization in Four Steps</div>
+                            <ol class="list-decimal pl-4 space-y-1 text-slate-700">
+                                <li><strong>Non-Negotiables:</strong> регуляторні й договірні вимоги, ризики поза risk appetite &rarr; мінімальний baseline.</li>
+                                <li><strong>Evaluate Options:</strong> оцінка кандидатів за критеріями (business alignment, risk reduction, strategic value, feasibility, resources).</li>
+                                <li><strong>Select Portfolio:</strong> вибір реалістичного набору з урахуванням залежностей, послідовності та спроможності команди.</li>
+                                <li><strong>Make Trade-offs Explicit:</strong> фіксація того, що свідомо не робимо, прийнятого ризику, власника рішення і строку перегляду.</li>
+                            </ol>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 5. Cognitive Biases & Key Takeaways -->
+                <section class="space-y-4 pt-2">
+                    <h2 class="text-lg font-bold text-slate-900">5. Cognitive Biases in Strategy Development та Key Takeaways</h2>
+                    <div class="grid md:grid-cols-2 gap-5 text-xs">
+                        <div class="p-5 rounded-lg border border-rose-200 bg-rose-50/40 space-y-1.5 text-rose-950">
+                            <div class="font-bold text-sm">5 когнітивних викривлень у стратегії:</div>
+                            <p><strong>Overconfidence:</strong> «Ми точно знаємо, які атаки будуть через три роки».</p>
+                            <p><strong>Status Quo Bias:</strong> «Ми завжди інвестували в ці технології, тому продовжимо».</p>
+                            <p><strong>Anchoring:</strong> «Минулорічний бюджет був 10 млн — відштовхуємося від цієї цифри».</p>
+                            <p><strong>Confirmation Bias:</strong> «Враховуємо лише факти, які підтверджують наш вибір».</p>
+                            <p><strong>Groupthink:</strong> «Всі погоджуються з CISO, хоча мають сумніви».</p>
+                            <p class="pt-1 font-semibold">Як зменшити вплив: документувати припущення &bull; розглядати альтернативи &bull; шукати контраргументи &bull; залучати різних стейкхолдерів.</p>
+                        </div>
+
+                        <div class="p-5 rounded-lg border border-emerald-200 bg-emerald-50/40 space-y-1.5 text-emerald-950">
+                            <div class="font-bold text-sm">Key Takeaways якісної стратегії ІБ:</div>
+                            <p><strong>Business-Aligned:</strong> підтримує цілі компанії, її бізнес-модель та очікування стейкхолдерів.</p>
+                            <p><strong>Evidence-Based:</strong> поточний стан, ризики й припущення підтверджуються достатніми даними.</p>
+                            <p><strong>Outcome-Oriented:</strong> описує бажані результати та target capabilities, а не тільки дії.</p>
+                            <p><strong>Focused &amp; Realistic:</strong> встановлює пріоритети, враховує обмеження та передбачає компроміси.</p>
+                            <p><strong>Governed &amp; Agreed:</strong> розробляється із залученням ключових стейкхолдерів і погоджується на належному рівні управління.</p>
+                        </div>
+                    </div>
+                </section>
+            `,
+            quizzes: [
+                {
+                    type: "single",
+                    question: "1. До якої категорії стратегічних драйверів (Strategic Drivers) належать технологічний борг, рівень компетенцій команди та корпоративна культура?",
+                    options: [
+                        "А) Critical Business Dependencies",
+                        "Б) Risk Landscape",
+                        "В) Stakeholder Expectations",
+                        "Г) Internal Constraints"
+                    ],
+                    correct: 3,
+                    takeaway: "Internal Constraints охоплюють внутрішні обмеження організації (бюджет, компетенції, культуру, технологічний борг), які визначають реалістичність стратегії."
+                },
+                {
+                    type: "single",
+                    question: "2. Який підхід до оцінювання поточного стану (Current State Assessment) варто обрати, якщо CISO потрібно зрозуміти, які саме цільові результати безпеки (outcomes) вже досягаються в компанії?",
+                    options: [
+                        "А) NIST CSF Current Profile",
+                        "Б) Audit & Control Assessment",
+                        "В) Security Metrics & Incident Data",
+                        "Г) SWOT Analysis"
+                    ],
+                    correct: 0,
+                    takeaway: "NIST CSF Current Profile показує, які cybersecurity outcomes досягаються зараз."
+                },
+                {
+                    type: "single",
+                    question: "3. За CMMI-подібною шкалою зрілості процес управління вразливостями в компанії має чіткий опис, але в команді розробки та команді інфраструктури він виконується за різними правилами. Якому рівню зрілості це відповідає?",
+                    options: [
+                        "А) Level 1 - Initial",
+                        "Б) Level 2 - Managed",
+                        "В) Level 3 - Defined",
+                        "Г) Level 4 - Quantitatively Managed"
+                    ],
+                    correct: 1,
+                    takeaway: "На рівні Managed (2) процес планується, виконується й контролюється, але ще може відрізнятися між командами; єдиним стандартизованим для всієї організації він стає лише на рівні Defined (3)."
+                },
+                {
+                    type: "single",
+                    question: "4. Який із перелічених артефактів не є обов'язковим вихідним результатом (Expected Output) завершеного етапу Current State Assessment?",
+                    options: [
+                        "А) Capability Baseline (поточний рівень спроможностей, підтверджений доказами)",
+                        "Б) Key Risks & Weaknesses (суттєві ризики та слабкі місця)",
+                        "В) Documentation & Expenses (зафіксовані інциденти, плани всіх майбутніх витрат)",
+                        "Г) Constraints (обмеження, що визначають реалістичність у горизонті стратегії)"
+                    ],
+                    correct: 2,
+                    takeaway: "Чотири результати Current State Assessment — це Capability Baseline, Key Risks & Weaknesses, Strengths & Opportunities та Constraints, які слугують входом для визначення Target State."
+                },
+                {
+                    type: "single",
+                    question: "5. У процесі пріоритизації (Prioritization in Four Steps) навіщо виділяють перший крок Non-Negotiables?",
+                    options: [
+                        "А) Щоб відразу відкинути найдорожчі технічні проєкти, які не окупаються за один рік",
+                        "Б) Щоб визначити обов'язковий мінімальний baseline (регуляторні, договірні вимоги та ризики поза risk appetite)",
+                        "В) Щоб зафіксувати список ініціатив, від яких компанія свідомо відмовляється на наступні 12 місяців",
+                        "Г) Щоб оцінити всіх кандидатів за бальною матрицею критеріїв бізнес-ефекту та реалістичності"
+                    ],
+                    correct: 1,
+                    takeaway: "Non-Negotiables — це обов'язковий мінімум (вимоги закону, клієнтів і ризики поза межами апетиту), який є фільтром перед бальним оцінюванням варіантів."
+                }
+            ],
+            simulator: {
+                type: "single",
+                badge: "Симулятор 6",
+                title: "Вихід e-commerce сервісу на ринок ЄС",
+                contextHTML: `
+                    <p class="text-sm text-slate-700">
+                        Ви — CISO у швидкозростаючій продуктовій компанії (хмарний сервіс для e-commerce). Рада директорів затвердила головну бізнес-ціль на наступні 2 роки: <strong>вихід на ринок Європейського Союзу та підписання контрактів із великими ритейл-мережами</strong>.
+                    </p>
+                    <ul class="list-disc pl-5 text-sm text-slate-700 space-y-1">
+                        <li><strong>Why? (Драйвери та бізнес-цілі):</strong> Експансія в ЄС вимагає обов'язкової відповідності GDPR та проходження клієнтських аудитів безпеки (Regulatory &amp; Contractual), а головний ризик — витік персональних даних покупців (Risk Landscape).</li>
+                        <li><strong>Where are we? (Capability Baseline &amp; Constraints):</strong> Поточний рівень компанії за NIST CSF 2.0 — між <em>Partial</em> та <em>Risk Informed</em> (процеси фрагментарні). У компанії сильна команда розробки, але є чіткі внутрішні обмеження (Internal Constraints): невеликий штат ІБ (<strong>лише 3 інженери</strong>), затверджений річний бюджет (<strong>$150,000</strong>) і застарілий монолітний модуль авторизації (технологічний борг).</li>
+                        <li><strong>Where do we want to be? (Target State):</strong> За 18 місяців вивести критичні процеси на стабільний стандартизований рівень, забезпечити надійний захист даних покупців та базову інфраструктурну гігієну для корпоративних контрактів.</li>
+                        <li><strong>What will we prioritize? (Ресурси та компроміси):</strong> Потрібно сформувати портфель пріоритетів із 4 кроків (<em>Non-Negotiables &rarr; Evaluate Options &rarr; Select Portfolio &rarr; Make Trade-offs Explicit</em>), уникаючи типових управлінських викривлень.</li>
+                    </ul>
+                    <p class="text-sm font-medium text-slate-900 pt-1">Оберіть одну з трьох запропонованих стратегій ІБ, яка найкраще відповідає на всі чотири ключові питання стратегії:</p>
+                `,
+                options: [
+                    {
+                        id: "A",
+                        label: "Варіант A: Стратегія «Технологічне лідерство та проактивний захист (Next-Gen Cyber Resilience)»",
+                        desc: "Ціль на 18 місяців — NIST CSF Adaptive (Tier 4) та CMMI Optimizing (Level 5) у всіх доменах. Основні інвестиції йдуть у SIEM/SOAR із AI-аналітикою та цілодобовий SOC 24/7; рефакторинг старого модуля авторизації та комплаєнс GDPR переносяться на 2-й рік. Бюджет формується від подвоєного торішнього IT-бюджету з наймом аналітиків.",
+                        style: "bg-blue-50 border-blue-300",
+                        titleColor: "text-slate-900",
+                        metrics: { security: 62, trust: 55, budget: 0, risk: "Високий" },
+                        trustText: "-20% (55%)",
+                        trustClass: "text-rose-600",
+                        costText: "$320,000 (Перевищення ліміту $150k удвічі!)",
+                        riskClass: "text-rose-600",
+                        takeaway: "❌ Стратегія не відповідає контексту та обмеженням компанії. Попри привабливу обгортку «технологічного лідерства», тут порушено послідовність пріоритизації: проігноровано перший крок Non-Negotiables (обов'язкові вимоги GDPR та закриття критичного ризику авторизації), не враховано Internal Constraints (штат 3 людини та ліміт $150k), а цільовий рівень Adaptive / Optimizing є нереалістичним стрибком із поточного стану Partial."
+                    },
+                    {
+                        id: "B",
+                        label: "Варіант B: Стратегія «Швидкий комплаєнс та оптимізація витрат (Lean Compliance & Core Defense)»",
+                        desc: "Зберігаємо поточну операційну модель на рівні Risk Informed (NIST CSF Tier 2). Пріоритет — розробка пакета політик для європейських клієнтів та оновлення звичних фаєрволів і антивірусів. Модернізація монолітного модуля авторизації та хмарного IAM відкладаються, щоб не чіпати стабільність релізів.",
+                        style: "bg-rose-50 border-rose-300",
+                        titleColor: "text-rose-950",
+                        metrics: { security: 58, trust: 60, budget: 105000, risk: "Критичний" },
+                        trustText: "-15% (60%)",
+                        trustClass: "text-rose-700",
+                        costText: "$45,000 (Залишок: $105,000)",
+                        riskClass: "text-rose-700",
+                        takeaway: "❌ Підміна стратегії паперовим комплаєнсом та інерцією. Цей підхід виглядає безпечним для бюджету, але порушує принцип Outcome-Oriented: замість побудови цільових спроможностей (target capabilities) відбувається підміна Strategy набором Policy. Крім того, збереження звичних інструментів замість вирішення проблеми з авторизацією є проявом Status Quo Bias, а неприйнятний ризик витоку даних залишається незакритим."
+                    },
+                    {
+                        id: "C",
+                        label: "Варіант C: Стратегія «Фокусоване масштабування спроможностей (Secure European Expansion)»",
+                        desc: "Цільовий стан за 18 місяців — перехід критичних процесів із Partial/Risk Informed на стандартизований рівень Repeatable (NIST CSF Tier 3) та Defined (CMMI Level 3). На першому кроці закриваються Non-Negotiables (GDPR, перебудова IAM і заміна старого модуля авторизації, базове реагування на інциденти). Команда з 3 інженерів фокусується на Identity & Data Protection, моніторинг 24/7 передається зовнішньому MSSP, а власний SOC і AI свідомо відкладаються на 12 місяців із фіксацією компромісів.",
+                        style: "bg-emerald-50 border-emerald-300",
+                        titleColor: "text-emerald-950",
+                        metrics: { security: 88, trust: 100, budget: 10000, risk: "Низький" },
+                        trustText: "+25% (100%)",
+                        trustClass: "text-emerald-700",
+                        costText: "$140,000 (Залишок: $10,000 із $150,000)",
+                        riskClass: "text-emerald-700",
+                        takeaway: "✅ Збалансована та реалістична стратегія CISO. Ви побудували рішення навколо всіх чотирьох ключових питань, врахували Internal Constraints (люди, бюджет, техборг) і провели ініціативи через усі 4 кроки пріоритизації — від обов'язкового базового рівня (Non-Negotiables) до чесної фіксації відкладених напрямів (Make Trade-offs Explicit)."
+                    }
+                ]
+            }
         }
     };
 
     let currentModuleId = 1;
-    let answeredQuestions = { 1: {}, 2: {}, 3: {}, 4: {}, 5: {} };
+    let answeredQuestions = { 1: {}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {} };
     let multiSelections = { 3: {} };
-    let selectedDecisions = { 1: null, 2: null, 3: { part1: null, part2: null }, 4: null, 5: null };
+    let selectedDecisions = { 1: null, 2: null, 3: { part1: null, part2: null }, 4: null, 5: null, 6: null };
 
     function switchModule(modId) {
         currentModuleId = modId;
 
-        [1, 2, 3, 4, 5].forEach(id => {
+        [1, 2, 3, 4, 5, 6].forEach(id => {
             const btn = document.getElementById('mod-btn-' + id);
             if (id === modId) {
                 btn.className = "px-3.5 py-1.5 rounded-lg text-xs font-semibold transition bg-[#122d55] text-white shadow-sm";
@@ -1644,7 +1954,8 @@
     }
 
     function renderSimulator() {
-        const sim = modulesData[currentModuleId].simulator;
+        const mod = modulesData[currentModuleId];
+        const sim = mod.simulator;
         const simContainer = document.getElementById('simulator-container');
 
         if (sim.type === "two-stage") {
@@ -1691,7 +2002,7 @@
             const saved = selectedDecisions[3];
             if (saved.part1) makeTwoStageDecision(1, saved.part1);
             if (saved.part2) makeTwoStageDecision(2, saved.part2);
-            if (!saved.part2) updateDashboardMetrics({ security: 65, trust: 75, budget: 100000, risk: 'Високий' });
+            if (!saved.part2) updateDashboardMetrics(mod.defaultMetrics);
             return;
         }
 
@@ -1724,7 +2035,7 @@
         if (selectedDecisions[currentModuleId]) {
             makeDecision(selectedDecisions[currentModuleId]);
         } else {
-            updateDashboardMetrics({ security: 65, trust: 75, budget: 100000, risk: 'Високий' });
+            updateDashboardMetrics(mod.defaultMetrics);
         }
     }
 
