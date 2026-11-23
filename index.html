@@ -71,6 +71,12 @@
                 <button onclick="switchModule(2)" id="mod-btn-2" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold transition bg-slate-100 text-slate-700 hover:bg-slate-200">
                     Модуль 2. СУІБ та ISO/IEC 27001
                 </button>
+                <button onclick="switchModule(3)" id="mod-btn-3" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold transition bg-slate-100 text-slate-700 hover:bg-slate-200">
+                    Модуль 3. Frameworks
+                </button>
+                <button onclick="switchModule(4)" id="mod-btn-4" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold transition bg-slate-100 text-slate-700 hover:bg-slate-200">
+                    Модуль 4. Управління контролями ІБ
+                </button>
             </div>
             <div class="text-xs text-slate-500">
                 Прогрес практики модуля: <span id="quiz-progress" class="font-bold text-slate-800">0 / 5</span>
@@ -125,7 +131,7 @@
             <div class="border-b border-slate-200 pb-4 flex flex-wrap justify-between items-center gap-4">
                 <div>
                     <span id="practice-badge" class="text-xs font-semibold uppercase tracking-wider text-blue-700 bg-blue-50 px-3 py-1 rounded">Практика 1</span>
-                    <h2 id="practice-title" class="text-xl font-bold text-slate-900 mt-2">Перевірка знань: Security Governance</h2>
+                    <h2 id="practice-title" class="text-xl font-bold text-slate-900 mt-2">Перевірка знань</h2>
                 </div>
                 <button onclick="resetQuiz()" class="text-xs font-medium text-slate-500 hover:text-slate-800 underline">
                     Скинути відповіді
@@ -152,9 +158,6 @@
 <script>
     const modulesData = {
         1: {
-            badge: "Лекція 1",
-            title: "Security Governance",
-            subtitle: "Основи управління інформаційною безпекою, операційні моделі та NIST CSF 2.0",
             practiceBadge: "Практика 1",
             practiceTitle: "Перевірка знань: Security Governance",
             lectureHTML: `
@@ -277,6 +280,7 @@
             `,
             quizzes: [
                 {
+                    type: "single",
                     question: "1. Яке з наведених тверджень найбільш точно описує різницю між функціями Governance та Management у системі інформаційної безпеки?",
                     options: [
                         "A) Governance відповідає за реалізацію технічних заходів захисту, тоді як Management оцінює загальний рівень кіберризиків.",
@@ -288,6 +292,7 @@
                     takeaway: "Governance дає стратегічні орієнтири («Куди рухаємося?» та «Які межі ризику?»), а Management займається тактичною організацією («Як це впровадити та якими ресурсами?»)."
                 },
                 {
+                    type: "single",
                     question: "2. За модельною системою BMIS (Business Model of Information Security), чому впровадження інструменту контролю привілейованого доступу (PAM) або системи DLP не гарантує автоматичного зниження відповідного ризику?",
                     options: [
                         "A) Оскільки технологічні засоби автоматизації вимагають постійного перегляду нормативно-правової бази країни.",
@@ -299,6 +304,7 @@
                     takeaway: "За BMIS безпека — це цілісна система. Навіть найдосконаліша технологія без розроблених процесів, визначених власників даних та навченого персоналу залишається лише непридатним інструментом."
                 },
                 {
+                    type: "single",
                     question: "3. Розглядаючи базові Security Operating Models, у чому полягає основний компроміс (trade-off) при виборі повністю Централізованої моделі (Centralized) порівняно з Децентралізованою (Decentralized)?",
                     options: [
                         "A) Централізована модель знижує витрати на обладнання, але повністю блокує можливість проходження зовнішніх аудитів.",
@@ -310,6 +316,7 @@
                     takeaway: "Централізована модель гарантує консистентність і контроль, але ризикує стати завадою для швидкості бізнесу. Децентралізована модель дає швидкість, але несе ризик фрагментації стандартів безпеки."
                 },
                 {
+                    type: "single",
                     question: "4. Яке з наведених тверджень найточніше розмежовує поняття «Responsibility» та «Authority» у контексті управління кібербезпекою?",
                     options: [
                         "A) Responsibility визначає право ухвалювати бізнес-рішення, а Authority — обов'язок технічного виконання операцій.",
@@ -321,6 +328,7 @@
                     takeaway: "Responsibility — це безпосередня робота з виконання завдання, а Authority — це право ухвалювати рішення, дозволяти винятки або керувати ресурсами в межах визначених повноважень."
                 },
                 {
+                    type: "single",
                     question: "5. Що означає PDCA у контексті управління інформаційною безпекою?",
                     options: [
                         "A) Policy-Define-Control-Audit: набір інструкцій для перевірки відповідності зовнішнім стандартам безпеки.",
@@ -333,6 +341,7 @@
                 }
             ],
             simulator: {
+                type: "single",
                 badge: "Симулятор 1",
                 title: "Фінтех-стартап під тиском регулятора та інвесторів",
                 contextHTML: `
@@ -385,9 +394,6 @@
             }
         },
         2: {
-            badge: "Лекція 2",
-            title: "СУІБ та ISO/IEC 27001:2022",
-            subtitle: "Система управління інформаційною безпекою, структура стандарту та Statement of Applicability",
             practiceBadge: "Практика 2",
             practiceTitle: "Перевірка знань: СУІБ та ISO/IEC 27001",
             lectureHTML: `
@@ -397,7 +403,6 @@
                     <p class="text-sm text-slate-500 mt-1">Вимоги до системи управління інформаційною безпекою, структура стандарту та оцінка ризиків</p>
                 </div>
 
-                <!-- 1. СУІБ та ISO 27001 -->
                 <section class="space-y-4">
                     <h2 class="text-lg font-bold text-slate-900">1. СУІБ (ISMS) та стандарт ISO/IEC 27001:2022</h2>
                     <div class="grid md:grid-cols-2 gap-5">
@@ -436,7 +441,6 @@
                     </div>
                 </section>
 
-                <!-- 2. Структура ISO 27001 vs ISO 27002 -->
                 <section class="space-y-4 pt-2">
                     <h2 class="text-lg font-bold text-slate-900">2. Структура ISO 27001 та різниця з ISO 27002</h2>
                     <div class="grid md:grid-cols-2 gap-5">
@@ -466,7 +470,6 @@
                     </div>
                 </section>
 
-                <!-- 3. Розділи 4-6: Контекст, Лідерство, Планування і SoA -->
                 <section class="space-y-4 pt-2">
                     <h2 class="text-lg font-bold text-slate-900">3. Контекст, Лідерство та Планування (SoA)</h2>
                     <div class="grid md:grid-cols-3 gap-5 text-xs">
@@ -493,7 +496,6 @@
                     </div>
                 </section>
 
-                <!-- 4. Розділи 7-10: Забезпечення, Функціонування, Оцінювання, Поліпшення -->
                 <section class="space-y-4 pt-2">
                     <h2 class="text-lg font-bold text-slate-900">4. Забезпечення, Функціонування, Оцінювання та Поліпшення</h2>
                     <div class="grid md:grid-cols-2 gap-5 text-xs">
@@ -516,6 +518,7 @@
             `,
             quizzes: [
                 {
+                    type: "single",
                     question: "1. Чим за своєю суттю є міжнародний стандарт ISO/IEC 27001:2022?",
                     options: [
                         "А) Готовим технічним посібником із налаштування мережевої безпеки",
@@ -527,6 +530,7 @@
                     takeaway: "ISO 27001 визначає саме вимоги до побудови СУІБ, а не технічні інструкції чи списки технологій."
                 },
                 {
+                    type: "single",
                     question: "2. У чому полягає ключова відмінність між стандартами ISO/IEC 27001 та ISO/IEC 27002?",
                     options: [
                         "А) 27001 є обов'язковим для сертифікації вимог до СУІБ, а 27002 містить настанови щодо заходів безпеки та їх впровадження.",
@@ -538,6 +542,7 @@
                     takeaway: "ISO 27001 встановлює вимоги (для сертифікації), тоді як ISO 27002 надає настанови та пояснює підходи до впровадження заходів."
                 },
                 {
+                    type: "single",
                     question: "3. Якої вимоги щодо оргструктури дотримується ISO/IEC 27001 (Розділ 5 — Лідерство)?",
                     options: [
                         "А) Стандарт вимагає впровадження виключно трирівневої ієрархії безпеки",
@@ -549,6 +554,7 @@
                     takeaway: "Стандарт гнучкий до оргструктури компанії, але вимагає чіткого розподілу ролей, відповідальності та надання достатніх повноважень."
                 },
                 {
+                    type: "single",
                     question: "4. Що з наведеного не встановлює стандарт ISO під час проведення оцінки ризиків?",
                     options: [
                         "А) Що може статися та які будуть наслідки",
@@ -560,6 +566,7 @@
                     takeaway: "ISO вимагає послідовного та відтворюваного підходу до оцінки ризиків, але не нав'язує конкретні математичні формули чи таблиці (наприклад, матрицю 5×5)."
                 },
                 {
+                    type: "single",
                     question: "5. Які стратегічні варіанти дій існують для оброблення ризику?",
                     options: [
                         "А) Прийняти, Заборонити, Застрахувати, Перевірити",
@@ -572,6 +579,7 @@
                 }
             ],
             simulator: {
+                type: "single",
                 badge: "Симулятор 2",
                 title: "Підготовка логістичної компанії до сертифікації ISO/IEC 27001:2022",
                 contextHTML: `
@@ -628,17 +636,538 @@
                     }
                 ]
             }
+        },
+        3: {
+            practiceBadge: "Практика 3",
+            practiceTitle: "Перевірка знань: Frameworks (ISO, NIST CSF, CIS)",
+            lectureHTML: `
+                <div class="border-b border-slate-200 pb-5">
+                    <span class="text-xs font-semibold uppercase tracking-wider text-blue-700 bg-blue-50 px-3 py-1 rounded">Лекція 3</span>
+                    <h1 class="text-2xl font-bold text-slate-900 mt-2">Frameworks</h1>
+                    <p class="text-sm text-slate-500 mt-1">Типи контролів, ISO/IEC 27001 &amp; 27002, NIST CSF 2.0 та CIS Controls v8.1</p>
+                </div>
+
+                <section class="space-y-3">
+                    <h2 class="text-lg font-bold text-slate-900">1. Контроль — це не лише технологія</h2>
+                    <p class="text-sm text-slate-700">Контроль в інформаційній безпеці охоплює набагато ширший спектр заходів, ніж просто технічні засоби:</p>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs">
+                        <div class="p-3.5 rounded-lg border border-slate-200 bg-slate-50"><strong>Політика:</strong> політика управління доступом</div>
+                        <div class="p-3.5 rounded-lg border border-slate-200 bg-slate-50"><strong>Процес:</strong> прийом, переведення і звільнення (JML)</div>
+                        <div class="p-3.5 rounded-lg border border-slate-200 bg-slate-50"><strong>Технічний механізм:</strong> MFA, шифрування</div>
+                        <div class="p-3.5 rounded-lg border border-slate-200 bg-slate-50"><strong>Фізичний захід:</strong> перепускний режим, відеонагляд</div>
+                        <div class="p-3.5 rounded-lg border border-slate-200 bg-slate-50"><strong>Навчання:</strong> тренінг з фішингу</div>
+                        <div class="p-3.5 rounded-lg border border-slate-200 bg-slate-50"><strong>Перегляд:</strong> щоквартальний перегляд доступів</div>
+                        <div class="p-3.5 rounded-lg border border-slate-200 bg-slate-50"><strong>Розподіл обов'язків:</strong> принцип «двох рук»</div>
+                        <div class="p-3.5 rounded-lg border border-slate-200 bg-slate-50"><strong>Моніторинг:</strong> моніторинг привілейованих дій</div>
+                    </div>
+                </section>
+
+                <section class="space-y-4 pt-2">
+                    <h2 class="text-lg font-bold text-slate-900">2. ISO: Місце Annex A та 5 атрибутів ISO/IEC 27002</h2>
+                    <div class="bg-slate-50 p-4 rounded-lg border border-slate-200 text-xs text-slate-700">
+                        <div class="font-bold text-[#122d55] uppercase mb-2">Послідовний процес у логіці ISO 27001:</div>
+                        <div class="grid md:grid-cols-5 gap-2">
+                            <div class="bg-white p-2.5 rounded border border-slate-200"><strong>1. Оцінка ризиків</strong><br>Які ризики?</div>
+                            <div class="bg-white p-2.5 rounded border border-slate-200"><strong>2. Обробка ризиків</strong><br>Що робимо з ризиком?</div>
+                            <div class="bg-white p-2.5 rounded border border-slate-200"><strong>3. Необхідні контролі</strong><br>Які контролі потрібні?</div>
+                            <div class="bg-white p-2.5 rounded border border-slate-200"><strong>4. Звірка з Annex A</strong><br>Чи нічого не пропущено?</div>
+                            <div class="bg-white p-2.5 rounded border border-slate-200"><strong>5. SoA</strong><br>Що застосовно і чому?</div>
+                        </div>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-5 text-xs">
+                        <div class="p-5 rounded-lg border border-slate-200 bg-white space-y-2">
+                            <div class="font-bold text-sm text-[#122d55]">93 контролі — 4 теми (ISO 27002)</div>
+                            <ul class="space-y-1.5 text-slate-700">
+                                <li><strong>Організаційні (37):</strong> управління, безпека постачальників, інциденти, комплаєнс.</li>
+                                <li><strong>Людські (8):</strong> перевірка кандидатів, обізнаність, обов'язки.</li>
+                                <li><strong>Фізичні (14):</strong> периметр, доступ у приміщення, захищені зони, обладнання.</li>
+                                <li><strong>Технологічні (34):</strong> доступ, автентифікація, журналювання, вразливості, безпечна розробка.</li>
+                            </ul>
+                        </div>
+                        <div class="p-5 rounded-lg border border-slate-200 bg-white space-y-2">
+                            <div class="font-bold text-sm text-[#122d55]">ISO/IEC 27002: 5 атрибутів контролю</div>
+                            <ol class="list-decimal pl-4 space-y-1 text-slate-700">
+                                <li><strong>Тип контролю:</strong> Preventive, Detective, Corrective.</li>
+                                <li><strong>Властивості ІБ:</strong> Confidentiality, Integrity, Availability.</li>
+                                <li><strong>Концепції кібербезпеки:</strong> Identify, Protect, Detect, Respond, Recover.</li>
+                                <li><strong>Операційні спроможності:</strong> IAM, Asset Management, AppSec, Continuity, Supplier Security тощо (15 спроможностей).</li>
+                                <li><strong>Домени безпеки:</strong> Governance and Ecosystem, Protection, Defence, Resilience.</li>
+                            </ol>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="space-y-4 pt-2">
+                    <h2 class="text-lg font-bold text-slate-900">3. NIST CSF 2.0 та CIS Controls v8.1</h2>
+                    <div class="grid md:grid-cols-2 gap-5 text-xs">
+                        <div class="p-5 rounded-lg border border-slate-200 bg-slate-50 space-y-2">
+                            <div class="font-bold text-sm text-[#122d55]">NIST CSF 2.0 (Функції &rarr; Категорії &rarr; Підкатегорії)</div>
+                            <p class="text-slate-700">Структура Core: <strong>6 функцій</strong> (Govern, Identify, Protect, Detect, Respond, Recover), <strong>22 категорії</strong>, <strong>106 підкатегорій</strong> (напр., <code>PR.AA-05</code>).</p>
+                            <p class="text-slate-700"><strong>Шлях до дорожньої карти:</strong> Поточний профіль &rarr; Цільовий профіль &rarr; Gap-аналіз &rarr; Пріоритезація &rarr; Дорожня карта.</p>
+                        </div>
+                        <div class="p-5 rounded-lg border border-slate-200 bg-slate-50 space-y-2">
+                            <div class="font-bold text-sm text-[#122d55]">CIS Controls v8.1 (18 контролів / 153 Safeguards)</div>
+                            <ul class="space-y-1 text-slate-700">
+                                <li><strong>IG1 — Basic Cyber Hygiene (~56):</strong> для малих/середніх організацій з обмеженими ресурсами (базовий захист від масових атак).</li>
+                                <li><strong>IG2 — Foundational (~74 додатково):</strong> для середніх і великих компаній із чутливими даними (сегментація, SIEM, реагування).</li>
+                                <li><strong>IG3 — Organizational (усі 153):</strong> для критичної інфраструктури та банків (протидія APT, Zero Trust, Threat Hunting, Red Teaming).</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="space-y-3 pt-2">
+                    <h2 class="text-lg font-bold text-slate-900">4. Порівняння фреймворків та типові помилки</h2>
+                    <div class="overflow-x-auto border border-slate-200 rounded-lg">
+                        <table class="w-full text-left text-xs">
+                            <thead class="bg-[#122d55] text-white">
+                                <tr>
+                                    <th class="p-3">Критерій</th>
+                                    <th class="p-3">ISO/IEC 27001 + 27002</th>
+                                    <th class="p-3">NIST CSF 2.0</th>
+                                    <th class="p-3">CIS Controls v8.1</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-200 bg-white">
+                                <tr>
+                                    <td class="p-3 font-semibold">Головна роль</td>
+                                    <td class="p-3">Що потрібно контролювати (ISMS + каталог)</td>
+                                    <td class="p-3">Якого результату досягти (Outcomes)</td>
+                                    <td class="p-3">Що конкретно робити (Практичні заходи)</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-semibold">Пріоритезація</td>
+                                    <td class="p-3">Оцінка ризиків + SoA</td>
+                                    <td class="p-3">Current / Target Profiles</td>
+                                    <td class="p-3">Implementation Groups: IG1 &rarr; IG2 &rarr; IG3</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-semibold">Структура</td>
+                                    <td class="p-3">Clauses 4–10 + Annex A (93 controls у 4 групах)</td>
+                                    <td class="p-3">6 Functions &rarr; 22 Categories &rarr; 106 Subcategories</td>
+                                    <td class="p-3">18 Controls &rarr; 153 Safeguards</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="p-4 rounded-lg border border-rose-200 bg-rose-50/60 text-xs text-rose-950 flex flex-wrap gap-4 font-medium">
+                        <span>❌ Чекліст без ризиків</span>
+                        <span>❌ Фреймворк без власників</span>
+                        <span>❌ Технології без спроможності</span>
+                        <span>❌ Комплаєнс без ефективності</span>
+                        <span>❌ Впровадили й забули</span>
+                    </div>
+                </section>
+            `,
+            quizzes: [
+                {
+                    type: "single",
+                    question: "1. Яка головна мета використання Положення про застосовність (Statement of Applicability — SoA) у стандарті ISO/IEC 27001?",
+                    options: [
+                        "A) Визначити точний перелік програмного забезпечення, що використовується в компанії",
+                        "B) Задокументувати обрані контролі з Annex A, обґрунтувати їх включення або виключення та підтвердити покриття ризиків",
+                        "C) Зафіксувати бюджети, виділені на впровадження заходів кібербезпеки",
+                        "D) Описати посадові інструкції працівників відділу інформаційної безпеки"
+                    ],
+                    correct: 1,
+                    takeaway: "SoA є фінальним документом після оцінки та обробки ризиків, який пояснює, які контролі з Annex A застосовуються в організації і чому."
+                },
+                {
+                    type: "single",
+                    question: "2. У чому полягає ключова відмінність між рівнями Implementation Groups (IGs) у фреймворку CIS Controls?",
+                    options: [
+                        "A) Вони визначають типи атак: IG1 — соціальна інженерія, IG2 — DDoS, IG3 — вимога викупу (ransomware)",
+                        "B) Вони розподіляють контролі виключно за географічним розташуванням підрозділів компанії",
+                        "C) Вони ділять контролі за зрілістю й ресурсами організації",
+                        "D) Вони розрізняють контролі залежно від того, який тип Security Operating Model використовується (Centralized, Decentralized, Federated)"
+                    ],
+                    correct: 2,
+                    takeaway: "IG1 — це базова гігієна від масових атак; IG2 — додатковий рівень для середніх/великих компаній; IG3 — повний захист від складних APT-атак."
+                },
+                {
+                    type: "multi",
+                    requiredCount: 3,
+                    question: "3. [МНОЖИННИЙ ВИБІР] Які з наведених елементів та понять безпосередньо належать до фреймворку NIST CSF 2.0? (Оберіть 3 правильні варіанти)",
+                    options: [
+                        "A) Функція GOVERN (Управління)",
+                        "B) 153 захисні заходи (Safeguards)",
+                        "C) Ієрархічна структура: 6 Functions → 22 Categories → 106 Subcategories",
+                        "D) Обов'язкова відповідність 93 контролям у 4 тематичних групах",
+                        "E) Побудова дорожньої карти через Gap-аналіз між поточним та цільовим профілем",
+                        "F) Сертифікація відповідності організації"
+                    ],
+                    correct: [0, 2, 4],
+                    takeaway: "Варіант B («153 захисні заходи») відноситься до CIS, відповідність 93 контролям у 4 тематичних групах та сертифікація — до ISO."
+                },
+                {
+                    type: "multi",
+                    requiredCount: 3,
+                    question: "4. [МНОЖИННИЙ ВИБІР] Які елементи та принципи характеризують фреймворк CIS Controls v8.1? (Оберіть 3 правильні варіанти)",
+                    options: [
+                        "A) Наявність 18 основних контролів та 153 практичних захисних заходів (Safeguards)",
+                        "B) Вимоги до розробки обов'язкової системи управління ISMS за стандартними розділами clauses 4–10",
+                        "C) Розподіл контролів на 3 рівні гігієни через Implementation Groups (IG1, IG2, IG3)",
+                        "D) Обов'язкова наявність профілів Community Profiles та 106 підкатегорій",
+                        "E) Чіткий фокус на практичних діях та наданні пріоритезованого переліку заходів захисту",
+                        "F) Класифікація контролів за 5 атрибутами, включно з «Властивостями інформаційної безпеки»"
+                    ],
+                    correct: [0, 2, 4],
+                    takeaway: "Варіант B належить ISO 27001, D — NIST CSF, F — ISO 27002."
+                },
+                {
+                    type: "multi",
+                    requiredCount: 3,
+                    question: "5. [МНОЖИННИЙ ВИБІР] Які особливості та елементи притаманні стандартам ISO/IEC 27001 та ISO/IEC 27002? (Оберіть 3 правильні варіанти)",
+                    options: [
+                        "A) Сильною стороною є керованість та доказовість системи",
+                        "B) Структуризація 93 контролів за 4 тематичними групами: організаційні, людські, фізичні, технологічні",
+                        "C) Сильною стороною є практичність та чітка послідовність впровадження",
+                        "D) Використання Положення про застосовність (Statement of Applicability — SoA) для обґрунтування вибору контролів",
+                        "E) Орієнтація першочергово на практичні інструкції із налаштування параметрів безпеки без вимог до ISMS",
+                        "F) Рамка управління кіберризиком через очікувані результати"
+                    ],
+                    correct: [0, 1, 3],
+                    takeaway: "Варіанти C та E стосуються CIS, F — NIST CSF 2.0."
+                }
+            ],
+            simulator: {
+                type: "two-stage",
+                badge: "Симулятор 3",
+                title: "Виправлення плутанини у фреймворках та вибір стратегії впровадження",
+                part1: {
+                    contextHTML: `
+                        <div class="text-xs font-bold uppercase tracking-wider text-[#122d55]">Частина 1. Робоча нарада з радником із кібербезпеки</div>
+                        <p class="text-sm text-slate-700 italic bg-white p-4 rounded-lg border border-slate-200">
+                            «Шефе, я все проаналізував і підготував для нас ідеальну базу! Для європейського регулятора та швидкого проходження сертифікації нам достатньо взяти стандарт ISO/IEC 27001 і насамперед запровадити конкретну підкатегорію <strong>PR.AA-05</strong> («права доступу визначені, керуються, застосовуються і переглядаються»), яка повністю закриє наші дири в ідентифікації. А якщо аудит вимагатиме ширшої картини, ми просто візьмемо <strong>6 функцій та 22 категорії з каталогу ISO Annex A</strong>, щоб закрити всі прогалини. Що ж стосується наших розробників і найменших ресурсів — тут усе просто: ми спустимо їм <strong>нижній рівень IG1 від NIST, який містить 18 чітких контролів та захисних заходів</strong>!»
+                        </p>
+                        <p class="text-sm font-medium text-slate-900">Оберіть коректну професійну реакцію CISO на цю доповідь:</p>
+                    `,
+                    options: [
+                        {
+                            id: "A",
+                            label: "Варіант A: Вказати на PR.AA-05 (NIST), 14 доменів та 114 контролів в ISO Annex A, та перевести розробників на рівень IG3",
+                            desc: "Стверджувати, що в ISO Annex A контролі розбиті на 14 традиційних доменів та 114 контролів, а рівень IG3 призначений для малих стартапів із обмеженими ресурсами.",
+                            isCorrect: false,
+                            style: "bg-rose-50 border-rose-300",
+                            feedback: "❌ Неправильно: редакція ISO/IEC 27001:2022 містить 93 контролі у 4 темах, а не 114 у 14 доменах; рівень IG1 призначений саме для малих організацій з обмеженими ресурсами, а IG3 — для великих компаній та протидії APT-загрозам."
+                        },
+                        {
+                            id: "B",
+                            label: "Варіант B: Віднести PR.AA-05 до CIS Controls, погодитися з 6 функціями в ISO Annex A та віднести IG1–IG3 до NIST CSF 2.0",
+                            desc: "Вважати, що PR.AA-05 відповідає за фізичну безпеку в CIS Controls, а 6 функцій справді належать до ISO Annex A.",
+                            isCorrect: false,
+                            style: "bg-rose-50 border-rose-300",
+                            feedback: "❌ Неправильно: код PR.AA-05 належить NIST CSF 2.0; 6 функцій (Govern, Identify, Protect, Detect, Respond, Recover) також належать NIST, а не ISO; рівні IG1–IG3 належать CIS Controls."
+                        },
+                        {
+                            id: "C",
+                            label: "Варіант C: Виправити всі три помилки (PR.AA-05 — NIST CSF; 93 контролі у 4 групах — ISO 27001/27002; IG1–IG3 — CIS v8.1 з 18 контролями та 153 Safeguards)",
+                            desc: "Чітко розмежувати підкатегорію NIST CSF 2.0 (PR.AA-05), структуру ISO/IEC 27001:2022 (93 контролі у 4 тематичних групах) та архітектуру CIS Controls v8.1 (18 контролів та 153 захисні заходи).",
+                            isCorrect: true,
+                            style: "bg-emerald-50 border-emerald-300",
+                            feedback: "✅ Точна експертиза CISO! Ви безпомилково розклали всі три фреймворки по поличках і вберегли команду від провалу на аудиті. Тепер перейдіть до Частини 2 та оберіть стратегію впровадження."
+                        }
+                    ]
+                },
+                part2: {
+                    contextHTML: `
+                        <div class="text-xs font-bold uppercase tracking-wider text-[#122d55]">Частина 2. Стратегічний вибір підходу до впровадження (Бюджет: $100,000)</div>
+                        <p class="text-sm text-slate-700">Після виправлення плутанини у термінології вам потрібно визначити, як саме компанія поєднає ці фреймворки для виходу на ринок ЄС без зупинки розробки:</p>
+                    `,
+                    options: [
+                        {
+                            id: "A",
+                            label: "Варіант А: ISO First (Документація та сертифікація понад усе)",
+                            desc: "Зупиняємо сумнівні релізи розробників, наймаємо зовнішніх консультантів для опису всіх політик за ISO 27001 та SoA, замовляємо повноцінний передсертифікаційний аудит.",
+                            style: "bg-blue-50 border-blue-300",
+                            titleColor: "text-slate-900",
+                            metrics: { security: 72, trust: 65, budget: 20000, risk: "Помірний" },
+                            trustText: "-10% (65%)",
+                            trustClass: "text-rose-600",
+                            costText: "$80,000 (Залишок: $20,000)",
+                            riskClass: "text-amber-700",
+                            takeaway: "Компанія швидко готує документальну базу для регулятора ЄС, але розробка зупиняється через бюрократичні узгодження, а більша частина бюджету йде на зовнішніх консультантів при неперевіреному реальному захисті хмар."
+                        },
+                        {
+                            id: "B",
+                            label: "Варіант Б: CIS IG1 + DevSecOps (Автоматизація без формальної ISMS)",
+                            desc: "Відкладаємо створення важких політик. Направляємо бюджет на автоматизацію базової технічної гігієни розробників (CIS IG1): сканери в CI/CD, централізований IAM у хмарах, резервне копіювання.",
+                            style: "bg-amber-50 border-amber-300",
+                            titleColor: "text-amber-950",
+                            metrics: { security: 76, trust: 90, budget: 55000, risk: "Помірний" },
+                            trustText: "+15% (90%)",
+                            trustClass: "text-emerald-700",
+                            costText: "$45,000 (Залишок: $55,000)",
+                            riskClass: "text-amber-700",
+                            takeaway: "Розробники продовжують випускати фічі, а ризики технічних вразливостей падають, проте залишається регуляторний ризик через відсутність формалізованої СУІБ для європейського регулятора."
+                        },
+                        {
+                            id: "C",
+                            label: "Варіант В: NIST CSF Gap Analysis + Ощадлива дорожня карта",
+                            desc: "Проводимо швидкий Gap-аналіз за функціями NIST CSF 2.0 (поточний стан → цільовий стан) та створюємо ощадливу дорожню карту. Купуємо лише критичні захисні заходи для хмар і готуємо тільки ті політики ISO, які строго вимагає регулятор.",
+                            style: "bg-emerald-50 border-emerald-300",
+                            titleColor: "text-emerald-950",
+                            metrics: { security: 85, trust: 95, budget: 65000, risk: "Помірний" },
+                            trustText: "+20% (95%)",
+                            trustClass: "text-emerald-700",
+                            costText: "$35,000 (Залишок: $65,000)",
+                            riskClass: "text-emerald-700",
+                            takeaway: "✅ Найкращий стратегічний вибір! Засновник бачить чіткий план витрат і дорожню карту виходу в ЄС. Створюється розумний баланс між вимогами закону та швидкістю розробки."
+                        }
+                    ]
+                }
+            }
+        },
+        4: {
+            practiceBadge: "Практика 4",
+            practiceTitle: "Перевірка знань: Управління контролями ІБ",
+            lectureHTML: `
+                <div class="border-b border-slate-200 pb-5">
+                    <span class="text-xs font-semibold uppercase tracking-wider text-blue-700 bg-blue-50 px-3 py-1 rounded">Лекція 4</span>
+                    <h1 class="text-2xl font-bold text-slate-900 mt-2">Управління контролями інформаційної безпеки</h1>
+                    <p class="text-sm text-slate-500 mt-1">Анатомія контролю, FAIR-CAM, NIST SP 800-53A, оцінювання ефективності та життєвий цикл</p>
+                </div>
+
+                <!-- 1. Від вимоги до конкретного контролю та Анатомія -->
+                <section class="space-y-4">
+                    <h2 class="text-lg font-bold text-slate-900">1. Від вимоги до контролю та Анатомія контролю</h2>
+                    <div class="bg-slate-50 p-4 rounded-lg border border-slate-200 text-xs text-slate-700 space-y-2">
+                        <div class="font-bold text-[#122d55] uppercase">Шлях реалізації:</div>
+                        <div class="flex flex-wrap items-center gap-2 font-medium text-slate-900">
+                            <span class="bg-white px-3 py-1.5 rounded border border-slate-200">1. Вимога</span> &rarr;
+                            <span class="bg-white px-3 py-1.5 rounded border border-slate-200">2. Control Objective</span> &rarr;
+                            <span class="bg-white px-3 py-1.5 rounded border border-slate-200">3. Control Design</span> &rarr;
+                            <span class="bg-white px-3 py-1.5 rounded border border-slate-200">4. Implementation &amp; Operation</span> &rarr;
+                            <span class="bg-white px-3 py-1.5 rounded border border-slate-200">5. Assessment</span>
+                        </div>
+                        <p class="pt-1"><strong>Гнучка архітектура:</strong> <code>1 вимога &rarr; N контролів</code> (одна вимога реалізується декількома контролями) та <code>1 механізм &rarr; N вимог</code> (один механізм підтримує декілька вимог).</p>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
+                        <div class="p-3.5 rounded-lg border border-slate-200 bg-white"><strong>Control Objective:</strong> Виявляти та усувати необґрунтовані привілеї</div>
+                        <div class="p-3.5 rounded-lg border border-slate-200 bg-white"><strong>Scope:</strong> Критичні інформаційні системи</div>
+                        <div class="p-3.5 rounded-lg border border-slate-200 bg-white"><strong>Mechanism:</strong> Регулярний перегляд і підтвердження прав</div>
+                        <div class="p-3.5 rounded-lg border border-slate-200 bg-white"><strong>Frequency / Trigger:</strong> Щокварталу та після визначених змін</div>
+                        <div class="p-3.5 rounded-lg border border-slate-200 bg-white"><strong>Owner / Operator:</strong> Власник контролю / виконавці процесу</div>
+                        <div class="p-3.5 rounded-lg border border-slate-200 bg-white"><strong>Criteria:</strong> Повнота, своєчасність, якість рішень, відкликання</div>
+                        <div class="p-3.5 rounded-lg border border-slate-200 bg-white md:col-span-2"><strong>Evidence:</strong> Реєстри доступів, погодження, записи про відкликання</div>
+                    </div>
+                </section>
+
+                <!-- 2. FAIR-CAM та три характеристики -->
+                <section class="space-y-4 pt-2">
+                    <h2 class="text-lg font-bold text-slate-900">2. Модель FAIR-CAM: функціональні домени та характеристики</h2>
+                    <div class="grid md:grid-cols-3 gap-5 text-xs">
+                        <div class="p-5 rounded-lg border border-slate-200 bg-slate-50 space-y-1.5">
+                            <div class="font-bold text-sm text-[#122d55]">Loss Event Controls</div>
+                            <p class="text-slate-700">Спрямовано безпосередньо на виникнення подій втрат або їхні наслідки.</p>
+                            <p class="font-semibold text-slate-900">Функції: Prevention, Detection, Response.</p>
+                        </div>
+                        <div class="p-5 rounded-lg border border-slate-200 bg-slate-50 space-y-1.5">
+                            <div class="font-bold text-sm text-[#122d55]">Variance Management Controls</div>
+                            <p class="text-slate-700">Спрямовано на стабільну роботу контролів: запобігти відхиленням, виявити й усунути їх.</p>
+                            <p class="font-semibold text-slate-900">Функції: Prevention, Identification, Correction.</p>
+                        </div>
+                        <div class="p-5 rounded-lg border border-slate-200 bg-slate-50 space-y-1.5">
+                            <div class="font-bold text-sm text-[#122d55]">Decision Support Controls</div>
+                            <p class="text-slate-700">Спрямовано на якість рішень щодо контролів: запобігти помилковим рішенням, виявити й скоригувати їх.</p>
+                        </div>
+                    </div>
+
+                    <div class="p-4 rounded-lg border border-amber-200 bg-amber-50/60 text-xs text-amber-950 space-y-1">
+                        <div class="font-bold uppercase">Три характеристики FAIR-CAM:</div>
+                        <p><strong>Capability</strong> (наскільки добре контроль здатний виконувати функцію) &bull; <strong>Coverage</strong> (яку частину релевантного середовища охоплює) &bull; <strong>Reliability</strong> (наскільки стабільно працює, коли необхідно).</p>
+                        <p class="font-semibold pt-1">⚠️ Важливо: їх не можна автоматично перемножувати, щоб отримати єдиний універсальний відсоток ефективності.</p>
+                    </div>
+                </section>
+
+                <!-- 3. Ефективність контролів: NIST SP 800-53A, Design vs Operating -->
+                <section class="space-y-4 pt-2">
+                    <h2 class="text-lg font-bold text-slate-900">3. Оцінка ефективності (NIST SP 800-53A) та методи перевірки</h2>
+                    <div class="grid md:grid-cols-3 gap-4 text-xs">
+                        <div class="p-4 rounded-lg border border-slate-200 bg-white">
+                            <span class="font-bold text-[#122d55]">01. Implemented correctly</span><br>Чи правильно реалізовано контроль?
+                        </div>
+                        <div class="p-4 rounded-lg border border-slate-200 bg-white">
+                            <span class="font-bold text-[#122d55]">02. Operating as intended</span><br>Чи функціонує він відповідно до задуму?
+                        </div>
+                        <div class="p-4 rounded-lg border border-slate-200 bg-white">
+                            <span class="font-bold text-[#122d55]">03. Producing the desired outcome</span><br>Чи забезпечує очікуваний результат щодо вимог безпеки?
+                        </div>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-5 text-xs">
+                        <div class="p-5 rounded-lg border border-blue-200 bg-blue-50/30 space-y-1.5">
+                            <div class="font-bold text-sm text-[#122d55]">Design Effectiveness vs Operating Effectiveness</div>
+                            <p><strong>Design Effectiveness:</strong> чи здатен контроль за своїм дизайном досягти поставленої мети (механізм, обсяг, періодичність, критерії)?</p>
+                            <p><strong>Operating Effectiveness:</strong> чи виконується контроль відповідно до встановленого дизайну (фактичне виконання, своєчасність, повнота, стабільність)?</p>
+                        </div>
+                        <div class="p-5 rounded-lg border border-slate-200 bg-white space-y-1.5">
+                            <div class="font-bold text-sm text-slate-900">Три методи оцінювання [NIST] та Програма тестування</div>
+                            <p><strong>Examine</strong> (аналіз документів, записів, конфігурацій) &bull; <strong>Interview</strong> (пояснення відповідальних осіб) &bull; <strong>Test</strong> (перевірка фактичної поведінки).</p>
+                            <p class="text-slate-600 pt-1"><strong>6 кроків тестування:</strong> 01 Control Objective &rarr; 02 Assessment Criteria &rarr; 03 Scope &amp; Period &rarr; 04 Assessment Methods &rarr; 05 Evidence &amp; Findings &rarr; 06 Assessment Conclusion.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 4. Життєвий цикл, Ролі, Моніторинг та Недоліки -->
+                <section class="space-y-4 pt-2">
+                    <h2 class="text-lg font-bold text-slate-900">4. Життєвий цикл, Control Ownership та Управління недоліками</h2>
+                    <div class="grid md:grid-cols-2 gap-5 text-xs">
+                        <div class="p-5 rounded-lg border border-slate-200 bg-slate-50 space-y-2">
+                            <div class="font-bold text-sm text-[#122d55]">Життєвий цикл контролю (6 етапів)</div>
+                            <p><strong>1. Design</strong> (мета, критерії, механізм) &rarr; <strong>2. Implement</strong> (впровадження й налаштування) &rarr; <strong>3. Operate</strong> (регулярне функціонування) &rarr; <strong>4. Monitor</strong> (моніторинг стану та відхилень) &rarr; <strong>5. Assess</strong> (перевірка ефективності) &rarr; <strong>6. Improve</strong> (усунення недоліків і зміни).</p>
+                            <div class="pt-1 border-t border-slate-200">
+                                <strong>Ongoing Monitoring («Чи працює зараз?»):</strong> автоматизовані показники, журнали, сповіщення.<br>
+                                <strong>Periodic Assessment («Чи можна покладатися?»):</strong> аналіз доказів, перевірка вибірки, функціональні випробування.
+                            </div>
+                        </div>
+                        <div class="p-5 rounded-lg border border-slate-200 bg-slate-50 space-y-2">
+                            <div class="font-bold text-sm text-[#122d55]">Control Ownership &amp; Управління недоліками</div>
+                            <ul class="space-y-1 text-slate-700">
+                                <li><strong>Control Owner:</strong> належне функціонування контролю та усунення недоліків.</li>
+                                <li><strong>Control Operator:</strong> безпосереднє виконання або технічна підтримка.</li>
+                                <li><strong>Control Assessor:</strong> перевірка дизайну та ефективності.</li>
+                                <li><strong>Risk Owner:</strong> управління пов'язаним ризиком та рішення щодо прийнятності.</li>
+                            </ul>
+                            <p class="pt-1 border-t border-slate-200 font-medium text-slate-900">Управління недоліками: Identify &rarr; Assess &rarr; Assign &rarr; Remediate &rarr; Monitor &rarr; Validate.</p>
+                        </div>
+                    </div>
+                </section>
+            `,
+            quizzes: [
+                {
+                    type: "single",
+                    question: "1. Який зв'язок існує між вимогами безпеки та конкретними контролями під час їх проєктування?",
+                    options: [
+                        "А) Одна вимога завжди відповідає строго одному контролю",
+                        "Б) Одна вимога може реалізовуватися декількома контролями, а один механізм може підтримувати декілька вимог",
+                        "В) Контролі не пов'язані з вимогами і впроваджуються незалежно",
+                        "Г) Кількість контролів має бути як мінімум вдвічі більшою за кількість вимог, щоб забезпечити їх належне виконання"
+                    ],
+                    correct: 1,
+                    takeaway: "Архітектура контролю є гнучкою: 1 вимога → N контролів, і навпаки (1 механізм → N вимог)."
+                },
+                {
+                    type: "single",
+                    question: "2. До якого функціонального домену FAIR-CAM належить моніторинг працездатності антивірусного агента на робочих станціях (виявлення, що агент вимкнено, та його відновлення)?",
+                    options: [
+                        "А) Loss Event Controls",
+                        "Б) Variance Management Controls",
+                        "В) Decision Support Controls",
+                        "Г) Risk Acceptance Controls"
+                    ],
+                    correct: 1,
+                    takeaway: "Variance Management Controls спрямовані на стабільну роботу інших контролів: запобігання відхиленням, їх виявлення (Identification) та усунення (Correction)."
+                },
+                {
+                    type: "single",
+                    question: "3. У чому полягає різниця між Design Effectiveness та Operating Effectiveness?",
+                    options: [
+                        "А) Design Effectiveness перевіряє, чи здатен контроль за своїм задумом досягти мети, а Operating Effectiveness — чи виконується він фактично відповідно до цього дизайну",
+                        "Б) Design Effectiveness стосується бізнес-цілей, а Operating — технічних засобів",
+                        "В) Design Effectiveness оцінює вартість контролю, а Operating — його швидкість",
+                        "Г) Між цими поняттями немає різниці, це синоніми"
+                    ],
+                    correct: 0,
+                    takeaway: "Навіть ідеально спроєктований контроль (Design) не дасть результату, якщо він не виконується регулярно та вчасно на практиці (Operating)."
+                },
+                {
+                    type: "single",
+                    question: "4. Яке застереження встановлює модель FAIR-CAM щодо характеристик Capability, Coverage та Reliability?",
+                    options: [
+                        "А) Їх можна оцінювати лише раз на рік",
+                        "Б) Їх не можна автоматично перемножувати, щоб отримати єдиний універсальний відсоток ефективності",
+                        "В) Показник Capability завжди важливіший за Coverage",
+                        "Г) Reliability вимірюється виключно в грошовому еквіваленті"
+                    ],
+                    correct: 1,
+                    takeaway: "Capability, Coverage та Reliability — це взаємодоповнювальні характеристики, які не можна механічно перемножити в одну цифру."
+                },
+                {
+                    type: "single",
+                    question: "5. Який метод оцінювання NIST застосовується, коли аудитор проводить контрольовану спробу входу в систему без використання MFA для перевірки фактичної поведінки?",
+                    options: [
+                        "А) Examine",
+                        "Б) Interview",
+                        "В) Test",
+                        "Г) Monitor"
+                    ],
+                    correct: 2,
+                    takeaway: "Метод Test передбачає активну перевірку фактичної поведінки контролю в реальних або наближених до реальних умовах."
+                }
+            ],
+            simulator: {
+                type: "single",
+                badge: "Симулятор 4",
+                title: "Розбір інциденту з EDR та переглядом привілейованих доступів",
+                contextHTML: `
+                    <p class="text-sm text-slate-700">
+                        Ви — CISO у фінтех-компанії (бюджет <strong>$100,000</strong>). Попри значні інвестиції в безпеку, компанія ледь уникнула шифрування інфраструктури через компрометацію облікового запису адміністратора. Під час розбору польотів ви проаналізували два ключові контролі, на які покладався бізнес:
+                    </p>
+                    <ul class="list-disc pl-5 text-sm text-slate-700 space-y-1">
+                        <li>Компанія придбала найсучасніший EDR-продукт із високою здатністю виявляти загрози (<strong>Capability</strong>), але через поспішне впровадження агент встановлено лише на <strong>60%</strong> корпоративних ноутбуків.</li>
+                        <li>На половині з тих ноутбуків, де агент усе ж стоїть, користувачі або системні збої вимкнули службу захисту, і команда безпеки про це навіть не знала, бо не відстежувала працездатність самого агента.</li>
+                        <li>Регламент перегляду привілейованих доступів добре прописаний на папері (чіткий <strong>Control Design</strong>: раз на квартал, з погодженням та критеріями), але на практиці керівники відділів просто натискають «Підтвердити все» раз на рік без перевірки та реального відкликання зайвих прав.</li>
+                        <li>Під час презентації результатів засновнику один із менеджерів запропонував перемножити відсотки <em>Capability, Coverage та Reliability</em> EDR, щоб вивести «єдиний точний індекс захищеності» для звіту інвесторам.</li>
+                    </ul>
+                    <p class="text-sm font-medium text-slate-900 pt-1">Оберіть варіант аналізу, який точно визначає три реальні причини провалу контролів згідно з підходами NIST SP 800-53A та FAIR-CAM:</p>
+                `,
+                options: [
+                    {
+                        id: "A",
+                        label: "Варіант A: Заміна вендора EDR, переписування регламенту та розрахунок індексу ефективності",
+                        desc: "Головна проблема полягає в низькому показнику Capability самого EDR-рішення, тому продукт потрібно замінити; регламент перегляду доступів має дефект у Design Effectiveness; для звіту інвесторам необхідно перемножити Capability, Coverage та Reliability EDR.",
+                        style: "bg-blue-50 border-blue-300",
+                        titleColor: "text-slate-900",
+                        metrics: { security: 52, trust: 55, budget: 0, risk: "Високий" },
+                        trustText: "-20% (55%)",
+                        trustClass: "text-rose-600",
+                        costText: "$120,000 (Перевищення бюджету!)",
+                        riskClass: "text-rose-600",
+                        takeaway: "❌ Помилковий аналіз. Характеристики Capability, Coverage та Reliability не можна механічно перемножувати в один універсальний відсоток. Крім того, проблема не в технічній здатності EDR (Capability) і не в паперовому дизайні перегляду прав (Design Effectiveness), а в їхньому реальному покритті та виконанні."
+                    },
+                    {
+                        id: "B",
+                        label: "Варіант B: Дефект Decision Support, відсутність Scope та перехід на ручний щорічний аудит",
+                        desc: "Проблема криється у виборі класу продукту (Decision Support Controls); низька ефективність перегляду доступів викликана відсутністю Control Objective та Scope; замість автоматизації моніторингу варто проводити ручне Periodic Assessment кожного ноутбука раз на рік.",
+                        style: "bg-rose-50 border-rose-300",
+                        titleColor: "text-rose-950",
+                        metrics: { security: 58, trust: 60, budget: 30000, risk: "Високий" },
+                        trustText: "-15% (60%)",
+                        trustClass: "text-rose-700",
+                        costText: "$70,000 (Залишок: $30,000)",
+                        riskClass: "text-rose-700",
+                        takeaway: "❌ Хибний діагноз. Проблема з вимкненими агентами — це збій у Variance Management Controls та відсутність Ongoing Monitoring («Чи працює контроль зараз?»), а не привід переходити на ручні річні перевірки. Так само перегляд доступів мав нормальний дизайн на папері, але провалився на етапі фактичного виконання (Operate)."
+                    },
+                    {
+                        id: "C",
+                        label: "Варіант C: Провал Coverage і Variance Management, низька Operating Effectiveness та відмова від множення метрик",
+                        desc: "EDR провалився через низьке охоплення (Coverage 60%) та відсутність контролю в домені Variance Management Controls (без Ongoing Monitoring вимкнених агентів); перегляд доступів має належний Design Effectiveness, але провалює Operating Effectiveness; перемноження Capability, Coverage та Reliability є методологічно хибним за FAIR-CAM.",
+                        style: "bg-emerald-50 border-emerald-300",
+                        titleColor: "text-emerald-950",
+                        metrics: { security: 90, trust: 90, budget: 75000, risk: "Низький" },
+                        trustText: "+15% (90%)",
+                        trustClass: "text-emerald-700",
+                        costText: "$25,000 (Залишок: $75,000)",
+                        riskClass: "text-emerald-700",
+                        takeaway: "✅ Точне влучання CISO. Ви правильно застосували принципи FAIR-CAM та NIST SP 800-53A: відділили Design Effectiveness від Operating Effectiveness, виявили прогалини в Coverage та Variance Management Controls і вберегли компанію від маніпулятивної метрики «перемноженої ефективності»."
+                    }
+                ]
+            }
         }
     };
 
     let currentModuleId = 1;
-    let answeredQuestions = { 1: {}, 2: {} };
-    let selectedDecisions = { 1: null, 2: null };
+    let answeredQuestions = { 1: {}, 2: {}, 3: {}, 4: {} };
+    let multiSelections = { 3: {} };
+    let selectedDecisions = { 1: null, 2: null, 3: { part1: null, part2: null }, 4: null };
 
     function switchModule(modId) {
         currentModuleId = modId;
 
-        [1, 2].forEach(id => {
+        [1, 2, 3, 4].forEach(id => {
             const btn = document.getElementById('mod-btn-' + id);
             if (id === modId) {
                 btn.className = "px-3.5 py-1.5 rounded-lg text-xs font-semibold transition bg-[#122d55] text-white shadow-sm";
@@ -662,8 +1191,213 @@
         renderQuiz();
 
         // 3. Render Simulator
-        const sim = mod.simulator;
+        renderSimulator();
+    }
+
+    function renderQuiz() {
+        const mod = modulesData[currentModuleId];
+        const container = document.getElementById('quiz-container');
+        const currentAnswers = answeredQuestions[currentModuleId];
+        container.innerHTML = '';
+
+        mod.quizzes.forEach((q, qIndex) => {
+            const qBlock = document.createElement('div');
+            qBlock.className = "p-6 bg-slate-50 rounded-xl border border-slate-200 space-y-4";
+
+            if (q.type === "multi") {
+                if (!multiSelections[currentModuleId]) multiSelections[currentModuleId] = {};
+                if (!multiSelections[currentModuleId][qIndex]) multiSelections[currentModuleId][qIndex] = [];
+
+                const selectedArr = multiSelections[currentModuleId][qIndex];
+                const isSubmitted = currentAnswers[qIndex] !== undefined;
+
+                let optionsHtml = q.options.map((opt, oIndex) => {
+                    const isChecked = selectedArr.includes(oIndex);
+                    let btnStyle = isChecked
+                        ? "border-blue-600 bg-blue-50/70 text-slate-900 font-medium"
+                        : "border-slate-300 bg-white hover:border-blue-400 text-slate-800";
+
+                    if (isSubmitted) {
+                        const isActuallyCorrect = q.correct.includes(oIndex);
+                        if (isActuallyCorrect) {
+                            btnStyle = "border-emerald-500 bg-emerald-50 text-emerald-900 font-semibold";
+                        } else if (isChecked && !isActuallyCorrect) {
+                            btnStyle = "border-rose-400 bg-rose-50 text-rose-900";
+                        } else {
+                            btnStyle = "border-slate-200 bg-white text-slate-400";
+                        }
+                    }
+
+                    return `
+                        <button onclick="toggleMultiOption(${qIndex}, ${oIndex})" ${isSubmitted ? 'disabled' : ''} class="w-full p-3.5 text-left border rounded-lg transition text-sm flex items-center space-x-3 ${btnStyle}">
+                            <span class="w-4 h-4 rounded border flex items-center justify-center text-xs ${isChecked ? 'bg-blue-600 border-blue-600 text-white' : 'border-slate-400 bg-white'}">
+                                ${isChecked ? '✓' : ''}
+                            </span>
+                            <span>${opt}</span>
+                        </button>
+                    `;
+                }).join('');
+
+                let actionOrFeedback = '';
+                if (!isSubmitted) {
+                    actionOrFeedback = `
+                        <button onclick="submitMultiAnswer(${qIndex})" class="px-4 py-2 bg-[#122d55] text-white text-xs font-semibold rounded-lg hover:bg-blue-900 transition">
+                            Перевірити відповідь (обрано ${selectedArr.length} з ${q.requiredCount})
+                        </button>
+                    `;
+                } else {
+                    const isAllCorrect = selectedArr.length === q.correct.length && q.correct.every(val => selectedArr.includes(val));
+                    actionOrFeedback = `
+                        <div class="p-4 rounded-lg text-xs border ${isAllCorrect ? 'bg-emerald-50/80 border-emerald-200 text-emerald-900' : 'bg-amber-50 border-amber-200 text-amber-900'}">
+                            <strong>${isAllCorrect ? '✅ Усі 3 варіанти вірні!' : '⚠️ Є неточності.'} Takeaway:</strong> ${q.takeaway}
+                        </div>
+                    `;
+                }
+
+                qBlock.innerHTML = `
+                    <div class="font-semibold text-slate-900 text-sm">${q.question}</div>
+                    <div class="space-y-2.5">${optionsHtml}</div>
+                    <div>${actionOrFeedback}</div>
+                `;
+            } else {
+                let optionsHtml = q.options.map((opt, oIndex) => {
+                    let btnStyle = "border-slate-300 bg-white hover:border-blue-500 hover:bg-blue-50/40 text-slate-800";
+                    if (currentAnswers[qIndex] !== undefined) {
+                        if (oIndex === q.correct) {
+                            btnStyle = "border-emerald-500 bg-emerald-50 text-emerald-900 font-semibold";
+                        } else if (oIndex === currentAnswers[qIndex]) {
+                            btnStyle = "border-rose-400 bg-rose-50 text-rose-900";
+                        } else {
+                            btnStyle = "border-slate-200 bg-white text-slate-400";
+                        }
+                    }
+                    return `
+                        <button onclick="selectAnswer(${qIndex}, ${oIndex})" class="w-full p-3.5 text-left border rounded-lg transition text-sm ${btnStyle}">
+                            ${opt}
+                        </button>
+                    `;
+                }).join('');
+
+                let takeawayHtml = '';
+                if (currentAnswers[qIndex] !== undefined) {
+                    const isCorrect = currentAnswers[qIndex] === q.correct;
+                    takeawayHtml = `
+                        <div class="p-4 rounded-lg text-xs border ${isCorrect ? 'bg-emerald-50/80 border-emerald-200 text-emerald-900' : 'bg-amber-50 border-amber-200 text-amber-900'}">
+                            <strong>${isCorrect ? '✅ Правильно!' : '❌ Невірно.'} Takeaway:</strong> ${q.takeaway}
+                        </div>
+                    `;
+                }
+
+                qBlock.innerHTML = `
+                    <div class="font-semibold text-slate-900 text-sm">${q.question}</div>
+                    <div class="space-y-2.5">${optionsHtml}</div>
+                    ${takeawayHtml}
+                `;
+            }
+
+            container.appendChild(qBlock);
+        });
+
+        document.getElementById('quiz-progress').innerText = `${Object.keys(currentAnswers).length} / ${mod.quizzes.length}`;
+    }
+
+    function selectAnswer(qIndex, oIndex) {
+        answeredQuestions[currentModuleId][qIndex] = oIndex;
+        renderQuiz();
+    }
+
+    function toggleMultiOption(qIndex, oIndex) {
+        if (answeredQuestions[currentModuleId][qIndex] !== undefined) return;
+        const arr = multiSelections[currentModuleId][qIndex];
+        const idx = arr.indexOf(oIndex);
+        if (idx > -1) {
+            arr.splice(idx, 1);
+        } else {
+            arr.push(oIndex);
+        }
+        renderQuiz();
+    }
+
+    function submitMultiAnswer(qIndex) {
+        const arr = multiSelections[currentModuleId][qIndex];
+        if (arr.length === 0) return;
+        answeredQuestions[currentModuleId][qIndex] = [...arr];
+        renderQuiz();
+    }
+
+    function resetQuiz() {
+        answeredQuestions[currentModuleId] = {};
+        if (multiSelections[currentModuleId]) multiSelections[currentModuleId] = {};
+        renderQuiz();
+    }
+
+    function switchTab(tabId) {
+        document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+        document.getElementById('tab-' + tabId).classList.add('active');
+
+        ['lectures', 'tests', 'simulator'].forEach(id => {
+            const btn = document.getElementById('tab-btn-' + id);
+            if (id === tabId) {
+                btn.className = "px-5 py-2 rounded-md text-xs font-semibold tracking-wide transition-all text-white bg-blue-600 shadow";
+            } else {
+                btn.className = "px-5 py-2 rounded-md text-xs font-semibold tracking-wide transition-all text-slate-300 hover:text-white";
+            }
+        });
+    }
+
+    function renderSimulator() {
+        const sim = modulesData[currentModuleId].simulator;
         const simContainer = document.getElementById('simulator-container');
+
+        if (sim.type === "two-stage") {
+            const p1OptionsHtml = sim.part1.options.map(opt => `
+                <button onclick="makeTwoStageDecision(1, '${opt.id}')" id="sim3-p1-${opt.id}" class="w-full p-4 border border-slate-300 rounded-xl hover:border-blue-600 hover:bg-blue-50/30 transition text-left space-y-1.5">
+                    <div class="font-bold text-slate-900 text-sm">${opt.label}</div>
+                    <p class="text-xs text-slate-600">${opt.desc}</p>
+                </button>
+            `).join('');
+
+            const p2OptionsHtml = sim.part2.options.map(opt => `
+                <button onclick="makeTwoStageDecision(2, '${opt.id}')" id="sim3-p2-${opt.id}" class="w-full p-4 border border-slate-300 rounded-xl hover:border-blue-600 hover:bg-blue-50/30 transition text-left space-y-1.5">
+                    <div class="font-bold text-slate-900 text-sm">${opt.label}</div>
+                    <p class="text-xs text-slate-600">${opt.desc}</p>
+                </button>
+            `).join('');
+
+            simContainer.innerHTML = `
+                <div class="border-b border-slate-200 pb-4 flex flex-wrap justify-between items-center gap-4">
+                    <div>
+                        <span class="text-xs font-bold text-blue-700 bg-blue-50 px-3 py-1 rounded uppercase">${sim.badge}</span>
+                        <h2 class="text-xl font-bold text-slate-900 mt-2">${sim.title}</h2>
+                    </div>
+                    <button onclick="resetSimulator()" class="text-xs font-medium text-slate-500 hover:text-slate-800 underline">
+                        Скинути симуляцію
+                    </button>
+                </div>
+
+                <!-- Part 1 -->
+                <div class="bg-slate-50 p-6 rounded-xl border border-slate-200 space-y-4">
+                    ${sim.part1.contextHTML}
+                    <div class="space-y-3">${p1OptionsHtml}</div>
+                    <div id="sim3-p1-feedback" class="hidden p-4 rounded-lg text-xs border"></div>
+                </div>
+
+                <!-- Part 2 -->
+                <div class="bg-slate-50 p-6 rounded-xl border border-slate-200 space-y-4">
+                    ${sim.part2.contextHTML}
+                    <div class="space-y-3">${p2OptionsHtml}</div>
+                    <div id="sim3-p2-feedback" class="hidden p-5 rounded-xl text-sm border space-y-2"></div>
+                </div>
+            `;
+
+            const saved = selectedDecisions[3];
+            if (saved.part1) makeTwoStageDecision(1, saved.part1);
+            if (saved.part2) makeTwoStageDecision(2, saved.part2);
+            if (!saved.part2) updateDashboardMetrics({ security: 65, trust: 75, budget: 100000, risk: 'Високий' });
+            return;
+        }
+
+        // Standard single-stage simulator
         const optionsHtml = sim.options.map(opt => `
             <button onclick="makeDecision('${opt.id}')" id="sim-btn-${opt.id}" class="w-full p-5 border border-slate-300 rounded-xl hover:border-blue-600 hover:bg-blue-50/30 transition text-left space-y-2">
                 <div class="font-bold text-slate-900">${opt.label}</div>
@@ -696,77 +1430,40 @@
         }
     }
 
-    function renderQuiz() {
-        const mod = modulesData[currentModuleId];
-        const container = document.getElementById('quiz-container');
-        const currentAnswers = answeredQuestions[currentModuleId];
-        container.innerHTML = '';
-
-        mod.quizzes.forEach((q, qIndex) => {
-            const qBlock = document.createElement('div');
-            qBlock.className = "p-6 bg-slate-50 rounded-xl border border-slate-200 space-y-4";
-
-            let optionsHtml = q.options.map((opt, oIndex) => {
-                let btnStyle = "border-slate-300 bg-white hover:border-blue-500 hover:bg-blue-50/40 text-slate-800";
-                if (currentAnswers[qIndex] !== undefined) {
-                    if (oIndex === q.correct) {
-                        btnStyle = "border-emerald-500 bg-emerald-50 text-emerald-900 font-semibold";
-                    } else if (oIndex === currentAnswers[qIndex]) {
-                        btnStyle = "border-rose-400 bg-rose-50 text-rose-900";
-                    } else {
-                        btnStyle = "border-slate-200 bg-white text-slate-400";
-                    }
-                }
-                return `
-                    <button onclick="selectAnswer(${qIndex}, ${oIndex})" class="w-full p-3.5 text-left border rounded-lg transition text-sm ${btnStyle}">
-                        ${opt}
-                    </button>
-                `;
-            }).join('');
-
-            let takeawayHtml = '';
-            if (currentAnswers[qIndex] !== undefined) {
-                const isCorrect = currentAnswers[qIndex] === q.correct;
-                takeawayHtml = `
-                    <div class="p-4 rounded-lg text-xs border ${isCorrect ? 'bg-emerald-50/80 border-emerald-200 text-emerald-900' : 'bg-amber-50 border-amber-200 text-amber-900'}">
-                        <strong>${isCorrect ? '✅ Правильно!' : '❌ Невірно.'} Takeaway:</strong> ${q.takeaway}
-                    </div>
-                `;
-            }
-
-            qBlock.innerHTML = `
-                <div class="font-semibold text-slate-900 text-sm">${q.question}</div>
-                <div class="space-y-2.5">${optionsHtml}</div>
-                ${takeawayHtml}
+    function makeTwoStageDecision(part, optionId) {
+        const sim = modulesData[3].simulator;
+        if (part === 1) {
+            selectedDecisions[3].part1 = optionId;
+            const opt = sim.part1.options.find(o => o.id === optionId);
+            sim.part1.options.forEach(o => {
+                const btn = document.getElementById('sim3-p1-' + o.id);
+                if (btn) btn.classList.remove('ring-2', 'ring-blue-600', 'bg-blue-50/40');
+            });
+            document.getElementById('sim3-p1-' + optionId).classList.add('ring-2', 'ring-blue-600', 'bg-blue-50/40');
+            const fb = document.getElementById('sim3-p1-feedback');
+            fb.className = `p-4 rounded-lg text-xs border ${opt.style}`;
+            fb.innerHTML = opt.feedback;
+        } else {
+            selectedDecisions[3].part2 = optionId;
+            const opt = sim.part2.options.find(o => o.id === optionId);
+            sim.part2.options.forEach(o => {
+                const btn = document.getElementById('sim3-p2-' + o.id);
+                if (btn) btn.classList.remove('ring-2', 'ring-blue-600', 'bg-blue-50/40');
+            });
+            document.getElementById('sim3-p2-' + optionId).classList.add('ring-2', 'ring-blue-600', 'bg-blue-50/40');
+            const fb = document.getElementById('sim3-p2-feedback');
+            fb.className = `p-5 rounded-xl text-sm border space-y-2 ${opt.style}`;
+            fb.innerHTML = `
+                <div class="font-bold ${opt.titleColor}">${opt.label}</div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3 py-1.5 text-xs font-semibold">
+                    <div class="bg-white p-2.5 rounded border border-slate-200">🤝 Business Trust: <span class="${opt.trustClass}">${opt.trustText}</span></div>
+                    <div class="bg-white p-2.5 rounded border border-slate-200">💰 Витрати: <span class="text-slate-900">${opt.costText}</span></div>
+                    <div class="bg-white p-2.5 rounded border border-slate-200">⚠️ Risk Level: <span class="${opt.riskClass}">${opt.metrics.risk}</span></div>
+                </div>
+                <p class="text-slate-800 text-xs"><strong>💡 CISO Takeaway:</strong> ${opt.takeaway}</p>
             `;
-            container.appendChild(qBlock);
-        });
-
-        document.getElementById('quiz-progress').innerText = `${Object.keys(currentAnswers).length} / ${mod.quizzes.length}`;
-    }
-
-    function selectAnswer(qIndex, oIndex) {
-        answeredQuestions[currentModuleId][qIndex] = oIndex;
-        renderQuiz();
-    }
-
-    function resetQuiz() {
-        answeredQuestions[currentModuleId] = {};
-        renderQuiz();
-    }
-
-    function switchTab(tabId) {
-        document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-        document.getElementById('tab-' + tabId).classList.add('active');
-
-        ['lectures', 'tests', 'simulator'].forEach(id => {
-            const btn = document.getElementById('tab-btn-' + id);
-            if (id === tabId) {
-                btn.className = "px-5 py-2 rounded-md text-xs font-semibold tracking-wide transition-all text-white bg-blue-600 shadow";
-            } else {
-                btn.className = "px-5 py-2 rounded-md text-xs font-semibold tracking-wide transition-all text-slate-300 hover:text-white";
-            }
-        });
+            updateDashboardMetrics(opt.metrics);
+        }
     }
 
     function makeDecision(optionId) {
@@ -805,8 +1502,12 @@
     }
 
     function resetSimulator() {
-        selectedDecisions[currentModuleId] = null;
-        renderModuleContent();
+        if (currentModuleId === 3) {
+            selectedDecisions[3] = { part1: null, part2: null };
+        } else {
+            selectedDecisions[currentModuleId] = null;
+        }
+        renderSimulator();
     }
 
     // Ініціалізація при завантаженні
