@@ -11,6 +11,8 @@
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js"></script>
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -2481,10 +2483,16 @@
     };
 
     // ==========================================
-    // PERSISTENT STATE (LOCALSTORAGE)
+    // SUPABASE STATE & AUTHENTICATION SYNC
     // ==========================================
-    const STORAGE_KEY = 'kse_ciso_platform_state_v2';
-    const INITIAL_FUND = 150000;
+    const INITIAL_FUND = 800000;
+
+    // Клієнт Supabase автоматично бере SUPABASE_URL та SUPABASE_ANON_KEY 
+    // із вашого підключеного файлу supabase-config.js
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    let currentUser = null;
+    let saveTimeout = null;
 
     let appState = {
         profile: { name: "Гість (CISO)", org: "NovaPayTech / PayPulse" },
@@ -2503,21 +2511,150 @@
         }
     };
 
-    function loadState() {
+    // --- Авторизація та ініціалізація сесії ---
+    async function initAuthAndSync() {
         try {
-            const raw = localStorage.getItem(STORAGE_KEY);
-            if (raw) {
-                const parsed = JSON.parse(raw);
-                appState = { ...appState, ...parsed };
+            const { data: { session } } = await supabaseClient.auth.getSession();
+            currentUser = session ? session.user : null;
+
+            updateAuthUI();
+
+            if (currentUser) {
+                await ensureProfileExists();
+                await loadStateFromSupabase();
+            }
+
+            supabaseClient.auth.onAuthStateChange(async (event, session) => {
+                currentUser = session ? session.user : null;
+                updateAuthUI();
+                if (currentUser) {
+                    await ensureProfileExists();
+                    await loadStateFromSupabase();
+                }
+            });
+        } catch (e) {
+            console.error("Помилка ініціалізації Supabase auth:", e);
+        }
+    }
+
+    async function ensureProfileExists() {
+        if (!currentUser) return;
+        try {
+            const { data } = await supabaseClient
+                .from('profiles')
+                .select('id')
+                .eq('id', currentUser.id)
+                .single();
+
+            if (!data) {
+                await supabaseClient.from('profiles').insert({
+                    id: currentUser.id,
+                    email: currentUser.email,
+                    role: 'student',
+                    full_name: currentUser.email.split('@')[0]
+                });
             }
         } catch (e) {}
     }
 
-    function saveState() {
+    function updateAuthUI() {
+        // Якщо у вашому HTML є контейнер для кнопок входу, оновлюємо його
+        const container = document.getElementById('auth-container');
+        if (!container) return;
+        if (currentUser) {
+            container.innerHTML = `
+                <div class="text-right hidden sm:block leading-tight">
+                    <div class="font-semibold text-xs text-slate-100">${currentUser.email}</div>
+                    <div class="text-[10px] text-emerald-400">Синхронізація активна</div>
+                </div>
+                <button onclick="handleLogout()" class="px-3 py-1.5 bg-rose-600 hover:bg-rose-700 text-white rounded-lg text-xs font-semibold transition">
+                    Вийти
+                </button>
+            `;
+        } else {
+            container.innerHTML = `
+                <button onclick="openAuthModal()" class="px-4 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-semibold transition">
+                    <i class="fa-solid fa-right-to-bracket mr-1.5"></i> Увійти
+                </button>
+            `;
+        }
+    }
+
+    async function handleLogout() {
+        await supabaseClient.auth.signOut();
+        location.reload();
+    }
+
+    // Завантаження прогресу з таблиці Supabase
+    async function loadStateFromSupabase() {
+        if (!currentUser) return;
         try {
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
-        } catch (e) {}
-        renderSidebar();
+            const { data, error } = await supabaseClient
+                .from('progress')
+                .select('module_id, quiz_answers')
+                .eq('student_id', currentUser.id);
+
+            if (data && data.length > 0) {
+                data.forEach(row => {
+                    if (row.module_id && row.quiz_answers) {
+                        appState.answeredQuestions[row.module_id] = row.quiz_answers;
+                    }
+                });
+                renderSidebar();
+                if (typeof switchModule === 'function') {
+                    switchModule(appState.currentModuleId || 1);
+                }
+            }
+        } catch (e) {
+            console.error("Помилка завантаження стану:", e);
+        }
+    }
+
+    // Функція збереження (викликається автоматично при зміні прогресу)
+    function saveState() {
+        if (typeof renderSidebar === 'function') {
+            renderSidebar();
+        }
+
+        if (!currentUser) return;
+
+        clearTimeout(saveTimeout);
+        saveTimeout = setTimeout(async () => {
+            try {
+                for (let modId = 1; modId <= 7; modId++) {
+                    const answers = appState.answeredQuestions[modId] || {};
+
+                    const { data: existing } = await supabaseClient
+                        .from('progress')
+                        .select('id')
+                        .eq('student_id', currentUser.id)
+                        .eq('module_id', modId)
+                        .single();
+
+                    if (existing) {
+                        await supabaseClient
+                            .from('progress')
+                            .update({ quiz_answers: answers })
+                            .eq('id', existing.id);
+                    } else {
+                        await supabaseClient
+                            .from('progress')
+                            .insert({
+                                student_id: currentUser.id,
+                                module_id: modId,
+                                quiz_answers: answers
+                            });
+                    }
+                }
+            } catch (e) {
+                console.error("Помилка збереження в базу:", e);
+            }
+        }, 1000);
+    }
+
+    // Заміна старого завантаження на ініціалізацію Supabase при старті
+    function loadState() {
+        initAuthAndSync();
     }
 
     function calculateUnifiedBudget() {
@@ -2601,7 +2738,6 @@
     }
 
     function resetAllProgress() {
-        localStorage.removeItem(STORAGE_KEY);
         location.reload();
     }
 
