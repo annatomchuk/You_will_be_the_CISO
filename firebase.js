@@ -67,7 +67,27 @@ async function saveGameToCloud() {
     console.error("Помилка збереження в хмару:", error);
   }
 }
+document.querySelectorAll('.decision-btn').forEach(button => {
+    button.addEventListener('click', (e) => {
+        const cost = parseInt(e.target.dataset.cost);
+        const riskImpact = e.target.dataset.impact;
 
+        // 1. Перевірка чи вистачає бюджету
+        if (currentBudget >= cost) {
+            currentBudget -= cost;
+            updateBudgetUI(currentBudget);
+
+            // 2. Фіксація рішення в базі сесії
+            saveDecisionToHistory(e.target.dataset.actionId);
+
+            // 3. Візуальний фідбек (анімація або зміна статусу картки)
+            e.target.closest('.card').classList.add('resolved');
+            e.target.disabled = true;
+        } else {
+            showToast("Недостатньо бюджету для цього рішення!");
+        }
+    });
+});
 // Функція завантаження прогресу з хмари
 async function loadGameFromCloud(userId) {
   try {
