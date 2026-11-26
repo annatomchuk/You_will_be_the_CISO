@@ -25,12 +25,16 @@ const googleProvider = new GoogleAuthProvider();
 // 4. ФУНКЦІЯ ЗБЕРЕЖЕННЯ ПРОГРЕСУ В БАЗУ ДАНИХ (FIRESTORE)
 // ==========================================================
 async function saveUserProgress(quizId, userAnswers, score, isCompleted = false) {
+    console.log("🔍 Крок 1: Функція saveUserProgress була викликана!");
+    
     const user = auth.currentUser;
     
     if (!user) {
-        console.warn("Користувач не авторизований. Прогрес не збережено у базі.");
+        console.warn("⚠️ Крок 2: auth.currentUser дорівнює NULL! Користувач не залогінений або Firebase ще не підтягнув сесію.");
         return;
     }
+
+    console.log("🔍 Крок 2: Користувач розпізнаний:", user.email, "UID:", user.uid);
 
     try {
         const userDocRef = doc(db, "users_progress", user.uid);
@@ -39,17 +43,18 @@ async function saveUserProgress(quizId, userAnswers, score, isCompleted = false)
             email: user.email,
             lastUpdated: new Date().toISOString(),
             [`quizzes.${quizId}`]: {
-                answers: userAnswers,   // Зберігає відповіді (правильні/неправильні)
-                score: score,           // Набрані бали
-                completed: isCompleted  // Чи пройдено тест
+                answers: userAnswers,
+                score: score,
+                completed: isCompleted
             }
         };
 
+        console.log("🔍 Крок 3: Надсилаємо дані у Firestore...", progressData);
         await setDoc(userDocRef, progressData, { merge: true });
-        console.log("✅ Прогрес успішно збережено у Firestore!");
+        console.log("✅ Крок 4: УСПІХ! Дані записано у Firebase Firestore!");
         
     } catch (error) {
-        console.error("❌ Помилка при збереженні прогресу: ", error);
+        console.error("❌ ПОМИЛКА ФІРЕБЕЙСА при записі:", error);
     }
 }
 
