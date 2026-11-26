@@ -1,7 +1,9 @@
+// 1. Імпорти Firebase (працюють прямо у браузері через type="module")
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
+// 2. Ваші налаштування Firebase
 const firebaseConfig = {
     apiKey: "AIzaSyDoBR31Tu-ZJeMMRBQ_5Jk0sogBef4aOQo",
     authDomain: "you-will-be-the-ciso.firebaseapp.com",
@@ -12,20 +14,17 @@ const firebaseConfig = {
     measurementId: "G-NQQTTRJ6BR"
 };
 
+// 3. Ініціалізація
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 const googleProvider = new GoogleAuthProvider();
 
-// ==========================================
-// ФУНКЦІЇ ЗБЕРЕЖЕННЯ ТА ЗАВАНТАЖЕННЯ ПРОГРЕСУ
-// ==========================================
 
-/**
- * Зберігає прогрес користувача (відповіді та бали) у Firestore.
- * Кожен користувач має свій документ у колекції "users_progress" за його унікальним `uid`.
- */
-export async function saveUserProgress(quizId, userAnswers, score, isCompleted = false) {
+// ==========================================================
+// 4. ФУНКЦІЯ ЗБЕРЕЖЕННЯ ПРОГРЕСУ В БАЗУ ДАНИХ (FIRESTORE)
+// ==========================================================
+async function saveUserProgress(quizId, userAnswers, score, isCompleted = false) {
     const user = auth.currentUser;
     
     if (!user) {
@@ -40,45 +39,61 @@ export async function saveUserProgress(quizId, userAnswers, score, isCompleted =
             email: user.email,
             lastUpdated: new Date().toISOString(),
             [`quizzes.${quizId}`]: {
-                answers: userAnswers,   // Об'єкт із відповідями (наприклад: { q1: { selected: "A", correct: true } })
-                score: score,           // Бали
-                completed: isCompleted  // Чи завершено модуль/гру
+                answers: userAnswers,   // Зберігає відповіді (правильні/неправильні)
+                score: score,           // Набрані бали
+                completed: isCompleted  // Чи пройдено тест
             }
         };
 
-        // Використовуємо merge: true, щоб оновлювати тільки конкретний квіз, не стираючи інші дані
         await setDoc(userDocRef, progressData, { merge: true });
-        console.log("Прогрес успішно збережено у Firestore!");
+        console.log("✅ Прогрес успішно збережено у Firestore!");
         
     } catch (error) {
-        console.error("Помилка при збереженні прогресу: ", error);
+        console.error("❌ Помилка при збереженні прогресу: ", error);
     }
 }
 
-/**
- * Завантажує збережений прогрес користувача з Firestore при вході на сайт або оновленні сторінки.
- */
-export async function loadUserProgress(quizId) {
-    const user = auth.currentUser;
-    if (!user) return null;
 
-    try {
-        const userDocRef = doc(db, "users_progress", user.uid);
-        const docSnap = await getDoc(userDocRef);
+// ==========================================================
+// 5. ЛОГІКА ВАШОЇ ГРИ / ТЕСТУ (ПРИКЛАД)
+// ==========================================================
 
-        if (docSnap.exists()) {
-            const data = docSnap.data();
-            if (data.quizzes && data.quizzes[quizId]) {
-                console.log("Знайдено збережений прогрес у базі:", data.quizzes[quizId]);
-                return data.quizzes[quizId]; // Повертає об'єкт { answers, score, completed }
-            }
-        }
-        return null;
-    } catch (error) {
-        console.error("Помилка завантаження прогресу: ", error);
-        return null;
+// Глобальний об'єкт для збору відповідей гравця
+let playerGameData = {
+    answers: {},
+    score: 0
+};
+
+// Відстежуємо стан входу (уже працює у вас на сайті для показу пошти)
+onAuthStateChanged(auth, (user) => {
+    if (user) {
+        console.log("Користувач увійшов:", user.email);
+        // Тут можете оновити інтерфейс сайту (показати пошту, аватарку тощо)
+    } else {
+        console.log("Користувач вийшов або не ввійшов.");
     }
-}
+});
 
-// Експортуємо також базові інструменти Firebase для зручності
-export { auth, db, googleProvider, signInWithPopup, signOut, onAuthStateChanged, doc, setDoc, getDoc };
+// Цю функцію ви викликаєте тоді, коли користувач клікає на відповідь у тестах
+window.handleAnswerClick = async function(questionId, selectedOption, isCorrect) {
+    
+    // 1. Нараховуємо бали, якщо відповідь правильна
+    if (isCorrect) {
+        playerGameData.score += 10;
+    }
+
+    // 2. Записуємо відповідь у загальний об'єкт
+    playerGameData.answers[questionId] = {
+        selected: selectedOption,
+        correct: isCorrect,
+        timestamp: new Date().toISOString()
+    };
+
+    // 3. Зберігаємо все у Firebase в один клік!
+    await saveUserProgress(
+        "ciso_simulation_v1",       // ID вашого квізу/гри
+        playerGameData.answers,     // Усі відповіді
+        playerGameData.score,       // Поточні бали
+        false                       // true, якщо це фінальне питання
+    );
+}
