@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Панель викладача | You Will Be the CISO</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-800 min-h-screen flex flex-col">
+
+    <!-- Header -->
+    <header class="bg-[#122d55] text-white shadow-md">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <div class="bg-blue-600 p-2.5 rounded-xl text-white">
+                    <i class="fa-solid fa-chalkboard-user text-lg"></i>
+                </div>
+                <div>
+                    <h1 class="text-lg font-bold">Панель викладача | Моніторинг студентів</h1>
+                    <p class="text-xs text-blue-200">Курс: Information Security Management (KSE)</p>
+                </div>
+            </div>
+            <a href="index.html" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-lg text-xs font-semibold transition flex items-center space-x-2">
+                <i class="fa-solid fa-arrow-left"></i>
+                <span>На головну сайту</span>
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-6 py-8 flex-1 w-full space-y-6">
+
+        <!-- Stats Overview Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
+            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center space-x-4">
+                <div class="p-3.5 rounded-xl bg-blue-50 text-blue-700 text-xl">
+                    <i class="fa-solid fa-users"></i>
+                </div>
+                <div>
+                    <div class="text-xs text-slate-500 font-medium">Всього студентів у базі</div>
+                    <div id="stat-total-students" class="text-2xl font-bold text-slate-900">0</div>
+                </div>
+            </div>
+            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center space-x-4">
+                <div class="p-3.5 rounded-xl bg-emerald-50 text-emerald-700 text-xl">
+                    <i class="fa-solid fa-circle-check"></i>
+                </div>
+                <div>
+                    <div class="text-xs text-slate-500 font-medium">Середній прогрес курсу</div>
+                    <div id="stat-avg-progress" class="text-2xl font-bold text-slate-900">0%</div>
+                </div>
+            </div>
+            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center space-x-4">
+                <div class="p-3.5 rounded-xl bg-amber-50 text-amber-700 text-xl">
+                    <i class="fa-solid fa-rotate"></i>
+                </div>
+                <div>
+                    <div class="text-xs text-slate-500 font-medium">Останнє оновлення</div>
+                    <div id="stat-last-sync" class="text-sm font-bold text-slate-900 mt-1">Ще немає даних</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Table Container -->
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+            <div class="p-5 border-b border-slate-200 flex flex-wrap justify-between items-center gap-4">
+                <h2 class="text-base font-bold text-slate-900">Результати проходження симулятора студентами</h2>
+                <button onclick="loadStudentsData()" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-semibold transition flex items-center space-x-2">
+                    <i class="fa-solid fa-rotate-right"></i>
+                    <span>Оновити дані з бази</span>
+                </button>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-xs">
+                    <thead class="bg-slate-50 text-slate-600 uppercase tracking-wider border-b border-slate-200">
+                        <tr>
+                            <th class="p-4">Студент / Email</th>
+                            <th class="p-4">Організація / Компанія</th>
+                            <th class="p-4">Загальний прогрес</th>
+                            <th class="p-4">Тести (35)</th>
+                            <th class="p-4">Детектив (3)</th>
+                            <th class="p-4">Фінал (12)</th>
+                            <th class="p-4">Останнє оновлення</th>
+                        </tr>
+                    </thead>
+                    <tbody id="students-table-body" class="divide-y divide-slate-200 text-slate-700">
+                        <tr>
+                            <td colspan="7" class="p-8 text-center text-slate-400">Завантаження даних із Firestore...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 py-4 text-center text-xs text-slate-500">
+        &copy; 2026 Kyiv School of Economics | Teacher Dashboard for CISO Simulator
+    </footer>
+
+    <!-- Firebase Script to Fetch Data -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        // Ваша конфігурація Firebase (ідентична тій, що в auth.js)
+        const firebaseConfig = {
+            apiKey: "AIzaSyDoBR31Tu-ZJeMMRBQ_5Jk0sogBef4aOQo",
+            authDomain: "you-will-be-the-ciso.firebaseapp.com",
+            projectId: "you-will-be-the-ciso",
+            storageBucket: "you-will-be-the-ciso.firebasestorage.app",
+            messagingSenderId: "378201094782",
+            appId: "1:378201094782:web:a7cbec1ae7c75930b5362f",
+            measurementId: "G-NQQTTRJ6BR"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        async function loadStudentsData() {
+            const tableBody = document.getElementById('students-table-body');
+            tableBody.innerHTML = `<tr><td colspan="7" class="p-8 text-center text-slate-400"><i class="fa-solid fa-spinner fa-spin mr-2"></i> Завантаження студентів...</td></tr>`;
+
+            try {
+                // Отримуємо всі документи з колекції users_progress
+                const querySnapshot = await getDocs(collection(db, "users_progress"));
+                let students = [];
+                let totalProgressSum = 0;
+                let latestTime = "Ще немає даних";
+
+                querySnapshot.forEach((docSnap) => {
+                    const data = docSnap.data();
+                    students.push(data);
+
+                    if (data.teacherReport && data.teacherReport.overallProgress) {
+                        const num = parseInt(data.teacherReport.overallProgress);
+                        if (!isNaN(num)) totalProgressSum += num;
+                    }
+                    if (data.lastUpdated) {
+                        latestTime = data.lastUpdated;
+                    }
+                });
+
+                // Оновлюємо загальну статистику в шапці
+                document.getElementById('stat-total-students').innerText = students.length;
+                const avg = students.length > 0 ? Math.round(totalProgressSum / students.length) : 0;
+                document.getElementById('stat-avg-progress').innerText = avg + '%';
+                document.getElementById('stat-last-sync').innerText = latestTime;
+
+                if (students.length === 0) {
+                    tableBody.innerHTML = `<tr><td colspan="7" class="p-8 text-center text-slate-400">У базі поки немає збережених результатів студентів.</td></tr>`;
+                    return;
+                }
+
+                // Формуємо рядки таблиці
+                tableBody.innerHTML = students.map(st => {
+                    const rep = st.teacherReport || {};
+                    return `
+                        <tr class="hover:bg-slate-50 transition">
+                            <td class="p-4 font-semibold text-slate-900">
+                                <div>${st.studentName || 'Студент'}</div>
+                                <div class="text-[11px] font-normal text-slate-500">${st.email || 'Без пошти'}</div>
+                            </td>
+                            <td class="p-4 text-slate-600">${st.companyName || '—'}</td>
+                            <td class="p-4 font-bold text-blue-700">${rep.overallProgress || '0%'}</td>
+                            <td class="p-4">${rep.testsCompleted || '0 / 35'}</td>
+                            <td class="p-4">${rep.detectiveProgress || '0 / 3'}</td>
+                            <td class="p-4">${rep.finalDefenseProgress || '0 / 12'}</td>
+                            <td class="p-4 text-slate-500 text-[11px]">${st.lastUpdated || '—'}</td>
+                        </tr>
+                    `;
+                }).join('');
+
+                console.log("✅ Дані студентів успішно завантажені у таблицю викладача!");
+
+            } catch (error) {
+                console.error("❌ Помилка завантаження даних для викладача:", error);
+                tableBody.innerHTML = `<tr><td colspan="7" class="p-8 text-center text-rose-500">Помилка завантаження даних. Перевірте правила безпеки Firestore (Rules).</td></tr>`;
+            }
+        }
+
+        // Завантажуємо дані автоматично при відкритті сторінки
+        loadStudentsData();
+
+        // Робимо функцію глобальною для кнопки оновлення
+        window.loadStudentsData = loadStudentsData;
+    </script>
+</body>
+</html>
