@@ -66,22 +66,11 @@
                 <span id="special-badge-text">Фінальний захист CISO: Комплексна симуляція (4 етапи)</span>
             </div>
         </div>
-        <!-- Кнопка входу через Google -->
-        <div class="flex items-center space-x-3">
-          <button id="google-login-btn" class="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-semibold transition flex items-center space-x-2">
-          <i class="fa-brands fa-google"></i>
-          <span id="user-greeting">Увійти через Google</span>
-          </button>
-        </div>
-        <!-- Right: Назва курсу + Профіль CISO -->
+        <!-- Блок праворуч: Кнопка Google + Назва курсу -->
         <div class="flex items-center space-x-4">
-            <button onclick="openProfileModal()" class="flex items-center space-x-2.5 bg-[#0b1b36] hover:bg-slate-800/90 border border-slate-700 px-3 py-1.5 rounded-lg text-xs transition" title="Налаштувати профіль CISO">
-                <div class="w-6 h-6 rounded-full bg-blue-600 flex items-center justify-center font-bold text-white text-[11px]" id="header-avatar">C</div>
-                <div class="text-left leading-tight hidden md:block">
-                    <div id="header-ciso-name" class="font-semibold text-slate-100">Гість (CISO)</div>
-                    <div id="header-ciso-org" class="text-[10px] text-slate-400">NovaPayTech / PayPulse</div>
-                </div>
-                <i class="fa-solid fa-pen-to-square text-slate-400 text-[10px]"></i>
+            <button id="google-login-btn" class="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-semibold transition flex items-center space-x-2">
+                <i class="fa-brands fa-google"></i>
+                <span id="user-greeting">Увійти через Google</span>
             </button>
 
             <div class="text-sm sm:text-base font-bold text-slate-100 brand-display">
@@ -146,14 +135,14 @@
                     <button onclick="switchModule(11); closeMobileSidebarIfOpen();" id="side-btn-11" class="w-full text-left px-3 py-2.5 rounded-xl text-xs font-semibold transition flex items-center justify-between bg-indigo-50 text-indigo-950 border border-indigo-200 hover:bg-indigo-100">
                         <span class="flex items-center space-x-2">
                             <i class="fa-solid fa-magnifying-glass text-indigo-600"></i>
-                            <span>Практика 11. Детектив</span>
+                            <span>Практика 8. Детектив</span>
                         </span>
                         <span id="side-status-11" class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-white text-indigo-700 border border-indigo-200">0/3</span>
                     </button>
                     <button onclick="switchModule(12); closeMobileSidebarIfOpen();" id="side-btn-12" class="w-full text-left px-3 py-2.5 rounded-xl text-xs font-semibold transition flex items-center justify-between bg-amber-50 text-amber-950 border border-amber-200 hover:bg-amber-100">
                         <span class="flex items-center space-x-2">
                             <i class="fa-solid fa-trophy text-amber-600"></i>
-                            <span>Модуль 12. Фінальний захист</span>
+                            <span>Модуль 9. Фінальний захист</span>
                         </span>
                         <span id="side-status-12" class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-white text-amber-800 border border-amber-200">0/12</span>
                     </button>
@@ -2578,11 +2567,6 @@
     // PROFILE & SIDEBAR CONTROLS
     // ==========================================
     function applyProfileUI() {
-        const name = appState.profile.name || "Гість (CISO)";
-        const org = appState.profile.org || "NovaPayTech / PayPulse";
-        document.getElementById('header-ciso-name').innerText = name;
-        document.getElementById('header-ciso-org').innerText = org;
-        document.getElementById('header-avatar').innerText = name.trim().charAt(0).toUpperCase();
     }
 
     function openProfileModal() {
@@ -2723,7 +2707,7 @@
             specialBadge.classList.add('flex');
             specialBadge.className = "flex items-center space-x-2 bg-[#0b1b36] px-4 py-2 rounded-lg border border-indigo-400/50 text-xs font-semibold text-indigo-300";
             specialIcon.className = "fa-solid fa-magnifying-glass";
-            specialText.innerText = "Практика 11: Інтерактивний детектив із розгалуженням (3 кроки)";
+            specialText.innerText = "Практика 8: Інтерактивний детектив із розгалуженням (3 кроки)";
             detWrap.classList.remove('hidden');
             renderModule11();
         } else if (modId === 12) {
@@ -3262,9 +3246,9 @@
                     </div>
 
                     <div class="p-4 rounded-xl bg-slate-900 text-slate-100 text-xs flex flex-wrap justify-between items-center gap-4">
-                        <span><strong>Готовність до фіналу:</strong> Наступний крок — захист комплексної програми у Модулі 12.</span>
+                        <span><strong>Готовність до фіналу:</strong> Наступний крок — захист комплексної програми у Модулі 9.</span>
                         <button onclick="switchModule(12)" class="px-4 py-2 bg-amber-400 text-slate-950 font-bold rounded-lg hover:bg-amber-300 transition">
-                            Перейти до Модуля 12 &rarr;
+                            Перейти до Модуля 9 &rarr;
                         </button>
                     </div>
                 </div>
@@ -3281,7 +3265,7 @@
                         Почати детектив заново
                     </button>
                 </div>
-                <h1 class="text-2xl font-bold">Практика 11. Детектив: «Ефект доміно — несподіваний AI-реліз»</h1>
+                <h1 class="text-2xl font-bold">Практика 8. Детектив: «Ефект доміно — несподіваний AI-реліз»</h1>
                 <p class="text-xs text-slate-200 max-w-4xl">
                     <strong>Легенда:</strong> Ви — CISO у фінтех-компанії <strong>«${orgName}»</strong>. Річний план безпеки тільки-но затверджено, у команді лише <strong>2 інженери ІБ</strong>, а залишок коштів контролюється у єдиному фонді. Раптом у понеділок вранці CEO оголошує терміновий запуск нового AI-асистента підтримки клієнтів <em>NovaAI</em> через 3 тижні, щоб обійти конкурентів. Кожен ваш вибір змінює сюжет наступного етапу!
                 </p>
@@ -3533,7 +3517,7 @@
                         Почати фінальний захист заново
                     </button>
                 </div>
-                <h1 class="text-2xl font-bold">Модуль 12. Фінальний захист CISO перед Правлінням компанії «${orgName}»</h1>
+                <h1 class="text-2xl font-bold">Модуль 9. Фінальний захист CISO перед Правлінням компанії «${orgName}»</h1>
                 <p class="text-xs text-slate-200 max-w-4xl">
                     <strong>Контекст кейсу:</strong> Ви — новопризначений CISO швидкого фінтех-сервісу <strong>«${orgName}»</strong>. Компанія готується до перевірки великим корпоративним клієнтом та виходу на ринок ЄС. У вашому підпорядкуванні — лише 2 фахівці ІБ, максимальний бюджет на програму першого року — <strong>$80,000</strong>, а ресурс команди — <strong>700 годин</strong>. Пройдіть усі 4 етапи комплексної симуляції та захистіть рішення перед Правлінням.
                 </p>
