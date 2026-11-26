@@ -2478,7 +2478,7 @@
     const STORAGE_KEY = 'kse_ciso_platform_state_v2';
     const INITIAL_FUND = 150000;
 
-    let appState = {
+    window.appState = {
         profile: { name: "Гість (CISO)", org: "NovaPayTech / PayPulse" },
         currentModuleId: 1,
         answeredQuestions: { 1: {}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}, 7: {} },
@@ -2507,14 +2507,14 @@
 
     function saveState() {
         try {
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
-
-            // Додаємо автоматичну синхронізацію з Firebase, якщо користувач залогінений
-            if (typeof window.saveGameToCloud === 'function') {
-                window.saveGameToCloud();
-            }
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(window.appState));
         } catch (e) {}
         renderSidebar();
+    
+    // Безпечний виклик хмарного збереження
+    if (typeof window.saveGameToCloud === 'function') {
+        window.saveGameToCloud();
+        }
     }
 
     function calculateUnifiedBudget() {
