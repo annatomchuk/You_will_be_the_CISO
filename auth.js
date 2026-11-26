@@ -16,43 +16,45 @@ const firebaseConfig = {
 
 // 3. Ініціалізація додатку та сервісів
 const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
-const googleProvider = new GoogleAuthProvider();
+export const auth = getAuth(app);
+export const db = getFirestore(app);
+export const googleProvider = new GoogleAuthProvider();
 
-// Елементи інтерфейсу в index.html
-const googleLoginBtn = document.getElementById('google-login-btn');
-const userGreeting = document.getElementById('user-greeting');
+// Елементи інтерфейсу в index.html (використовуємо обертку для безпеки, якщо DOM ще не завантажився)
+document.addEventListener("DOMContentLoaded", () => {
+    const googleLoginBtn = document.getElementById('google-login-btn');
+    const userGreeting = document.getElementById('user-greeting');
 
-// 4. Логіка кліку на кнопку входу/виходу через Google
-if (googleLoginBtn) {
-    googleLoginBtn.addEventListener('click', async () => {
-        // Якщо користувач уже залогінений — робимо вихід (Sign Out)
-        if (auth.currentUser) {
-            try {
-                await signOut(auth);
-                console.log("✅ Користувач вийшов із системи");
-            } catch (error) {
-                console.error("❌ Помилка виходу:", error);
+    // 4. Логіка кліку на кнопку входу/виходу через Google
+    if (googleLoginBtn) {
+        googleLoginBtn.addEventListener('click', async () => {
+            if (auth.currentUser) {
+                try {
+                    await signOut(auth);
+                    console.log("✅ Користувач вийшов із системи");
+                } catch (error) {
+                    console.error("❌ Помилка виходу:", error);
+                }
+                return;
             }
-            return;
-        }
 
-        // Інакше — відкриваємо вікно входу через Google (Popup)
-        try {
-            const result = await signInWithPopup(auth, googleProvider);
-            console.log("✅ Успішний вхід:", result.user.email);
-        } catch (error) {
-            console.error("❌ Помилка входу через Google:", error);
-            alert("Не вдалося увійти: " + error.message);
-        }
-    });
-}
+            try {
+                const result = await signInWithPopup(auth, googleProvider);
+                console.log("✅ Успішний вхід:", result.user.email);
+            } catch (error) {
+                console.error("❌ Помилка входу через Google:", error);
+                alert("Не вдалося увійти: " + error.message);
+            }
+        });
+    }
+});
 
 // 5. Відстеження стану авторизації (AuthStateChanged)
 onAuthStateChanged(auth, async (user) => {
+    const userGreeting = document.getElementById('user-greeting');
+    const googleLoginBtn = document.getElementById('google-login-btn');
+
     if (user) {
-        // Користувач увійшов
         if (userGreeting) {
             userGreeting.innerText = user.email;
         }
@@ -60,7 +62,6 @@ onAuthStateChanged(auth, async (user) => {
             googleLoginBtn.title = "Натисніть, щоб вийти";
         }
 
-        // Оновлюємо ім'я у профілі на основі пошти або Google Display Name
         if (typeof window.appState !== 'undefined') {
             window.appState.profile.name = user.displayName || user.email.split('@')[0];
             if (typeof window.saveState === 'function') {
@@ -76,7 +77,6 @@ onAuthStateChanged(auth, async (user) => {
             if (docSnap.exists()) {
                 const cloudData = docSnap.data();
                 if (cloudData.appState && typeof window.appState !== 'undefined') {
-                    // Зливаємо хмарні дані з локальними
                     window.appState = { ...window.appState, ...cloudData.appState };
                     if (typeof window.saveState === 'function') {
                         window.saveState();
@@ -92,7 +92,6 @@ onAuthStateChanged(auth, async (user) => {
         }
 
     } else {
-        // Користувач не залогінений
         if (userGreeting) {
             userGreeting.innerText = "Увійти через Google";
         }
@@ -103,17 +102,17 @@ onAuthStateChanged(auth, async (user) => {
     }
 });
 
-// 6. Глобальна функція автоматичної синхронізації (викликається з вашого index.html при кожній зміні стану)
+// 6. Глобальна функція автоматичної синхронізації з хмарою
 window.saveGameToCloud = async function() {
     const user = auth.currentUser;
-    if (!user) return; // Якщо не залогінений — граємо просто в локалсторіджі
+    if (!user) return; // Якщо не залогінений — зберігаємо лише локально
 
     try {
         const userDocRef = doc(db, "users_progress", user.uid);
         const dataToSave = {
             email: user.email,
             lastUpdated: new Date().toISOString(),
-            appState: window.appState // Зберігаємо весь об'єкт проходження тестів, симуляторів, детективу та фіналу
+            appState: window.appState
         };
 
         await setDoc(userDocRef, dataToSave, { merge: true });
