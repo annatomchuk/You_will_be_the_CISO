@@ -2522,6 +2522,11 @@
     function saveState() {
         try {
             localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
+
+            // Додаємо автоматичну синхронізацію з Firebase, якщо користувач залогінений
+            if (typeof window.saveGameToCloud === 'function') {
+                window.saveGameToCloud();
+            }
         } catch (e) {}
         renderSidebar();
     }
@@ -3653,5 +3658,6 @@
     renderSidebar();
     switchModule(appState.currentModuleId || 1);
 </script>
+<script type="module" src="auth.js"></script>
 </body>
 </html>
