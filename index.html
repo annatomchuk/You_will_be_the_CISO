@@ -2585,7 +2585,7 @@
         }
 
         // Обмежуємо значення в межах від 0% до 100%
-        return Math.max(0, Math.min(100, INITIAL_TRUST + trustDelta));
+        return Math.min(100, INITIAL_TRUST + trustDelta);
     }
 
     // ==========================================
