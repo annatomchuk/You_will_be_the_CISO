@@ -2463,6 +2463,7 @@
     // ==========================================
     const STORAGE_KEY = 'kse_ciso_platform_state_v2';
     const INITIAL_FUND = 600000;
+    const INITIAL_TRUST = 50;
 
     window.appState = {
         profile: { name: "Гість (CISO)", org: "NovaPayTech / PayPulse" },
@@ -2544,6 +2545,47 @@
         }
 
         return Math.max(0, INITIAL_FUND - spent);
+    }
+    function calculateUnifiedTrust() {
+        let trustDelta = 0;
+
+        // Накопичення довіри з симуляторів базових модулів (1-7)
+        [1, 2, 4, 5, 6, 7].forEach(modId => {
+            const choiceId = appState.selectedDecisions[modId];
+            if (choiceId && modulesData[modId]) {
+                const opt = modulesData[modId].simulator.options.find(o => o.id === choiceId);
+                if (opt && opt.metrics && opt.metrics.trust !== undefined) {
+                    // Оскільки раніше значення trust були абсолютними від бази 75%, обчислюємо дельту відхилення
+                    trustDelta += (opt.metrics.trust - 75);
+                }
+            }
+        });
+        // Довіра для двоступеневого симулятора Модуля 3 (частина 2)
+        if (appState.selectedDecisions[3] && appState.selectedDecisions[3].part2) {
+            const opt = modulesData[3].simulator.part2.options.find(o => o.id === appState.selectedDecisions[3].part2);
+            if (opt && opt.metrics && opt.metrics.trust !== undefined) {
+                trustDelta += (opt.metrics.trust - 75);
+            }
+        }
+
+        // Накопичення довіри з інтерактивного детективу (Модуль 11)
+        const d = detectiveModuleData;
+        if (appState.detectiveState.step1Choice) {
+            const o1 = d.step1.options.find(o => o.id === appState.detectiveState.step1Choice);
+            if (o1 && o1.delta && o1.delta.trust !== undefined) trustDelta += o1.delta.trust;
+        }
+        if (appState.detectiveState.step1Choice && appState.detectiveState.step2Choice) {
+            const br = d.step2Branches[appState.detectiveState.step1Choice];
+            const o2 = br && br.options.find(o => o.id === appState.detectiveState.step2Choice);
+            if (o2 && o2.delta && o2.delta.trust !== undefined) trustDelta += o2.delta.trust;
+        }
+        if (appState.detectiveState.step3Choice) {
+            const o3 = d.step3.options.find(o => o.id === appState.detectiveState.step3Choice);
+            if (o3 && o3.delta && o3.delta.trust !== undefined) trustDelta += o3.delta.trust;
+        }
+
+        // Обмежуємо значення в межах від 0% до 100%
+        return Math.max(0, Math.min(100, INITIAL_TRUST + trustDelta));
     }
 
     // ==========================================
@@ -2985,7 +3027,7 @@
             fb.innerHTML = `
                 <div class="font-bold ${opt.titleColor}">${opt.label}</div>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-3 py-1.5 text-xs font-semibold">
-                    <div class="bg-white p-2.5 rounded border border-slate-200">🤝 Business Trust: <span class="${opt.trustClass}">${opt.trustText}</span></div>
+                    <div class="bg-white p-2.5 rounded border border-slate-200">🤝 Business Trust: <span class="${opt.trustClass}">${opt.trustText.replace(/\s*\(.*?\)/g, '')}</span></div>
                     <div class="bg-white p-2.5 rounded border border-slate-200">💰 Витрати: <span class="text-slate-900">${opt.costText}</span></div>
                     <div class="bg-white p-2.5 rounded border border-slate-200">⚠️ Risk Level: <span class="${opt.riskClass}">${opt.metrics.risk}</span></div>
                 </div>
@@ -3015,7 +3057,7 @@
         fb.innerHTML = `
             <div class="font-bold ${opt.titleColor}">${opt.label}</div>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-3 py-2 text-xs font-semibold">
-                <div class="bg-white p-2.5 rounded border border-slate-200">🤝 Business Trust: <span class="${opt.trustClass}">${opt.trustText}</span></div>
+                <div class="bg-white p-2.5 rounded border border-slate-200">🤝 Business Trust: <span class="${opt.trustClass}">${opt.trustText.replace(/\s*\(.*?\)/g, '')}</span></div>
                 <div class="bg-white p-2.5 rounded border border-slate-200">💰 Витрати: <span class="text-slate-900">${opt.costText}</span></div>
                 <div class="bg-white p-2.5 rounded border border-slate-200">⚠️ Risk Level: <span class="${opt.riskClass}">${opt.metrics.risk}</span></div>
             </div>
@@ -3027,7 +3069,8 @@
 
     function updateDashboardMetrics(m) {
         const unifiedBudget = calculateUnifiedBudget();
-        document.getElementById('metric-trust').innerText = m.trust + '%';
+        const unifiedTrust = calculateUnifiedTrust(); // Наскрізний підрахунок довіри
+        document.getElementById('metric-trust').innerText = unifiedTrust + '%';
         document.getElementById('metric-budget').innerText = '$' + unifiedBudget.toLocaleString();
         document.getElementById('metric-risk').innerText = m.risk;
     }
