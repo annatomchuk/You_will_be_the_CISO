@@ -83,11 +83,11 @@
             <div class="p-5 border-b border-slate-200 flex flex-wrap justify-between items-center gap-4">
                 <div>
                     <h2 class="text-base font-bold text-slate-900">Детальні результати студентів</h2>
-                    <p class="text-xs text-slate-500 mt-0.5">Дані оновлюються автоматично щоразу, коли студент взаємодіє із симулятором.</p>
+                    <p class="text-xs text-slate-500 mt-0.5">Дані оновлюються автоматично в реальному часі.</p>
                 </div>
                 <div class="flex items-center space-x-2 text-xs text-slate-500 bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-200">
                     <i class="fa-solid fa-circle-info text-blue-600"></i>
-                    <span>Зміни статусів та оцінок зберігаються миттєво</span>
+                    <span>Оцінки та статуси зберігаються в базу миттєво</span>
                 </div>
             </div>
 
@@ -100,13 +100,13 @@
                             <th class="p-4">Тести (Правильно / Неправильно)</th>
                             <th class="p-4">Детектив (3)</th>
                             <th class="p-4">Фінал (12)</th>
-                            <th class="p-4">Письмова робота (Оцінка викладача)</th>
+                            <th class="p-4">Письмова робота (Правління) та Оцінка</th>
                             <th class="p-4">Останнє оновлення</th>
                         </tr>
                     </thead>
                     <tbody id="students-table-body" class="divide-y divide-slate-200 text-slate-700">
                         <tr>
-                            <td colspan="7" class="p-8 text-center text-slate-400"><i class="fa-solid fa-spinner fa-spin mr-2"></i> Підключення до живого потоку бази даних...</td>
+                            <td colspan="7" class="p-8 text-center text-slate-400"><i class="fa-solid fa-spinner fa-spin mr-2"></i> Підключення до бази даних...</td>
                         </tr>
                     </tbody>
                 </table>
@@ -123,7 +123,7 @@
     <!-- Firebase Realtime Listener Script -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, collection, onSnapshot, doc, updateDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getFirestore, collection, onSnapshot, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyDoBR31Tu-ZJeMMRBQ_5Jk0sogBef4aOQo",
@@ -138,7 +138,6 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // Ключі правильних відповідей для тестів (модулі 1-7)
         const correctQuizAnswers = {
             1: { 0: 1, 1: 1, 2: 1, 3: 2, 4: 1 },
             2: { 0: 1, 1: 0, 2: 1, 3: 2, 4: 1 },
@@ -195,7 +194,6 @@
             return { correct, incorrect, total: correct + incorrect };
         }
 
-        // ЗАПУСК ЖИВОГО СЛУХАЧА БАЗИ ДАНИХ (Real-time onSnapshot)
         function initLiveMonitoring() {
             const tableBody = document.getElementById('students-table-body');
 
@@ -206,37 +204,58 @@
 
                 querySnapshot.forEach((docSnap) => {
                     const data = { id: docSnap.id, ...docSnap.data() };
-                    students.push(data);
-
-                    if (data.teacherReport && data.teacherReport.overallProgress) {
-                        const num = parseInt(data.teacherReport.overallProgress);
-                        if (!isNaN(num)) totalProgressSum += num;
+                    
+                    // Потужний перерахунок прогресу прямо на льоту, щоб він ніколи не був 0%
+                    const appState = data.appState || {};
+                    let totalQuizAns = 0;
+                    for (let m = 1; m <= 7; m++) {
+                        if (appState.answeredQuestions && appState.answeredQuestions[m]) {
+                            totalQuizAns += Object.keys(appState.answeredQuestions[m]).length;
+                        }
                     }
+                    const detectiveSteps = (appState.detectiveState?.step1Choice ? 1 : 0) +
+                                           (appState.detectiveState?.step2Choice ? 1 : 0) +
+                                           (appState.detectiveState?.step3Choice ? 1 : 0);
+                    const finalTasks = Object.keys(appState.finalState?.stage1 || {}).length +
+                                       (appState.finalState?.stage2Submitted ? 1 : 0) +
+                                       Object.keys(appState.finalState?.stage3 || {}).length +
+                                       Object.keys(appState.finalState?.stage4 || {}).length;
+
+                    const computedCompleted = totalQuizAns + detectiveSteps + finalTasks;
+                    const computedPercent = Math.round((computedCompleted / 50) * 100);
+                    
+                    data.computedPercent = computedPercent;
+                    data.computedCompleted = computedCompleted;
+                    data.totalQuizAns = totalQuizAns;
+                    data.detectiveSteps = detectiveSteps;
+                    data.finalTasks = finalTasks;
+
+                    students.push(data);
+                    totalProgressSum += computedPercent;
+
                     if (data.teacherGradeStatus === "Зараховано") {
                         gradedCount++;
                     }
                 });
 
-                // Оновлюємо картки аналітики вгорі
                 document.getElementById('stat-total-students').innerText = students.length;
                 const avg = students.length > 0 ? Math.round(totalProgressSum / students.length) : 0;
                 document.getElementById('stat-avg-progress').innerText = avg + '%';
                 document.getElementById('stat-graded-count').innerText = gradedCount;
 
                 if (students.length === 0) {
-                    tableBody.innerHTML = `<tr><td colspan="7" class="p-8 text-center text-slate-400">У базі поки немає збережених результатів студентів. Щойно студент почне роботу, дані з'являться тут автоматично.</td></tr>`;
+                    tableBody.innerHTML = `<tr><td colspan="7" class="p-8 text-center text-slate-400">У базі поки немає збережених результатів студентів.</td></tr>`;
                     return;
                 }
 
-                // Рендеримо таблицю
                 tableBody.innerHTML = students.map(st => {
-                    const rep = st.teacherReport || {};
                     const appState = st.appState || {};
                     const formattedDate = formatNiceDate(st.lastUpdated);
                     const stats = calculateTestStats(appState.answeredQuestions);
 
-                    const textVal = rep.boardJustificationText || "Ще не заповнено";
+                    const textVal = appState.finalState?.writtenJustification || "Ще не заповнено / не надіслано";
                     const currentStatus = st.teacherGradeStatus || "Не перевірено";
+                    const currentScore = st.teacherScore !== undefined ? st.teacherScore : "";
 
                     let statusBadge = `<span class="px-2 py-1 bg-slate-100 text-slate-600 rounded text-[10px] font-bold">Не перевірено</span>`;
                     if (currentStatus === "Зараховано") {
@@ -248,25 +267,37 @@
                     return `
                         <tr class="hover:bg-slate-50 transition align-top">
                             <td class="p-4 font-semibold text-slate-900">
-                                <div>${st.studentName || 'Студент'}</div>
-                                <div class="text-[11px] font-normal text-slate-500">${st.email || 'Без пошти'}</div>
+                                <div>${st.studentName || st.email || 'Студент'}</div>
+                                <div class="text-[11px] font-normal text-slate-500">${st.email || ''}</div>
                             </td>
-                            <td class="p-4 font-bold text-blue-700">${rep.overallProgress || '0%'}</td>
+                            <td class="p-4 font-bold text-blue-700">${st.computedPercent}% <span class="text-[10px] font-normal text-slate-400">(${st.computedCompleted}/50)</span></td>
                             <td class="p-4">
-                                <div class="text-slate-900 font-medium">${stats.total} відповідей</div>
+                                <div class="text-slate-900 font-medium">${stats.total} питань пройдено</div>
                                 <div class="text-[11px] text-emerald-600 font-semibold">✔️ Правильних: ${stats.correct}</div>
                                 <div class="text-[11px] text-rose-600 font-semibold">❌ Неправильних: ${stats.incorrect}</div>
                             </td>
-                            <td class="p-4">${rep.detectiveProgress || '0 / 3'}</td>
-                            <td class="p-4">${rep.finalDefenseProgress || '0 / 12'}</td>
-                            <td class="p-4 space-y-2">
-                                <div class="bg-slate-50 p-2.5 rounded-lg border border-slate-200 text-slate-800 text-[11px] italic max-w-xs">
+                            <td class="p-4">${st.detectiveSteps} / 3</td>
+                            <td class="p-4">${st.finalTasks} / 12</td>
+                            <td class="p-4 space-y-2.5 max-w-xs">
+                                <div class="bg-slate-50 p-2.5 rounded-lg border border-slate-200 text-slate-800 text-[11px] italic">
                                     "${textVal}"
                                 </div>
-                                <div class="flex items-center space-x-2">
-                                    ${statusBadge}
-                                    <button onclick="setStudentGrade('${st.id}', 'Зараховано')" class="px-2 py-1 bg-emerald-600 hover:bg-emerald-700 text-white rounded text-[10px] font-medium transition shadow-sm">Зарахувати</button>
-                                    <button onclick="setStudentGrade('${st.id}', 'На доопрацюванні')" class="px-2 py-1 bg-rose-600 hover:bg-rose-700 text-white rounded text-[10px] font-medium transition shadow-sm">Відхилити</button>
+                                <div class="bg-blue-50/60 p-3 rounded-xl border border-blue-100 space-y-2">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-[11px] font-bold text-slate-700">Оцінка викладача:</span>
+                                        ${statusBadge}
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <select id="status-select-${st.id}" class="p-1 border border-slate-300 rounded text-[11px] bg-white">
+                                            <option value="Не перевірено" ${currentStatus === 'Не перевірено' ? 'selected' : ''}>Не перевірено</option>
+                                            <option value="Зараховано" ${currentStatus === 'Зараховано' ? 'selected' : ''}>Зараховано</option>
+                                            <option value="На доопрацюванні" ${currentStatus === 'На доопрацюванні' ? 'selected' : ''}>На доопрацюванні</option>
+                                        </select>
+                                        <input type="number" id="score-input-${st.id}" value="${currentScore}" min="0" max="100" class="w-16 p-1 border border-slate-300 rounded text-[11px] bg-white text-center" placeholder="Бал">
+                                        <button onclick="setStudentGrade('${st.id}')" class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded text-[11px] font-semibold transition shadow-sm">
+                                            Зберегти
+                                        </button>
+                                    </div>
                                 </div>
                             </td>
                             <td class="p-4 text-slate-500 text-[11px]">${formattedDate}</td>
@@ -276,23 +307,31 @@
 
             }, (error) => {
                 console.error("❌ Помилка живого слухача Firestore:", error);
-                tableBody.innerHTML = `<tr><td colspan="7" class="p-8 text-center text-rose-500">Помилка підключення до потоку даних. Перевірте правила безпеки (Rules).</td></tr>`;
+                tableBody.innerHTML = `<tr><td colspan="7" class="p-8 text-center text-rose-500">Помилка підключення до бази даних.</td></tr>`;
             });
         }
 
-        // Функція зміни статусу оцінки для конкретного документа студента за його ID
-        window.setStudentGrade = async function(docId, status) {
+        window.setStudentGrade = async function(docId) {
+            const statusSelect = document.getElementById(`status-select-${docId}`);
+            const scoreInput = document.getElementById(`score-input-${docId}`);
+
+            const status = statusSelect.value;
+            const score = Number(scoreInput.value) || 0;
+
             try {
                 const targetDocRef = doc(db, "users_progress", docId);
-                await updateDoc(targetDocRef, { teacherGradeStatus: status });
-                // Таблиця оновиться автоматично завдяки onSnapshot!
+                await updateDoc(targetDocRef, { 
+                    teacherGradeStatus: status,
+                    teacherScore: score,
+                    gradedAt: new Date().toISOString()
+                });
+                alert("Оцінку та статус успішно збережено в базу!");
             } catch (err) {
                 console.error("Помилка збереження оцінки:", err);
-                alert("Помилка збереження статусу в базу.");
+                alert("Помилка збереження. Перевірте консоль.");
             }
         }
 
-        // Запускаємо моніторинг при завантаженні сторінки
         initLiveMonitoring();
     </script>
 </body>
