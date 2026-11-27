@@ -21,8 +21,8 @@
                     <i class="fa-solid fa-chalkboard-user text-lg"></i>
                 </div>
                 <div>
-                    <h1 class="text-lg font-bold">Панель викладача | Моніторинг студентів</h1>
-                    <p class="text-xs text-blue-200">Курс: Information Security Management (KSE)</p>
+                    <h1 class="text-lg font-bold">Панель викладача | Моніторинг та аналітика</h1>
+                    <p class="text-xs text-blue-200">Курс: Information Security Management (KSE) &bull; Live-оновлення у реальному часі</p>
                 </div>
             </div>
             <a href="index.html" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-lg text-xs font-semibold transition flex items-center space-x-2">
@@ -35,33 +35,45 @@
     <!-- Main Content -->
     <main class="max-w-7xl mx-auto px-6 py-8 flex-1 w-full space-y-6">
 
-        <!-- Stats Overview Cards -->
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
+        <!-- Analytics Overview Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-4 gap-5">
             <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center space-x-4">
                 <div class="p-3.5 rounded-xl bg-blue-50 text-blue-700 text-xl">
                     <i class="fa-solid fa-users"></i>
                 </div>
                 <div>
-                    <div class="text-xs text-slate-500 font-medium">Всього студентів у базі</div>
+                    <div class="text-xs text-slate-500 font-medium">Всього студентів</div>
                     <div id="stat-total-students" class="text-2xl font-bold text-slate-900">0</div>
                 </div>
             </div>
             <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center space-x-4">
                 <div class="p-3.5 rounded-xl bg-emerald-50 text-emerald-700 text-xl">
-                    <i class="fa-solid fa-circle-check"></i>
+                    <i class="fa-solid fa-chart-line"></i>
                 </div>
                 <div>
-                    <div class="text-xs text-slate-500 font-medium">Середній прогрес курсу</div>
+                    <div class="text-xs text-slate-500 font-medium">Середній прогрес групи</div>
                     <div id="stat-avg-progress" class="text-2xl font-bold text-slate-900">0%</div>
                 </div>
             </div>
             <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center space-x-4">
-                <div class="p-3.5 rounded-xl bg-amber-50 text-amber-700 text-xl">
-                    <i class="fa-solid fa-clock"></i>
+                <div class="p-3.5 rounded-xl bg-indigo-50 text-indigo-700 text-xl">
+                    <i class="fa-solid fa-square-check"></i>
                 </div>
                 <div>
-                    <div class="text-xs text-slate-500 font-medium">Останнє оновлення</div>
-                    <div id="stat-last-sync" class="text-sm font-bold text-slate-900 mt-1">Ще немає даних</div>
+                    <div class="text-xs text-slate-500 font-medium">Зарахованих робіт</div>
+                    <div id="stat-graded-count" class="text-2xl font-bold text-slate-900">0</div>
+                </div>
+            </div>
+            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center space-x-4">
+                <div class="p-3.5 rounded-xl bg-amber-50 text-amber-700 text-xl">
+                    <i class="fa-solid fa-bolt text-amber-600 animate-pulse"></i>
+                </div>
+                <div>
+                    <div class="text-xs text-slate-500 font-medium">Статус підключення</div>
+                    <div class="text-xs font-bold text-emerald-600 mt-1 flex items-center space-x-1.5">
+                        <span class="w-2 h-2 rounded-full bg-emerald-500 inline-block animate-ping"></span>
+                        <span>Live Sync увімкнено</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -69,11 +81,14 @@
         <!-- Table Container -->
         <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
             <div class="p-5 border-b border-slate-200 flex flex-wrap justify-between items-center gap-4">
-                <h2 class="text-base font-bold text-slate-900">Результати проходження симулятора студентами</h2>
-                <button onclick="loadStudentsData()" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-semibold transition flex items-center space-x-2">
-                    <i class="fa-solid fa-rotate-right"></i>
-                    <span>Оновити дані з бази</span>
-                </button>
+                <div>
+                    <h2 class="text-base font-bold text-slate-900">Детальні результати студентів</h2>
+                    <p class="text-xs text-slate-500 mt-0.5">Дані оновлюються автоматично щоразу, коли студент взаємодіє із симулятором.</p>
+                </div>
+                <div class="flex items-center space-x-2 text-xs text-slate-500 bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-200">
+                    <i class="fa-solid fa-circle-info text-blue-600"></i>
+                    <span>Зміни статусів та оцінок зберігаються миттєво</span>
+                </div>
             </div>
 
             <div class="overflow-x-auto">
@@ -91,7 +106,7 @@
                     </thead>
                     <tbody id="students-table-body" class="divide-y divide-slate-200 text-slate-700">
                         <tr>
-                            <td colspan="7" class="p-8 text-center text-slate-400">Завантаження даних із Firestore...</td>
+                            <td colspan="7" class="p-8 text-center text-slate-400"><i class="fa-solid fa-spinner fa-spin mr-2"></i> Підключення до живого потоку бази даних...</td>
                         </tr>
                     </tbody>
                 </table>
@@ -105,10 +120,10 @@
         &copy; 2026 Kyiv School of Economics | Teacher Dashboard for CISO Simulator
     </footer>
 
-    <!-- Firebase Script & Evaluation Logic -->
+    <!-- Firebase Realtime Listener Script -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, collection, getDocs, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getFirestore, collection, onSnapshot, doc, updateDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyDoBR31Tu-ZJeMMRBQ_5Jk0sogBef4aOQo",
@@ -123,7 +138,7 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // Правильні відповіді для модулів 1-7 (тести по 5 запитань)
+        // Ключі правильних відповідей для тестів (модулі 1-7)
         const correctQuizAnswers = {
             1: { 0: 1, 1: 1, 2: 1, 3: 2, 4: 1 },
             2: { 0: 1, 1: 0, 2: 1, 3: 2, 4: 1 },
@@ -147,7 +162,6 @@
             return dateInput;
         }
 
-        // Розрахунок правильних / неправильних відповідей студента
         function calculateTestStats(answeredQuestions) {
             if (!answeredQuestions) return { correct: 0, incorrect: 0, total: 0 };
             let correct = 0;
@@ -162,7 +176,6 @@
                     const correctVal = modKey[qIdx];
 
                     if (Array.isArray(correctVal)) {
-                        // Порівняння масивів для множинного вибору
                         if (Array.isArray(studentVal) && 
                             studentVal.length === correctVal.length && 
                             correctVal.every(v => studentVal.includes(v))) {
@@ -182,46 +195,44 @@
             return { correct, incorrect, total: correct + incorrect };
         }
 
-        async function loadStudentsData() {
+        // ЗАПУСК ЖИВОГО СЛУХАЧА БАЗИ ДАНИХ (Real-time onSnapshot)
+        function initLiveMonitoring() {
             const tableBody = document.getElementById('students-table-body');
-            tableBody.innerHTML = `<tr><td colspan="7" class="p-8 text-center text-slate-400"><i class="fa-solid fa-spinner fa-spin mr-2"></i> Завантаження студентів...</td></tr>`;
 
-            try {
-                const querySnapshot = await getDocs(collection(db, "users_progress"));
+            onSnapshot(collection(db, "users_progress"), (querySnapshot) => {
                 let students = [];
                 let totalProgressSum = 0;
-                let latestTimeFormatted = "Ще немає даних";
+                let gradedCount = 0;
 
                 querySnapshot.forEach((docSnap) => {
-                    const data = docSnap.docs ? docSnap.data() : { id: docSnap.id, ...docSnap.data() };
+                    const data = { id: docSnap.id, ...docSnap.data() };
                     students.push(data);
 
                     if (data.teacherReport && data.teacherReport.overallProgress) {
                         const num = parseInt(data.teacherReport.overallProgress);
                         if (!isNaN(num)) totalProgressSum += num;
                     }
-                    if (data.lastUpdated) {
-                        latestTimeFormatted = formatNiceDate(data.lastUpdated);
+                    if (data.teacherGradeStatus === "Зараховано") {
+                        gradedCount++;
                     }
                 });
 
+                // Оновлюємо картки аналітики вгорі
                 document.getElementById('stat-total-students').innerText = students.length;
                 const avg = students.length > 0 ? Math.round(totalProgressSum / students.length) : 0;
                 document.getElementById('stat-avg-progress').innerText = avg + '%';
-                document.getElementById('stat-last-sync').innerText = latestTimeFormatted;
+                document.getElementById('stat-graded-count').innerText = gradedCount;
 
                 if (students.length === 0) {
-                    tableBody.innerHTML = `<tr><td colspan="7" class="p-8 text-center text-slate-400">У базі поки немає збережених результатів студентів.</td></tr>`;
+                    tableBody.innerHTML = `<tr><td colspan="7" class="p-8 text-center text-slate-400">У базі поки немає збережених результатів студентів. Щойно студент почне роботу, дані з'являться тут автоматично.</td></tr>`;
                     return;
                 }
 
+                // Рендеримо таблицю
                 tableBody.innerHTML = students.map(st => {
                     const rep = st.teacherReport || {};
                     const appState = st.appState || {};
                     const formattedDate = formatNiceDate(st.lastUpdated);
-                    const docId = st.email ? st.email.replace(/[@.]/g, "_") : "student"; // або унікальний ID документа
-
-                    // Рахуємо правильні/неправильні
                     const stats = calculateTestStats(appState.answeredQuestions);
 
                     const textVal = rep.boardJustificationText || "Ще не заповнено";
@@ -254,8 +265,8 @@
                                 </div>
                                 <div class="flex items-center space-x-2">
                                     ${statusBadge}
-                                    <button onclick="setStudentGrade('${st.email}', 'Зараховано')" class="px-2 py-1 bg-emerald-600 hover:bg-emerald-700 text-white rounded text-[10px] font-medium transition">Зарахувати</button>
-                                    <button onclick="setStudentGrade('${st.email}', 'На доопрацюванні')" class="px-2 py-1 bg-rose-600 hover:bg-rose-700 text-white rounded text-[10px] font-medium transition">Відхилити</button>
+                                    <button onclick="setStudentGrade('${st.id}', 'Зараховано')" class="px-2 py-1 bg-emerald-600 hover:bg-emerald-700 text-white rounded text-[10px] font-medium transition shadow-sm">Зарахувати</button>
+                                    <button onclick="setStudentGrade('${st.id}', 'На доопрацюванні')" class="px-2 py-1 bg-rose-600 hover:bg-rose-700 text-white rounded text-[10px] font-medium transition shadow-sm">Відхилити</button>
                                 </div>
                             </td>
                             <td class="p-4 text-slate-500 text-[11px]">${formattedDate}</td>
@@ -263,40 +274,26 @@
                     `;
                 }).join('');
 
-            } catch (error) {
-                console.error("❌ Помилка завантаження даних для викладача:", error);
-                tableBody.innerHTML = `<tr><td colspan="7" class="p-8 text-center text-rose-500">Помилка завантаження даних. Перевірте консоль (F12).</td></tr>`;
-            }
+            }, (error) => {
+                console.error("❌ Помилка живого слухача Firestore:", error);
+                tableBody.innerHTML = `<tr><td colspan="7" class="p-8 text-center text-rose-500">Помилка підключення до потоку даних. Перевірте правила безпеки (Rules).</td></tr>`;
+            });
         }
 
-        // Функція для зміни статусу письмової роботи викладачкою
-        window.setStudentGrade = async function(email, status) {
+        // Функція зміни статусу оцінки для конкретного документа студента за його ID
+        window.setStudentGrade = async function(docId, status) {
             try {
-                // Шукаємо документ студента за його email у базі
-                const querySnapshot = await getDocs(collection(db, "users_progress"));
-                let targetDocRef = null;
-
-                querySnapshot.forEach((docSnap) => {
-                    if (docSnap.data().email === email) {
-                        targetDocRef = doc(db, "users_progress", docSnap.id);
-                    }
-                });
-
-                if (targetDocRef) {
-                    await updateDoc(targetDocRef, { teacherGradeStatus: status });
-                    alert(`Статус письмової роботи оновлено: "${status}"`);
-                    loadStudentsData(); // Перезавантажуємо таблицю
-                } else {
-                    alert("Не вдалося знайти документ студента в базі.");
-                }
+                const targetDocRef = doc(db, "users_progress", docId);
+                await updateDoc(targetDocRef, { teacherGradeStatus: status });
+                // Таблиця оновиться автоматично завдяки onSnapshot!
             } catch (err) {
                 console.error("Помилка збереження оцінки:", err);
                 alert("Помилка збереження статусу в базу.");
             }
         }
 
-        loadStudentsData();
-        window.loadStudentsData = loadStudentsData;
+        // Запускаємо моніторинг при завантаженні сторінки
+        initLiveMonitoring();
     </script>
 </body>
 </html>
