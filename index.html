@@ -3579,12 +3579,23 @@
                 <div class="space-y-4">${stage4HTML}</div>
 
                 <!-- Власне письмове обґрунтування для Правління -->
-                <div class="p-5 rounded-xl border border-slate-200 bg-slate-50 space-y-2">
+                <div class="p-5 rounded-xl border border-slate-200 bg-slate-50 space-y-3">
                     <label for="board-justification-input" class="block text-xs font-bold uppercase tracking-wider text-[#122d55]">
-                        Виконавче резюме CISO для Правління (необов'язково, додається у фінальний звіт)
+                        Виконавче резюме CISO для Правління (Письмова робота)
                     </label>
                     <textarea id="board-justification-input" oninput="updateBoardJustification(this.value)" rows="3" placeholder="Сформулюйте коротко ваш головний аргумент Правлінню щодо пріоритизації ризиків та розподілу бюджету..." class="w-full p-3 border border-slate-300 rounded-lg text-xs focus:outline-none focus:border-blue-600 bg-white">${fs.writtenJustification || ''}</textarea>
+    
+                    <div class="flex flex-wrap items-center justify-between gap-3 pt-1">
+                        <button onclick="submitWrittenWork()" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold rounded-lg transition shadow-sm flex items-center space-x-2">
+                            <i class="fa-solid fa-paper-plane"></i>
+                            <span>Надіслати письмову відповідь викладачу</span>
+                        </button>
+                            <span id="submit-status-badge" class="text-xs font-medium text-slate-500">
+                        ${fs.workSubmitted ? '✅ Надіслано на перевірку' : '⚠️ Ще не надіслано'}
+                        </span>
+                    </div>
                 </div>
+                
             </section>
         `;
     }
@@ -3638,6 +3649,22 @@
     applyProfileUI();
     renderSidebar();
     switchModule(appState.currentModuleId || 1);
+    function submitWrittenWork() {
+        if (!appState.finalState.writtenJustification || appState.finalState.writtenJustification.trim() === "") {
+            alert("Будь ласка, введіть текст виконавчого резюме перед відправкою.");
+            return;
+        }
+        appState.finalState.workSubmitted = true;
+        appState.finalState.gradeStatus = "На перевірці"; // Статус для викладача
+        saveState(); // Автоматично викличе збереження у Firestore через saveGameToCloud()
+    
+        const badge = document.getElementById('submit-status-badge');
+        if (badge) {
+            badge.innerHTML = "✅ Надіслано на перевірку";
+            badge.className = "text-xs font-semibold text-emerald-600";
+        }
+        alert("Вашу письмову відповідь успішно надіслано викладачу на перевірку!");
+    }
 </script>
 <script type="module" src="auth.js"></script>
 </body>
