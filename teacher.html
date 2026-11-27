@@ -306,12 +306,13 @@
         }
 
         // Збереження оцінки викладача за письмову роботу
+        // Безпечне збереження оцінки та статусу викладачем
         window.saveTeacherEvaluation = async function(docId) {
             const statusSelect = document.getElementById(`status-select-${docId}`);
             const scoreInput = document.getElementById(`score-input-${docId}`);
 
-            const status = statusSelect.value;
-            const writtenScore = Math.max(0, Math.min(20, Number(scoreInput.value) || 0));
+            const status = statusSelect ? statusSelect.value : "Не перевірено";
+            const writtenScore = Math.max(0, Math.min(20, Number(scoreInput ? scoreInput.value : 0) || 0));
 
             try {
                 const targetDocRef = doc(db, "users_progress", docId);
@@ -320,10 +321,10 @@
                     teacherWrittenScore: writtenScore,
                     gradedAt: new Date().toISOString()
                 });
-                alert("Оцінку за письмову роботу та статус успішно збережено!");
+                alert("Оцінку за письмову роботу та статус успішно збережено в базу!");
             } catch (err) {
                 console.error("Помилка збереження оцінки:", err);
-                alert("Помилка збереження оцінки в базу.");
+                alert("Помилка збереження. Перевірте правила безпеки (Rules) у Firebase.");
             }
         }
 
