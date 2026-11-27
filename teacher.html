@@ -21,8 +21,8 @@
                     <i class="fa-solid fa-chalkboard-user text-lg"></i>
                 </div>
                 <div>
-                    <h1 class="text-lg font-bold">Панель викладача | Моніторинг та аналітика</h1>
-                    <p class="text-xs text-blue-200">Курс: Information Security Management (KSE) &bull; Live-оновлення у реальному часі</p>
+                    <h1 class="text-lg font-bold">Панель викладача | Система оцінювання на 100 балів</h1>
+                    <p class="text-xs text-blue-200">Курс: Information Security Management (KSE)</p>
                 </div>
             </div>
             <a href="index.html" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-lg text-xs font-semibold transition flex items-center space-x-2">
@@ -51,8 +51,8 @@
                     <i class="fa-solid fa-chart-line"></i>
                 </div>
                 <div>
-                    <div class="text-xs text-slate-500 font-medium">Середній прогрес групи</div>
-                    <div id="stat-avg-progress" class="text-2xl font-bold text-slate-900">0%</div>
+                    <div class="text-xs text-slate-500 font-medium">Середній бал групи (з 100)</div>
+                    <div id="stat-avg-score" class="text-2xl font-bold text-slate-900">0 / 100</div>
                 </div>
             </div>
             <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center space-x-4">
@@ -60,7 +60,7 @@
                     <i class="fa-solid fa-square-check"></i>
                 </div>
                 <div>
-                    <div class="text-xs text-slate-500 font-medium">Зарахованих робіт</div>
+                    <div class="text-xs text-slate-500 font-medium">Перевірених робіт</div>
                     <div id="stat-graded-count" class="text-2xl font-bold text-slate-900">0</div>
                 </div>
             </div>
@@ -72,7 +72,7 @@
                     <div class="text-xs text-slate-500 font-medium">Статус підключення</div>
                     <div class="text-xs font-bold text-emerald-600 mt-1 flex items-center space-x-1.5">
                         <span class="w-2 h-2 rounded-full bg-emerald-500 inline-block animate-ping"></span>
-                        <span>Live Sync увімкнено</span>
+                        <span>Live Sync активний</span>
                     </div>
                 </div>
             </div>
@@ -82,12 +82,8 @@
         <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
             <div class="p-5 border-b border-slate-200 flex flex-wrap justify-between items-center gap-4">
                 <div>
-                    <h2 class="text-base font-bold text-slate-900">Детальні результати студентів</h2>
-                    <p class="text-xs text-slate-500 mt-0.5">Дані оновлюються автоматично в реальному часі.</p>
-                </div>
-                <div class="flex items-center space-x-2 text-xs text-slate-500 bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-200">
-                    <i class="fa-solid fa-circle-info text-blue-600"></i>
-                    <span>Оцінки та статуси зберігаються в базу миттєво</span>
+                    <h2 class="text-base font-bold text-slate-900">Зведена відомість та перевірка завдань</h2>
+                    <p class="text-xs text-slate-500 mt-0.5">Загальний бал складається з: Тести (40б) + Детектив (20б) + Фінал (20б) + Письмова робота (20б).</p>
                 </div>
             </div>
 
@@ -96,17 +92,17 @@
                     <thead class="bg-slate-50 text-slate-600 uppercase tracking-wider border-b border-slate-200">
                         <tr>
                             <th class="p-4">Студент / Email</th>
-                            <th class="p-4">Загальний прогрес</th>
-                            <th class="p-4">Тести (Правильно / Неправильно)</th>
-                            <th class="p-4">Детектив (3)</th>
-                            <th class="p-4">Фінал (12)</th>
-                            <th class="p-4">Письмова робота (Правління) та Оцінка</th>
-                            <th class="p-4">Останнє оновлення</th>
+                            <th class="p-4">Підсумковий бал (100)</th>
+                            <th class="p-4">Тести (до 40б)</th>
+                            <th class="p-4">Детектив (до 20б)</th>
+                            <th class="p-4">Фінал (до 20б)</th>
+                            <th class="p-4">Письмова робота (до 20б)</th>
+                            <th class="p-4">Остання активність</th>
                         </tr>
                     </thead>
                     <tbody id="students-table-body" class="divide-y divide-slate-200 text-slate-700">
                         <tr>
-                            <td colspan="7" class="p-8 text-center text-slate-400"><i class="fa-solid fa-spinner fa-spin mr-2"></i> Підключення до бази даних...</td>
+                            <td colspan="7" class="p-8 text-center text-slate-400"><i class="fa-solid fa-spinner fa-spin mr-2"></i> Завантаження зведеної відомості...</td>
                         </tr>
                     </tbody>
                 </table>
@@ -120,7 +116,7 @@
         &copy; 2026 Kyiv School of Economics | Teacher Dashboard for CISO Simulator
     </footer>
 
-    <!-- Firebase Realtime Listener Script -->
+    <!-- Firebase Realtime Script & 100-Point Logic -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getFirestore, collection, onSnapshot, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
@@ -161,37 +157,51 @@
             return dateInput;
         }
 
-        function calculateTestStats(answeredQuestions) {
-            if (!answeredQuestions) return { correct: 0, incorrect: 0, total: 0 };
-            let correct = 0;
-            let incorrect = 0;
+        // Розрахунок балів студента за шкалою на 100 балів
+        function calculateStudentScore(appState, teacherWrittenScore) {
+            if (!appState) return { totalScore: 0, testScore: 0, detScore: 0, finalScore: 0, writtenScore: 0, correctCount: 0, incorrectCount: 0 };
 
+            // 1. Тести (максимум 35 питань -> переводимо у 40 балів)
+            let correctCount = 0;
+            let incorrectCount = 0;
             for (let modId = 1; modId <= 7; modId++) {
-                const studentModAns = answeredQuestions[modId] || {};
+                const studentModAns = appState.answeredQuestions?.[modId] || {};
                 const modKey = correctQuizAnswers[modId] || {};
-
                 for (let qIdx in studentModAns) {
                     const studentVal = studentModAns[qIdx];
                     const correctVal = modKey[qIdx];
-
                     if (Array.isArray(correctVal)) {
-                        if (Array.isArray(studentVal) && 
-                            studentVal.length === correctVal.length && 
-                            correctVal.every(v => studentVal.includes(v))) {
-                            correct++;
-                        } else {
-                            incorrect++;
-                        }
+                        if (Array.isArray(studentVal) && studentVal.length === correctVal.length && correctVal.every(v => studentVal.includes(v))) {
+                            correctCount++;
+                        } else { incorrectCount++; }
                     } else {
-                        if (studentVal === correctVal) {
-                            correct++;
-                        } else {
-                            incorrect++;
-                        }
+                        if (studentVal === correctVal) { correctCount++; } else { incorrectCount++; }
                     }
                 }
             }
-            return { correct, incorrect, total: correct + incorrect };
+            const testScore = Math.round((correctCount / 35) * 40);
+
+            // 2. Детектив (3 кроки -> максимум 20 балів)
+            let detSteps = (appState.detectiveState?.step1Choice ? 1 : 0) +
+                           (appState.detectiveState?.step2Choice ? 1 : 0) +
+                           (appState.detectiveState?.step3Choice ? 1 : 0);
+            const detScore = Math.round((detSteps / 3) * 20);
+
+            // 3. Фінальний захист (12 завдань -> максимум 20 балів)
+            let finalTasks = Object.keys(appState.finalState?.stage1 || {}).length +
+                             (appState.finalState?.stage2Submitted ? 1 : 0) +
+                             Object.keys(appState.finalState?.stage3 || {}).length +
+                             Object.keys(appState.finalState?.stage4 || {}).length;
+            const finalScore = Math.round((finalTasks / 12) * 20);
+
+            // 4. Письмова робота від викладача (максимум 20 балів)
+            const writtenScore = Number(teacherWrittenScore) || 0;
+
+            const totalScore = Math.min(100, testScore + detScore + finalScore, testScore + detScore + finalScore + writtenScore);
+            // Примітка: якщо викладач ставитиме бал окремо за письмову, зробимо суму:
+            const realTotal = Math.min(100, testScore + detScore + finalScore + writtenScore);
+
+            return { totalScore: realTotal, testScore, detScore, finalScore, writtenScore, correctCount, incorrectCount, detSteps, finalTasks };
         }
 
         function initLiveMonitoring() {
@@ -199,39 +209,16 @@
 
             onSnapshot(collection(db, "users_progress"), (querySnapshot) => {
                 let students = [];
-                let totalProgressSum = 0;
+                let totalScoreSum = 0;
                 let gradedCount = 0;
 
                 querySnapshot.forEach((docSnap) => {
                     const data = { id: docSnap.id, ...docSnap.data() };
+                    const stats = calculateStudentScore(data.appState, data.teacherWrittenScore);
                     
-                    // Потужний перерахунок прогресу прямо на льоту, щоб він ніколи не був 0%
-                    const appState = data.appState || {};
-                    let totalQuizAns = 0;
-                    for (let m = 1; m <= 7; m++) {
-                        if (appState.answeredQuestions && appState.answeredQuestions[m]) {
-                            totalQuizAns += Object.keys(appState.answeredQuestions[m]).length;
-                        }
-                    }
-                    const detectiveSteps = (appState.detectiveState?.step1Choice ? 1 : 0) +
-                                           (appState.detectiveState?.step2Choice ? 1 : 0) +
-                                           (appState.detectiveState?.step3Choice ? 1 : 0);
-                    const finalTasks = Object.keys(appState.finalState?.stage1 || {}).length +
-                                       (appState.finalState?.stage2Submitted ? 1 : 0) +
-                                       Object.keys(appState.finalState?.stage3 || {}).length +
-                                       Object.keys(appState.finalState?.stage4 || {}).length;
-
-                    const computedCompleted = totalQuizAns + detectiveSteps + finalTasks;
-                    const computedPercent = Math.round((computedCompleted / 50) * 100);
-                    
-                    data.computedPercent = computedPercent;
-                    data.computedCompleted = computedCompleted;
-                    data.totalQuizAns = totalQuizAns;
-                    data.detectiveSteps = detectiveSteps;
-                    data.finalTasks = finalTasks;
-
+                    data.stats = stats;
                     students.push(data);
-                    totalProgressSum += computedPercent;
+                    totalScoreSum += stats.totalScore;
 
                     if (data.teacherGradeStatus === "Зараховано") {
                         gradedCount++;
@@ -239,8 +226,8 @@
                 });
 
                 document.getElementById('stat-total-students').innerText = students.length;
-                const avg = students.length > 0 ? Math.round(totalProgressSum / students.length) : 0;
-                document.getElementById('stat-avg-progress').innerText = avg + '%';
+                const avgScore = students.length > 0 ? Math.round(totalScoreSum / students.length) : 0;
+                document.getElementById('stat-avg-score').innerText = avgScore + " / 100";
                 document.getElementById('stat-graded-count').innerText = gradedCount;
 
                 if (students.length === 0) {
@@ -251,17 +238,17 @@
                 tableBody.innerHTML = students.map(st => {
                     const appState = st.appState || {};
                     const formattedDate = formatNiceDate(st.lastUpdated);
-                    const stats = calculateTestStats(appState.answeredQuestions);
+                    const stats = st.stats;
 
                     const textVal = appState.finalState?.writtenJustification || "Ще не заповнено / не надіслано";
                     const currentStatus = st.teacherGradeStatus || "Не перевірено";
-                    const currentScore = st.teacherScore !== undefined ? st.teacherScore : "";
+                    const writtenScore = st.teacherWrittenScore !== undefined ? st.teacherWrittenScore : 0;
 
                     let statusBadge = `<span class="px-2 py-1 bg-slate-100 text-slate-600 rounded text-[10px] font-bold">Не перевірено</span>`;
                     if (currentStatus === "Зараховано") {
                         statusBadge = `<span class="px-2 py-1 bg-emerald-100 text-emerald-800 rounded text-[10px] font-bold">✅ Зараховано</span>`;
                     } else if (currentStatus === "На доопрацюванні") {
-                        statusBadge = `<span class="px-2 py-1 bg-rose-100 text-rose-800 rounded text-[10px] font-bold">❌ На доопрацюванні</span>`;
+                        statusBadge = `<span class="px-2 py-1 bg-rose-100 text-rose-800 rounded text-[10px] font-bold">❌ Доопрацювання</span>`;
                     }
 
                     return `
@@ -270,21 +257,29 @@
                                 <div>${st.studentName || st.email || 'Студент'}</div>
                                 <div class="text-[11px] font-normal text-slate-500">${st.email || ''}</div>
                             </td>
-                            <td class="p-4 font-bold text-blue-700">${st.computedPercent}% <span class="text-[10px] font-normal text-slate-400">(${st.computedCompleted}/50)</span></td>
                             <td class="p-4">
-                                <div class="text-slate-900 font-medium">${stats.total} питань пройдено</div>
-                                <div class="text-[11px] text-emerald-600 font-semibold">✔️ Правильних: ${stats.correct}</div>
-                                <div class="text-[11px] text-rose-600 font-semibold">❌ Неправильних: ${stats.incorrect}</div>
+                                <div class="text-base font-extrabold text-blue-700">${stats.totalScore} <span class="text-xs font-normal text-slate-500">/ 100</span></div>
                             </td>
-                            <td class="p-4">${st.detectiveSteps} / 3</td>
-                            <td class="p-4">${st.finalTasks} / 12</td>
+                            <td class="p-4">
+                                <div class="font-bold text-slate-900">${stats.testScore} / 40 б.</div>
+                                <div class="text-[11px] text-emerald-600">✔️ Прав.: ${stats.correctCount}</div>
+                                <div class="text-[11px] text-rose-600">❌ Неправ.: ${stats.incorrectCount}</div>
+                            </td>
+                            <td class="p-4">
+                                <div class="font-bold text-slate-900">${stats.detScore} / 20 б.</div>
+                                <div class="text-[11px] text-slate-500">Кроків: ${stats.detSteps}/3</div>
+                            </td>
+                            <td class="p-4">
+                                <div class="font-bold text-slate-900">${stats.finalScore} / 20 б.</div>
+                                <div class="text-[11px] text-slate-500">Завдань: ${stats.finalTasks}/12</div>
+                            </td>
                             <td class="p-4 space-y-2.5 max-w-xs">
                                 <div class="bg-slate-50 p-2.5 rounded-lg border border-slate-200 text-slate-800 text-[11px] italic">
                                     "${textVal}"
                                 </div>
                                 <div class="bg-blue-50/60 p-3 rounded-xl border border-blue-100 space-y-2">
                                     <div class="flex items-center justify-between">
-                                        <span class="text-[11px] font-bold text-slate-700">Оцінка викладача:</span>
+                                        <span class="text-[11px] font-bold text-slate-700">Перевірка есе:</span>
                                         ${statusBadge}
                                     </div>
                                     <div class="flex items-center space-x-2">
@@ -293,8 +288,8 @@
                                             <option value="Зараховано" ${currentStatus === 'Зараховано' ? 'selected' : ''}>Зараховано</option>
                                             <option value="На доопрацюванні" ${currentStatus === 'На доопрацюванні' ? 'selected' : ''}>На доопрацюванні</option>
                                         </select>
-                                        <input type="number" id="score-input-${st.id}" value="${currentScore}" min="0" max="100" class="w-16 p-1 border border-slate-300 rounded text-[11px] bg-white text-center" placeholder="Бал">
-                                        <button onclick="setStudentGrade('${st.id}')" class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded text-[11px] font-semibold transition shadow-sm">
+                                        <input type="number" id="score-input-${st.id}" value="${writtenScore}" min="0" max="20" class="w-16 p-1 border border-slate-300 rounded text-[11px] bg-white text-center" placeholder="Бал (0-20)">
+                                        <button onclick="saveTeacherEvaluation('${st.id}')" class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded text-[11px] font-semibold transition shadow-sm">
                                             Зберегти
                                         </button>
                                     </div>
@@ -306,29 +301,29 @@
                 }).join('');
 
             }, (error) => {
-                console.error("❌ Помилка живого слухача Firestore:", error);
-                tableBody.innerHTML = `<tr><td colspan="7" class="p-8 text-center text-rose-500">Помилка підключення до бази даних.</td></tr>`;
+                console.error("❌ Помилка слухача Firestore:", error);
             });
         }
 
-        window.setStudentGrade = async function(docId) {
+        // Збереження оцінки викладача за письмову роботу
+        window.saveTeacherEvaluation = async function(docId) {
             const statusSelect = document.getElementById(`status-select-${docId}`);
             const scoreInput = document.getElementById(`score-input-${docId}`);
 
             const status = statusSelect.value;
-            const score = Number(scoreInput.value) || 0;
+            const writtenScore = Math.max(0, Math.min(20, Number(scoreInput.value) || 0));
 
             try {
                 const targetDocRef = doc(db, "users_progress", docId);
                 await updateDoc(targetDocRef, { 
                     teacherGradeStatus: status,
-                    teacherScore: score,
+                    teacherWrittenScore: writtenScore,
                     gradedAt: new Date().toISOString()
                 });
-                alert("Оцінку та статус успішно збережено в базу!");
+                alert("Оцінку за письмову роботу та статус успішно збережено!");
             } catch (err) {
                 console.error("Помилка збереження оцінки:", err);
-                alert("Помилка збереження. Перевірте консоль.");
+                alert("Помилка збереження оцінки в базу.");
             }
         }
 
