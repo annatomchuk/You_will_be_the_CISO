@@ -3027,7 +3027,6 @@
 
     function updateDashboardMetrics(m) {
         const unifiedBudget = calculateUnifiedBudget();
-        document.getElementById('metric-security').innerText = m.security + '%';
         document.getElementById('metric-trust').innerText = m.trust + '%';
         document.getElementById('metric-budget').innerText = '$' + unifiedBudget.toLocaleString();
         document.getElementById('metric-risk').innerText = m.risk;
