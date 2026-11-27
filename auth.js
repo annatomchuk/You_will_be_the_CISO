@@ -103,20 +103,29 @@ onAuthStateChanged(auth, async (user) => {
 });
 
 // 6. Глобальна функція автоматичної синхронізації з хмарою
+// 6. Глобальна функція автоматичної синхронізації з хмарою (виправлена)
 window.saveGameToCloud = async function() {
+    // Перевіряємо, чи є залогінений користувач і чи ініціалізований appState
+    if (!auth || !auth.currentUser) return;
+    if (typeof window.appState === 'undefined' || !window.appState) return;
+
     const user = auth.currentUser;
-    if (!user) return; // Якщо не залогінений — зберігаємо лише локально
 
     try {
         const userDocRef = doc(db, "users_progress", user.uid);
+        
+        // Очищаємо об'єкт від можливих undefined значень, які лякають Firestore
+        const cleanState = JSON.parse(JSON.stringify(window.appState));
+
         const dataToSave = {
             email: user.email,
+            studentName: cleanState.profile?.name || user.displayName || user.email.split('@')[0],
             lastUpdated: new Date().toISOString(),
-            appState: window.appState
+            appState: cleanState
         };
 
         await setDoc(userDocRef, dataToSave, { merge: true });
-        console.log("☁️ Прогрес і відповіді синхронізовані з Firestore!");
+        console.log("☁️ Прогрес успішно синхронізовано з Firestore без помилок!");
     } catch (error) {
         console.error("❌ Помилка хмарного збереження:", error);
     }
