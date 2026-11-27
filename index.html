@@ -2761,7 +2761,13 @@
         renderQuiz();
         renderSimulator();
     }
-
+    function checkAuthAndNotify() {
+        if (!window.isUserLoggedIn) {
+            alert("Будь ласка, увійдіть через Google, щоб проходити тести, симуляції та зберігати свій прогрес!");
+            return false;
+        }
+        return true;
+    }
     function renderQuiz() {
         const modId = appState.currentModuleId;
         const mod = modulesData[modId];
@@ -2871,12 +2877,14 @@
     }
 
     function selectAnswer(qIndex, oIndex) {
+        if (!checkAuthAndNotify()) return;
         appState.answeredQuestions[appState.currentModuleId][qIndex] = oIndex;
         saveState();
         renderQuiz();
     }
 
     function toggleMultiOption(qIndex, oIndex) {
+        if (!checkAuthAndNotify()) return;
         const modId = appState.currentModuleId;
         if (appState.answeredQuestions[modId][qIndex] !== undefined) return;
         const arr = appState.multiSelections[modId][qIndex];
@@ -2888,6 +2896,7 @@
     }
 
     function submitMultiAnswer(qIndex) {
+        if (!checkAuthAndNotify()) return;
         const modId = appState.currentModuleId;
         const arr = appState.multiSelections[modId][qIndex];
         if (arr.length === 0) return;
@@ -3000,6 +3009,7 @@
     }
 
     function makeTwoStageDecision(part, optionId) {
+        if (!checkAuthAndNotify()) return;
         const sim = modulesData[3].simulator;
         if (part === 1) {
             appState.selectedDecisions[3].part1 = optionId;
@@ -3038,6 +3048,7 @@
     }
 
     function makeDecision(optionId) {
+        if (!checkAuthAndNotify()) return;
         const modId = appState.currentModuleId;
         appState.selectedDecisions[modId] = optionId;
         saveState();
@@ -3302,6 +3313,7 @@
     }
 
     function chooseDetectiveStep1(optId) {
+        if (!checkAuthAndNotify()) return;
         appState.detectiveState.step1Choice = optId;
         appState.detectiveState.step2Choice = null;
         appState.detectiveState.step3Choice = null;
@@ -3310,6 +3322,7 @@
     }
 
     function chooseDetectiveStep2(optId) {
+        if (!checkAuthAndNotify()) return;
         appState.detectiveState.step2Choice = optId;
         appState.detectiveState.step3Choice = null;
         saveState();
@@ -3317,6 +3330,7 @@
     }
 
     function chooseDetectiveStep3(optId) {
+        if (!checkAuthAndNotify()) return;
         appState.detectiveState.step3Choice = optId;
         saveState();
         renderModule11();
@@ -3618,12 +3632,14 @@
     }
 
     function answerFinalStage1(artId, optIdx) {
+        if (!checkAuthAndNotify()) return;
         appState.finalState.stage1[artId] = optIdx;
         saveState();
         renderModule12();
     }
 
     function toggleFinalInitiative(initId) {
+        if (!checkAuthAndNotify()) return;
         const idx = appState.finalState.stage2Selected.indexOf(initId);
         if (idx > -1) appState.finalState.stage2Selected.splice(idx, 1);
         else appState.finalState.stage2Selected.push(initId);
@@ -3633,18 +3649,21 @@
     }
 
     function submitFinalStage2() {
+        if (!checkAuthAndNotify()) return;
         appState.finalState.stage2Submitted = true;
         saveState();
         renderModule12();
     }
 
     function answerFinalStage3(cardId, optIdx) {
+        if (!checkAuthAndNotify()) return;
         appState.finalState.stage3[cardId] = optIdx;
         saveState();
         renderModule12();
     }
 
     function answerFinalStage4(qIdx, optIdx) {
+        if (!checkAuthAndNotify()) return;
         appState.finalState.stage4[qIdx] = optIdx;
         saveState();
         renderModule12();
@@ -3662,6 +3681,7 @@
     renderSidebar();
     switchModule(appState.currentModuleId || 1);
     function submitWrittenWork() {
+        if (!checkAuthAndNotify()) return;
         if (!appState.finalState.writtenJustification || appState.finalState.writtenJustification.trim() === "") {
             alert("Будь ласка, введіть текст виконавчого резюме перед відправкою.");
             return;

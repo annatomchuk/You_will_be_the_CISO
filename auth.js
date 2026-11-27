@@ -20,6 +20,9 @@ export const auth = getAuth(app);
 export const db = getFirestore(app);
 export const googleProvider = new GoogleAuthProvider();
 
+// Ініціалізуємо глобальну змінну статусу авторизації за замовчуванням як false
+window.isUserLoggedIn = false;
+
 // Елементи інтерфейсу в index.html (використовуємо обертку для безпеки, якщо DOM ще не завантажився)
 document.addEventListener("DOMContentLoaded", () => {
     const googleLoginBtn = document.getElementById('google-login-btn');
@@ -55,6 +58,7 @@ onAuthStateChanged(auth, async (user) => {
     const googleLoginBtn = document.getElementById('google-login-btn');
 
     if (user) {
+        window.isUserLoggedIn = true;
         if (userGreeting) {
             userGreeting.innerText = user.email;
         }
@@ -92,6 +96,7 @@ onAuthStateChanged(auth, async (user) => {
         }
 
     } else {
+        window.isUserLoggedIn = false;
         if (userGreeting) {
             userGreeting.innerText = "Увійти через Google";
         }
