@@ -2544,7 +2544,7 @@
             });
         }
 
-        return Math.max(0, INITIAL_FUND - spent);
+        return INITIAL_FUND - spent;
     }
     function calculateUnifiedTrust() {
         let trustDelta = 0;
